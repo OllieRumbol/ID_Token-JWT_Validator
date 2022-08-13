@@ -1,21 +1,25 @@
 ﻿namespace JWTValidatorService
 {
+    public class JWTValidatorOptions
+    {
+        public String Secret { get; set; } = "";
+
+        public String OpenIdUrl { get; set; } = "";
+
+        public Boolean ValidateOnExpiryDate { get; set; }
+    }
+
     public interface IJWTValidatorOptionsBuilder
     {
         JWTValidatorOptionsBuilder WithSigningKeyFromSecret(String secret);
 
-        JWTValidatorOptionsBuilder WithValidateOnExpiryDate(Boolean validateOnExpiryDate);
+        JWTValidatorOptionsBuilder WithSigningKeyFromOpenIdUrl(String openIdUrl);
+
+        JWTValidatorOptionsBuilder WithValidateOnExpiryDate();
 
         JWTValidatorOptions Build();
-
     }
 
-    public class JWTValidatorOptions
-    {
-        public String Secret { get; set; }
-
-        public Boolean ValidateOnExpiryDate { get; set; }
-    }
 
     public class JWTValidatorOptionsBuilder : IJWTValidatorOptionsBuilder
     {
@@ -30,15 +34,21 @@
 
         public JWTValidatorOptions Build() => jWTValidatorOptions;
 
+        public JWTValidatorOptionsBuilder WithSigningKeyFromOpenIdUrl(String openIdUrl)
+        {
+            jWTValidatorOptions.OpenIdUrl = openIdUrl;
+            return this;
+        }
+
         public JWTValidatorOptionsBuilder WithSigningKeyFromSecret(String secret)
         {
             jWTValidatorOptions.Secret = secret;
             return this;
         }
 
-        public JWTValidatorOptionsBuilder WithValidateOnExpiryDate(Boolean validateOnExpiryDate)
+        public JWTValidatorOptionsBuilder WithValidateOnExpiryDate()
         {
-            jWTValidatorOptions.ValidateOnExpiryDate = validateOnExpiryDate;
+            jWTValidatorOptions.ValidateOnExpiryDate = true;
             return this;
         }
     }

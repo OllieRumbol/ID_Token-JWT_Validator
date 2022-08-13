@@ -1,9 +1,20 @@
 ﻿using JWTValidatorService;
 
-JWTValidatorOptions foo = JWTValidatorOptionsBuilder
+JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilder
     .Create()
     .WithSigningKeyFromSecret("abc")
-    .WithValidateOnExpiryDate(false)
+    .WithValidateOnExpiryDate()
     .Build();
+
+String JWT = "";
+if(ValidateJWT.TryJWTValidation(JWT, jWTValidatorOptions, out String result) == false)
+{
+
+}
+
+
+
+
+
 
 

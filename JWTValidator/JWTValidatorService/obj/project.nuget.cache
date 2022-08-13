@@ -1,8 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "sXPUZI03nJrBbuJoiGHMyK1X8fdO1BsdFqiWorB4V/HmLOUAzkna3nTBC/wDhz1yuy5kn41/3nz4zBM+c8/Kjg==",
+  "dgSpecHash": "rz+nYkxmZPjh+aRATX1fzhNjiuTd97T9GbJ60x+tZs4wJMNKZR19MGtwaiv4416XZMu2kRcg+X8EeDv8jzm9ZA==",
   "success": true,
   "projectFilePath": "C:\\Users\\otgbo\\Documents\\Repo\\ID_Token-JWT_Validator\\JWTValidator\\JWTValidatorService\\JWTValidatorService.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\otgbo\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\otgbo\\.nuget\\packages\\microsoft.identitymodel.abstractions\\6.22.0\\microsoft.identitymodel.abstractions.6.22.0.nupkg.sha512",
+    "C:\\Users\\otgbo\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.22.0\\microsoft.identitymodel.jsonwebtokens.6.22.0.nupkg.sha512",
+    "C:\\Users\\otgbo\\.nuget\\packages\\microsoft.identitymodel.logging\\6.22.0\\microsoft.identitymodel.logging.6.22.0.nupkg.sha512",
+    "C:\\Users\\otgbo\\.nuget\\packages\\microsoft.identitymodel.protocols\\6.22.0\\microsoft.identitymodel.protocols.6.22.0.nupkg.sha512",
+    "C:\\Users\\otgbo\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\6.22.0\\microsoft.identitymodel.protocols.openidconnect.6.22.0.nupkg.sha512",
+    "C:\\Users\\otgbo\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.22.0\\microsoft.identitymodel.tokens.6.22.0.nupkg.sha512",
+    "C:\\Users\\otgbo\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.22.0\\system.identitymodel.tokens.jwt.6.22.0.nupkg.sha512",
+    "C:\\Users\\otgbo\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512"
+  ],
   "logs": []
 }
