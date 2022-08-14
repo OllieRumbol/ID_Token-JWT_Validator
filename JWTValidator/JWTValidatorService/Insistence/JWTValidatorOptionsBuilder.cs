@@ -1,26 +1,8 @@
-﻿namespace JWTValidatorService
+﻿using JWTValidatorModel;
+using JWTValidatorService.Interface;
+
+namespace JWTValidatorService
 {
-    public class JWTValidatorOptions
-    {
-        public String Secret { get; set; } = "";
-
-        public String OpenIdUrl { get; set; } = "";
-
-        public Boolean ValidateOnExpiryDate { get; set; }
-    }
-
-    public interface IJWTValidatorOptionsBuilder
-    {
-        JWTValidatorOptionsBuilder WithSigningKeyFromSecret(String secret);
-
-        JWTValidatorOptionsBuilder WithSigningKeyFromOpenIdUrl(String openIdUrl);
-
-        JWTValidatorOptionsBuilder WithValidateOnExpiryDate();
-
-        JWTValidatorOptions Build();
-    }
-
-
     public class JWTValidatorOptionsBuilder : IJWTValidatorOptionsBuilder
     {
         private JWTValidatorOptions jWTValidatorOptions;
@@ -32,7 +14,27 @@
 
         public static JWTValidatorOptionsBuilder Create() => new JWTValidatorOptionsBuilder();
 
-        public JWTValidatorOptions Build() => jWTValidatorOptions;
+        public JWTValidatorOptions Build()
+        {
+            if(String.IsNullOrEmpty(jWTValidatorOptions.OpenIdUrl) && String.IsNullOrEmpty(jWTValidatorOptions.Secret))
+            {
+                throw new BuildingException("Builder must contain secret or OpenId url");
+            }
+
+            return jWTValidatorOptions;
+        }
+
+        public JWTValidatorOptionsBuilder WithAudience(string audience)
+        {
+            jWTValidatorOptions.Audience = audience;
+            return this;
+        }
+
+        public JWTValidatorOptionsBuilder WithIssuer(string issuer)
+        {
+            jWTValidatorOptions.Issuer = issuer;
+            return this;
+        }
 
         public JWTValidatorOptionsBuilder WithSigningKeyFromOpenIdUrl(String openIdUrl)
         {
@@ -46,9 +48,9 @@
             return this;
         }
 
-        public JWTValidatorOptionsBuilder WithValidateOnExpiryDate()
+        public JWTValidatorOptionsBuilder WithExpiryDate()
         {
-            jWTValidatorOptions.ValidateOnExpiryDate = true;
+            jWTValidatorOptions.ExpiryDate = true;
             return this;
         }
     }

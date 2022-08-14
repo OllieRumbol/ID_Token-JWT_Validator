@@ -111,6 +111,16 @@
             "rid": "win"
           }
         }
+      },
+      "JWTValidatorModel/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/JWTValidatorModel.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/JWTValidatorModel.dll": {}
+        }
       }
     }
   },
@@ -392,10 +402,16 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "JWTValidatorModel/1.0.0": {
+      "type": "project",
+      "path": "../JWTValidatorModel/JWTValidatorModel.csproj",
+      "msbuildProject": "../JWTValidatorModel/JWTValidatorModel.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "JWTValidatorModel >= 1.0.0",
       "Microsoft.IdentityModel.Protocols >= 6.22.0",
       "Microsoft.IdentityModel.Protocols.OpenIdConnect >= 6.22.0",
       "System.IdentityModel.Tokens.Jwt >= 6.22.0"
@@ -432,7 +448,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\otgbo\\Documents\\Repo\\ID_Token-JWT_Validator\\JWTValidator\\JWTValidatorModel\\JWTValidatorModel.csproj": {
+              "projectPath": "C:\\Users\\otgbo\\Documents\\Repo\\ID_Token-JWT_Validator\\JWTValidator\\JWTValidatorModel\\JWTValidatorModel.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

@@ -112,10 +112,21 @@
           }
         }
       },
+      "JWTValidatorModel/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/JWTValidatorModel.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/JWTValidatorModel.dll": {}
+        }
+      },
       "JWTValidatorService/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "JWTValidatorModel": "1.0.0",
           "Microsoft.IdentityModel.Protocols": "6.22.0",
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.22.0",
           "System.IdentityModel.Tokens.Jwt": "6.22.0"
@@ -407,6 +418,11 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "JWTValidatorModel/1.0.0": {
+      "type": "project",
+      "path": "../JWTValidatorModel/JWTValidatorModel.csproj",
+      "msbuildProject": "../JWTValidatorModel/JWTValidatorModel.csproj"
     },
     "JWTValidatorService/1.0.0": {
       "type": "project",

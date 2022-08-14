@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWTValidator", "JWTValidator\JWTValidator.csproj", "{8652619E-7A98-4B35-B2AD-D045460FDB6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWTValidator", "JWTValidator\JWTValidator.csproj", "{8652619E-7A98-4B35-B2AD-D045460FDB6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWTValidatorService", "JWTValidatorService\JWTValidatorService.csproj", "{F938812E-BDA4-4294-8942-22AC9A3D1BEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWTValidatorService", "JWTValidatorService\JWTValidatorService.csproj", "{F938812E-BDA4-4294-8942-22AC9A3D1BEF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWTValidatorTests", "JWTValidatorTests\JWTValidatorTests.csproj", "{F788BCB1-9A1F-4C8D-91CE-372B84A79ACD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWTValidatorModel", "JWTValidatorModel\JWTValidatorModel.csproj", "{F1BBE8FB-F8E7-49B7-A87C-FA6EDF706724}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{F938812E-BDA4-4294-8942-22AC9A3D1BEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F938812E-BDA4-4294-8942-22AC9A3D1BEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F938812E-BDA4-4294-8942-22AC9A3D1BEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F788BCB1-9A1F-4C8D-91CE-372B84A79ACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F788BCB1-9A1F-4C8D-91CE-372B84A79ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F788BCB1-9A1F-4C8D-91CE-372B84A79ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F788BCB1-9A1F-4C8D-91CE-372B84A79ACD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1BBE8FB-F8E7-49B7-A87C-FA6EDF706724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1BBE8FB-F8E7-49B7-A87C-FA6EDF706724}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1BBE8FB-F8E7-49B7-A87C-FA6EDF706724}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1BBE8FB-F8E7-49B7-A87C-FA6EDF706724}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
