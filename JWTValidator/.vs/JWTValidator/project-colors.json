@@ -20,7 +20,12 @@
       "ProjectGuid": "f788bcb1-9a1f-4c8d-91ce-372b84a79acd",
       "DisplayName": "JWTValidatorTests",
       "ColorIndex": 2
+    },
+    "f1bbe8fb-f8e7-49b7-a87c-fa6edf706724": {
+      "ProjectGuid": "f1bbe8fb-f8e7-49b7-a87c-fa6edf706724",
+      "DisplayName": "JWTValidatorModel",
+      "ColorIndex": 3
     }
   },
-  "NextColorIndex": 3
+  "NextColorIndex": 4
 }

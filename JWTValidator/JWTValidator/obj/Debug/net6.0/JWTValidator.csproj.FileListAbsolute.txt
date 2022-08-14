@@ -23,3 +23,6 @@ C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidator\o
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidator\obj\Debug\net6.0\ref\JWTValidator.dll
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidator\obj\Debug\net6.0\JWTValidator.pdb
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidator\obj\Debug\net6.0\JWTValidator.genruntimeconfig.cache
+C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidator\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidator\bin\Debug\net6.0\JWTValidatorModel.dll
+C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidator\bin\Debug\net6.0\JWTValidatorModel.pdb

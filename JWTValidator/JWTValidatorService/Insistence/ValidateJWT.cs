@@ -10,22 +10,32 @@ namespace JWTValidatorService
 {
     public class ValidateJWT
     {
-        public static Boolean TryJWTValidation(String jwt, JWTValidatorOptions options, out String result)
+        public static Boolean TryJWTValidation(String jwt, JWTValidatorOptions options, out Dictionary<String, List<String>> result)
         {
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             TokenValidationParameters validationParameters = GetTokenValidationParameters(options);
 
-            Microsoft.IdentityModel.Tokens.SecurityToken token;
-            ClaimsPrincipal claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwt, validationParameters, out token);
+            ClaimsPrincipal claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwt, validationParameters, out SecurityToken token);
 
-            String role = claimsPrincipal.Claims
-                .Where(n => n.Type == "role")
-                .Select(n => n.Value)
-                .FirstOrDefault();
+            result = new Dictionary<String, List<String>>();
 
-            result = null;
+            foreach (Claim claim in claimsPrincipal.Claims)
+            {
+                if (result.ContainsKey(claim.Type))
+                {
+                    result[claim.Type].Add(claim.Value);
+                }
+                else
+                {
+                    result.Add(claim.Type, new List<String>
+                    {
+                        claim.Value
+                    });
+                }
+            }
+
             return true;
         }
 

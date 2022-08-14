@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "hZQhSJa/spTbTky5p/wR1TvLcveUd/KtNVXIWWgKvXnNo1Nu/7ULYDbNo6ErKrbvjFWt2CLkYTjYl/VL7XN0hw==",
+  "dgSpecHash": "QoNz37sj2l5dOMuql0avHPsYkywFhk2jit13zCazV+GObJzaqrUFzKgSbbnrccbACQFFFS8SlZcXy5bFTu+IcA==",
   "success": true,
   "projectFilePath": "C:\\Users\\otgbo\\Documents\\Repo\\ID_Token-JWT_Validator\\JWTValidator\\JWTValidatorModel\\JWTValidatorModel.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\otgbo\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "en1O6jdpgAOL7cpaMtjOHE45MVJNK3h8ISs5YSdigxYpsGeh+KiDqZIaSRokReG3P5hvOLyrXfreVLS1K1SxhA==",
+  "dgSpecHash": "gMQ/KMpDfVVz4LpDyZdeN6Xbqx+qobqi7jf4qkz55D8G9WW5LPUgO+A2W3GjM9uFf5WtkPQNM1yKx+d2t3w2zA==",
   "success": true,
   "projectFilePath": "C:\\Users\\otgbo\\Documents\\Repo\\ID_Token-JWT_Validator\\JWTValidator\\JWTValidator\\JWTValidator.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,7 @@
     "C:\\Users\\otgbo\\.nuget\\packages\\microsoft.identitymodel.protocols\\6.22.0\\microsoft.identitymodel.protocols.6.22.0.nupkg.sha512",
     "C:\\Users\\otgbo\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\6.22.0\\microsoft.identitymodel.protocols.openidconnect.6.22.0.nupkg.sha512",
     "C:\\Users\\otgbo\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.22.0\\microsoft.identitymodel.tokens.6.22.0.nupkg.sha512",
+    "C:\\Users\\otgbo\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\otgbo\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.22.0\\system.identitymodel.tokens.jwt.6.22.0.nupkg.sha512",
     "C:\\Users\\otgbo\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512"
   ],

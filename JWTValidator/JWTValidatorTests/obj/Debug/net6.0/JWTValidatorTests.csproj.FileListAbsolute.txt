@@ -106,3 +106,5 @@ C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTe
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\obj\Debug\net6.0\ref\JWTValidatorTests.dll
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\obj\Debug\net6.0\JWTValidatorTests.pdb
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\obj\Debug\net6.0\JWTValidatorTests.genruntimeconfig.cache
+C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\bin\Debug\net6.0\JWTValidatorModel.dll
+C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\bin\Debug\net6.0\JWTValidatorModel.pdb

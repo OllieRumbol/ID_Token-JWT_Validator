@@ -21,7 +21,7 @@ namespace JWTValidatorTests
                 .Build();
 
             //Assert
-
+            Assert.AreEqual("abc", jWTValidatorOptions.Secret);
         }
     }
 }

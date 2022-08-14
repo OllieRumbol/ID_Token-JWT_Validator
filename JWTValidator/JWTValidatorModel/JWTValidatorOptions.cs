@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json.Linq;
 
 namespace JWTValidatorModel
 {
@@ -17,5 +13,17 @@ namespace JWTValidatorModel
         public String Audience { get; set; } = "";
 
         public Boolean ExpiryDate { get; set; }
+
+        public String Print()
+        {
+            return JObject.FromObject(new
+            {
+                Secret = Secret,
+                OpenIdUrl = OpenIdUrl,
+                Issuer = Issuer,    
+                Audience = Audience,
+                ValidateExpiryDate = ExpiryDate,
+            }).ToString();
+        }
     }
 }
