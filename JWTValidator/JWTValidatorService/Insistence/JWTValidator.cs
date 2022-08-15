@@ -1,4 +1,5 @@
 ﻿using JWTValidatorModel;
+using JWTValidatorService.Interface;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace JWTValidatorService
 {
-    public class ValidateJWT
+    public class JWTValidator
     {
         public static Boolean TryJWTValidation(String jwt, JWTValidatorOptions options, out Dictionary<String, List<String>> result)
         {
@@ -17,11 +18,26 @@ namespace JWTValidatorService
 
             TokenValidationParameters validationParameters = GetTokenValidationParameters(options);
 
-            ClaimsPrincipal claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwt, validationParameters, out SecurityToken token);
+            ClaimsPrincipal claimsPrincipal;
+            try
+            {
+                claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwt, validationParameters, out SecurityToken token);
+            }
+            catch
+            {
+                result = null;
+                return false;
+            }
 
-            result = new Dictionary<String, List<String>>();
+            result = GetDictionaryOfClaims(claimsPrincipal.Claims);
+            return true;
+        }
 
-            foreach (Claim claim in claimsPrincipal.Claims)
+        private static Dictionary<string, List<string>> GetDictionaryOfClaims(IEnumerable<Claim> claims)
+        {
+            Dictionary<String, List<String>>  result = new Dictionary<String, List<String>>();
+
+            foreach (Claim claim in claims)
             {
                 if (result.ContainsKey(claim.Type))
                 {
@@ -36,7 +52,7 @@ namespace JWTValidatorService
                 }
             }
 
-            return true;
+            return result;
         }
 
         private static TokenValidationParameters GetTokenValidationParameters(JWTValidatorOptions options)

@@ -15,5 +15,13 @@ namespace JWTValidatorService.Extensions
 
             return bobTheBuilder.ToString();
         }
+
+        public static Boolean DictionaryContainsKeyAndValue(this Dictionary<String, List<String>> dictionary, String key, String value)
+        {
+            return dictionary
+                .FirstOrDefault(x => x.Key == key)
+                .Value
+                .Any(x => x == value);
+        }
     }
 }

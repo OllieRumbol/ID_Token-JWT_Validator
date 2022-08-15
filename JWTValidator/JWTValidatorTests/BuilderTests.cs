@@ -8,7 +8,7 @@ namespace JWTValidatorTests
     public  class BuilderTests
     {
         [TestMethod]
-        public void BasicBuilderTests()
+        public void BasicBuilderSecretTests()
         {
             //Associate
 
