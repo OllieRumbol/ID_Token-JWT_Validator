@@ -9,9 +9,9 @@ using System.Text;
 
 namespace JWTValidatorService
 {
-    public class JWTValidator
+    public class JWTValidator : IJWTValidator
     {
-        public static Boolean TryJWTValidation(String jwt, JWTValidatorOptions options, out Dictionary<String, List<String>> result)
+        public Boolean TryJWTValidation(String jwt, JWTValidatorOptions options, out Dictionary<String, List<String>> result)
         {
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -33,7 +33,7 @@ namespace JWTValidatorService
             return true;
         }
 
-        private static Dictionary<string, List<string>> GetDictionaryOfClaims(IEnumerable<Claim> claims)
+        private Dictionary<string, List<string>> GetDictionaryOfClaims(IEnumerable<Claim> claims)
         {
             Dictionary<String, List<String>>  result = new Dictionary<String, List<String>>();
 
@@ -55,7 +55,7 @@ namespace JWTValidatorService
             return result;
         }
 
-        private static TokenValidationParameters GetTokenValidationParameters(JWTValidatorOptions options)
+        private TokenValidationParameters GetTokenValidationParameters(JWTValidatorOptions options)
         {
             TokenValidationParameters validationParameters = new TokenValidationParameters();
 
