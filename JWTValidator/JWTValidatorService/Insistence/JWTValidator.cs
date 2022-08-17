@@ -25,7 +25,7 @@ namespace JWTValidatorService
             }
             catch
             {
-                result = null;
+                result = new Dictionary<string, List<string>>();
                 return false;
             }
 

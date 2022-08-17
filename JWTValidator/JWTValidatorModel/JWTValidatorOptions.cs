@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace JWTValidatorModel
+﻿namespace JWTValidatorModel
 {
     public class JWTValidatorOptions
     {
@@ -16,14 +14,12 @@ namespace JWTValidatorModel
 
         public String Print()
         {
-            return JObject.FromObject(new
-            {
-                Secret = Secret,
-                OpenIdUrl = OpenIdUrl,
-                Issuer = Issuer,    
-                Audience = Audience,
-                ValidateExpiryDate = ExpiryDate,
-            }).ToString();
+            return
+                $"Secret: {(String.IsNullOrEmpty(Secret) ? "None" : Secret)}\n" +
+                $"OpenIdUrl: {(String.IsNullOrEmpty(OpenIdUrl) ? "None" : OpenIdUrl)}\n" +
+                $"Issuer: {(String.IsNullOrEmpty(Issuer) ? "None" : Issuer )}\n" +
+                $"Audience: {(String.IsNullOrEmpty(Audience) ? "None" : Audience)}\n" +
+                $"Validate expiry date: {ExpiryDate}\n";
         }
     }
 }
