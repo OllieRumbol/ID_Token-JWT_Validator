@@ -7,102 +7,86 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace JWTValidatorService
+namespace JWTValidatorService;
+
+public class JWTValidator : IJWTValidator
 {
-    public class JWTValidator : IJWTValidator
+    public Boolean TryValidateJWT(String jwt, JWTValidatorOptions options, out Dictionary<String, List<String>> result)
     {
-        public Boolean TryValidateJWT(String jwt, JWTValidatorOptions options, out Dictionary<String, List<String>> result)
-        {
 
-            try
-            {
-                result = ValidateJWT(jwt, options);
-                return true;
-            }
-            catch (SecurityTokenValidationException ex)
-            {
-                result = new Dictionary<string, List<string>>();
-                return false;
-            }
-            catch (Exception ex)
-            {
-                result = new Dictionary<string, List<string>>();
-                return false;
-            }
+        try
+        {
+            result = ValidateJWT(jwt, options);
+            return true;
+        }
+        catch (SecurityTokenValidationException ex)
+        {
+            result = new Dictionary<string, List<string>>();
+            return false;
+        }
+        catch (Exception ex)
+        {
+            result = new Dictionary<string, List<string>>();
+            return false;
+        }
+    }
+
+    public Dictionary<String, List<String>> ValidateJWT(String jwt, JWTValidatorOptions options)
+    {
+        Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
+        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+        TokenValidationParameters validationParameters = GetTokenValidationParameters(options);
+
+        ClaimsPrincipal claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwt, validationParameters, out SecurityToken token);
+
+        return GetDictionaryOfClaims(claimsPrincipal.Claims);
+    }
+
+    private TokenValidationParameters GetTokenValidationParameters(JWTValidatorOptions options)
+    {
+        TokenValidationParameters validationParameters = new TokenValidationParameters();
+
+        //
+        if (String.IsNullOrEmpty(options.Secret) == false)
+        {
+            validationParameters.IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Secret));
+        }
+        else
+        {
+            IConfigurationManager<OpenIdConnectConfiguration> configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(options.OpenIdUrl, new OpenIdConnectConfigurationRetriever());
+            OpenIdConnectConfiguration openIdConfig = configurationManager.GetConfigurationAsync(System.Threading.CancellationToken.None).Result;
+            validationParameters.IssuerSigningKeys = openIdConfig.SigningKeys;
         }
 
-        public Dictionary<String, List<String>> ValidateJWT(String jwt, JWTValidatorOptions options)
+        //Issuer (who made the JWT)
+        if (String.IsNullOrEmpty(options.Issuer))
         {
-            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-            TokenValidationParameters validationParameters = GetTokenValidationParameters(options);
-
-            ClaimsPrincipal claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwt, validationParameters, out SecurityToken token);
-
-            return GetDictionaryOfClaims(claimsPrincipal.Claims);
+            validationParameters.ValidateIssuer = false;
+        }
+        else
+        {
+            validationParameters.ValidIssuer = options.Issuer;
         }
 
-        private Dictionary<string, List<string>> GetDictionaryOfClaims(IEnumerable<Claim> claims)
+        if (String.IsNullOrEmpty(options.Audience))
         {
-            Dictionary<String, List<String>>  result = new Dictionary<String, List<String>>();
-
-            foreach (Claim claim in claims)
-            {
-                if (result.ContainsKey(claim.Type))
-                {
-                    result[claim.Type].Add(claim.Value);
-                }
-                else
-                {
-                    result.Add(claim.Type, new List<String>
-                    {
-                        claim.Value
-                    });
-                }
-            }
-
-            return result;
+            validationParameters.ValidateAudience = false;
+        }
+        else
+        {
+            validationParameters.ValidAudience = options.Audience;
         }
 
-        private TokenValidationParameters GetTokenValidationParameters(JWTValidatorOptions options)
-        {
-            TokenValidationParameters validationParameters = new TokenValidationParameters();
+        validationParameters.ValidateLifetime = options.ExpiryDate;
 
-            //
-            if (String.IsNullOrEmpty(options.Secret) == false)
-            {
-                validationParameters.IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Secret));
-            }
-            else
-            {
-                IConfigurationManager<OpenIdConnectConfiguration> configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(options.OpenIdUrl, new OpenIdConnectConfigurationRetriever());
-                OpenIdConnectConfiguration openIdConfig = configurationManager.GetConfigurationAsync(System.Threading.CancellationToken.None).Result;
-                validationParameters.IssuerSigningKeys = openIdConfig.SigningKeys;
-            }
+        return validationParameters;
+    }
 
-            //Issuer (who made the JWT)
-            if (String.IsNullOrEmpty(options.Issuer))
-            {
-                validationParameters.ValidateIssuer = false;
-            }
-            else
-            {
-                validationParameters.ValidIssuer = options.Issuer;
-            }
-
-            if (String.IsNullOrEmpty(options.Audience))
-            {
-                validationParameters.ValidateAudience = false;
-            }
-            else
-            {
-                validationParameters.ValidAudience = options.Audience;
-            }
-
-            validationParameters.ValidateLifetime = options.ExpiryDate;
-
-            return validationParameters;
-        }
+    private Dictionary<String, List<String>> GetDictionaryOfClaims(IEnumerable<Claim> claims)
+    {
+        return claims
+            .GroupBy(a => a.Type, a => a.Value)
+            .ToDictionary(a => a.Key, a => a.ToList());
     }
 }

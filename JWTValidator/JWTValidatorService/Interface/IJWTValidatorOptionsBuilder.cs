@@ -1,19 +1,18 @@
 ﻿using JWTValidatorModel;
 
-namespace JWTValidatorService.Interface
+namespace JWTValidatorService.Interface;
+
+public interface IJWTValidatorOptionsBuilder
 {
-    public interface IJWTValidatorOptionsBuilder
-    {
-        JWTValidatorOptionsBuilder WithSigningKeyFromSecret(String secret);
+    JWTValidatorOptionsBuilder WithSigningKeyFromSecret(String secret);
 
-        JWTValidatorOptionsBuilder WithSigningKeyFromOpenIdUrl(String openIdUrl);
+    JWTValidatorOptionsBuilder WithSigningKeyFromOpenIdUrl(String openIdUrl);
 
-        JWTValidatorOptionsBuilder WithIssuer(String issuer);
+    JWTValidatorOptionsBuilder WithIssuer(String issuer);
 
-        JWTValidatorOptionsBuilder WithAudience(String audience);
+    JWTValidatorOptionsBuilder WithAudience(String audience);
 
-        JWTValidatorOptionsBuilder WithExpiryDate();
+    JWTValidatorOptionsBuilder WithExpiryDate();
 
-        JWTValidatorOptions Build();
-    }
+    JWTValidatorOptions Build();
 }

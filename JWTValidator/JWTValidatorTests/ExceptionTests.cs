@@ -2,25 +2,24 @@ using JWTValidatorModel;
 using JWTValidatorService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace JWTValidatorTests
+namespace JWTValidatorTests;
+
+[TestClass]
+public class ExceptionTests
 {
-    [TestClass]
-    public class ExceptionTests
+    [TestMethod]
+    [ExpectedException(typeof(BuildingException))]
+    public void InvalidBuilderTest()
     {
-        [TestMethod]
-        [ExpectedException(typeof(BuildingException))]
-        public void InvalidBuilderTest()
-        {
-            //Assoicate
+        //Assoicate
 
-            //Act
-            JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilder
-                .Create()
-                .WithIssuer("a")
-                .WithExpiryDate()
-                .Build();
+        //Act
+        JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilder
+            .Create()
+            .WithIssuer("a")
+            .WithExpiryDate()
+            .Build();
 
-            //Assert
-        }
+        //Assert
     }
 }
