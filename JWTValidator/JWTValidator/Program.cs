@@ -7,12 +7,12 @@ String JWT = "eyJhbGciOiJSUzI1NiIsImtpZCI6IkMxQ0M1RTYxNzNDMjRGMzEyQzMyRjlGRjY5Qk
 JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilder
     .Create()
     .WithSigningKeyFromOpenIdUrl("https://login.personifygo.com/prodarrl/.well-known/openid-configuration")
-//    .WithExpiryDate()
+    .WithExpiryDate()
     .Build();
 
 Console.WriteLine(jWTValidatorOptions.Print());
 
-if(new JWTValidator().TryJWTValidation(JWT, jWTValidatorOptions, out Dictionary<String, List<String>> result) == false)
+if(new JWTValidator().TryValidateJWT(JWT, jWTValidatorOptions, out Dictionary<String, List<String>> result) == false)
 {
     Console.WriteLine("Invalid JWT");
     return;

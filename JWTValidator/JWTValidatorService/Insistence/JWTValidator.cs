@@ -11,26 +11,36 @@ namespace JWTValidatorService
 {
     public class JWTValidator : IJWTValidator
     {
-        public Boolean TryJWTValidation(String jwt, JWTValidatorOptions options, out Dictionary<String, List<String>> result)
+        public Boolean TryValidateJWT(String jwt, JWTValidatorOptions options, out Dictionary<String, List<String>> result)
+        {
+
+            try
+            {
+                result = ValidateJWT(jwt, options);
+                return true;
+            }
+            catch (SecurityTokenValidationException ex)
+            {
+                result = new Dictionary<string, List<string>>();
+                return false;
+            }
+            catch (Exception ex)
+            {
+                result = new Dictionary<string, List<string>>();
+                return false;
+            }
+        }
+
+        public Dictionary<String, List<String>> ValidateJWT(String jwt, JWTValidatorOptions options)
         {
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             TokenValidationParameters validationParameters = GetTokenValidationParameters(options);
 
-            ClaimsPrincipal claimsPrincipal;
-            try
-            {
-                claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwt, validationParameters, out SecurityToken token);
-            }
-            catch
-            {
-                result = new Dictionary<string, List<string>>();
-                return false;
-            }
+            ClaimsPrincipal claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwt, validationParameters, out SecurityToken token);
 
-            result = GetDictionaryOfClaims(claimsPrincipal.Claims);
-            return true;
+            return GetDictionaryOfClaims(claimsPrincipal.Claims);
         }
 
         private Dictionary<string, List<string>> GetDictionaryOfClaims(IEnumerable<Claim> claims)
