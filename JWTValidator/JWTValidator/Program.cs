@@ -12,7 +12,7 @@ JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilder
 
 Console.WriteLine(jWTValidatorOptions.Print());
 
-if(new JWTValidator().TryValidateJWT(JWT, jWTValidatorOptions, out Dictionary<String, List<String>> result) == false)
+if (new JWTValidator().TryValidateJWT(JWT, jWTValidatorOptions, out Dictionary<String, List<String>> result) == false)
 {
     Console.WriteLine("Invalid JWT");
     return;

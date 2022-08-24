@@ -9,7 +9,6 @@ C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTe
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\bin\Debug\net6.0\JWTValidatorTests.deps.json
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\bin\Debug\net6.0\JWTValidatorTests.runtimeconfig.json
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\bin\Debug\net6.0\JWTValidatorTests.dll
-C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\bin\Debug\net6.0\ref\JWTValidatorTests.dll
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\bin\Debug\net6.0\JWTValidatorTests.pdb
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\bin\Debug\net6.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
@@ -108,3 +107,4 @@ C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTe
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\obj\Debug\net6.0\JWTValidatorTests.genruntimeconfig.cache
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\bin\Debug\net6.0\JWTValidatorModel.dll
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\bin\Debug\net6.0\JWTValidatorModel.pdb
+C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorTests\obj\Debug\net6.0\refint\JWTValidatorTests.dll

@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JWTValidatorService\JWTValidatorService.csproj" />
+    <ProjectReference Include="..\JWTValidatorTests\JWTValidatorTests.csproj" />
   </ItemGroup>
 
 </Project>
