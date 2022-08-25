@@ -13,7 +13,6 @@ public class JWTValidator : IJWTValidator
 {
     public Boolean TryValidateJWT(String jwt, JWTValidatorOptions options, out Dictionary<String, List<String>> result)
     {
-
         try
         {
             result = ValidateJWT(jwt, options);

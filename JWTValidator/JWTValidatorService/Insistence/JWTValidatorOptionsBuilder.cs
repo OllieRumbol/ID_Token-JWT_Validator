@@ -24,13 +24,13 @@ public class JWTValidatorOptionsBuilder : IJWTValidatorOptionsBuilder
         return jWTValidatorOptions;
     }
 
-    public JWTValidatorOptionsBuilder WithAudience(string audience)
+    public JWTValidatorOptionsBuilder WithAudience(String audience)
     {
         jWTValidatorOptions.Audience = audience;
         return this;
     }
 
-    public JWTValidatorOptionsBuilder WithIssuer(string issuer)
+    public JWTValidatorOptionsBuilder WithIssuer(String issuer)
     {
         jWTValidatorOptions.Issuer = issuer;
         return this;
