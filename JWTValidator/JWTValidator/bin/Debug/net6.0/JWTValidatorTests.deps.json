@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "JWTValidatorTests/1.0.0": {
         "dependencies": {
-          "JWTValidatorService": "1.0.0",
+          "JWTValidator": "1.0.0",
           "MSTest.TestAdapter": "2.2.7",
           "MSTest.TestFramework": "2.2.7",
           "Microsoft.NET.Test.Sdk": "16.11.0",
@@ -1074,15 +1074,7 @@
           "System.Xml.ReaderWriter": "4.3.0"
         }
       },
-      "JWTValidatorModel/1.0.0": {
-        "dependencies": {
-          "Newtonsoft.Json": "13.0.1"
-        },
-        "runtime": {
-          "JWTValidatorModel.dll": {}
-        }
-      },
-      "JWTValidatorService/1.0.0": {
+      "JWTValidator/1.0.0": {
         "dependencies": {
           "JWTValidatorModel": "1.0.0",
           "Microsoft.IdentityModel.Protocols": "6.22.0",
@@ -1091,6 +1083,14 @@
         },
         "runtime": {
           "JWTValidatorService.dll": {}
+        }
+      },
+      "JWTValidatorModel/1.0.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "runtime": {
+          "JWTValidatorModel.dll": {}
         }
       }
     }
@@ -1752,12 +1752,12 @@
       "path": "system.xml.xdocument/4.3.0",
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
     },
-    "JWTValidatorModel/1.0.0": {
+    "JWTValidator/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "JWTValidatorService/1.0.0": {
+    "JWTValidatorModel/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

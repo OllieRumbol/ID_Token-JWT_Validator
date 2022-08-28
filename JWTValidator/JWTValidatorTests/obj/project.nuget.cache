@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "y6YYPK+VOunyFW00uNhFa6Vrfsj7PUfg/6vz/2UE8oIXj/LeEZjgXwOdlUjl3o6SmH5kS6rgxf99n3sv7KMUgQ==",
+  "dgSpecHash": "s2D0e5lkH9ZS55aZHfBEyXIy97Z9INs13xTEVkgQhusB3YW9mlOq0pfTqBaGiMcqhQONzpSNIL6LK4yaDQoqow==",
   "success": true,
   "projectFilePath": "C:\\Users\\otgbo\\Documents\\Repo\\ID_Token-JWT_Validator\\JWTValidator\\JWTValidatorTests\\JWTValidatorTests.csproj",
   "expectedPackageFiles": [

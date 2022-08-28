@@ -73,7 +73,7 @@
       "version": "1.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\otgbo\\Documents\\Repo\\ID_Token-JWT_Validator\\JWTValidator\\JWTValidatorService\\JWTValidatorService.csproj",
-        "projectName": "JWTValidatorService",
+        "projectName": "JWTValidator",
         "projectPath": "C:\\Users\\otgbo\\Documents\\Repo\\ID_Token-JWT_Validator\\JWTValidator\\JWTValidatorService\\JWTValidatorService.csproj",
         "packagesPath": "C:\\Users\\otgbo\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\otgbo\\Documents\\Repo\\ID_Token-JWT_Validator\\JWTValidator\\JWTValidatorService\\obj\\",
