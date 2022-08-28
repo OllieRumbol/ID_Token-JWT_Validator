@@ -2,6 +2,7 @@
 using System.Linq;
 
 namespace JWTValidatorService.Extensions;
+
 public static class DictionaryExtensions
 {
     public static String Print<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary)
