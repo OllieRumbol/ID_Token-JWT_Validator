@@ -1,4 +1,5 @@
-﻿using JWTValidatorTests.Helpers.Models;
+﻿using JWTValidatorTests.Helpers.Interfaces;
+using JWTValidatorTests.Helpers.Models;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace JWTValidatorTests.Helpers.Instances
 {
-    public class JWTFactory
+    public class JWTFactory : IJWTFactory
     {
         public String GenerateToken(JWTOptions jWTOptions)
         {

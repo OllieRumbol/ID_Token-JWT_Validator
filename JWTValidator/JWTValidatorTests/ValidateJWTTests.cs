@@ -56,7 +56,7 @@ public class ValidateJWTTests
         new JWTValidator().TryValidateJWT(JWT, jWTValidatorOptions, out Dictionary<String, List<String>> result);
 
         //Act
-        Boolean hasMemberRole = result.DictionaryContainsKeyAndValue("role", "MEMBER");
+        Boolean hasMemberRole = result.ContainsKeyAndValue("role", "MEMBER");
 
         //Assert
         Assert.IsTrue(hasMemberRole);

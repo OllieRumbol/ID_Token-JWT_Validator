@@ -17,7 +17,7 @@ public class DictionaryExtensionsTests
         String value = "member";
 
         //Act
-        Boolean result = dictionary.DictionaryContainsKeyAndValue(key, value);
+        Boolean result = dictionary.ContainsKeyAndValue(key, value);
 
         //Assert
         Assert.IsFalse(result);
@@ -37,7 +37,7 @@ public class DictionaryExtensionsTests
         String value = "member";
 
         //Act
-        Boolean result = dictionary.DictionaryContainsKeyAndValue(key, value);
+        Boolean result = dictionary.ContainsKeyAndValue(key, value);
 
         //Assert
         Assert.IsFalse(result);
@@ -57,7 +57,7 @@ public class DictionaryExtensionsTests
         String value = "member";
 
         //Act
-        Boolean result = dictionary.DictionaryContainsKeyAndValue(key, value);
+        Boolean result = dictionary.ContainsKeyAndValue(key, value);
 
         //Assert
         Assert.IsFalse(result);
@@ -77,9 +77,78 @@ public class DictionaryExtensionsTests
         String value = "member";
 
         //Act
-        Boolean result = dictionary.DictionaryContainsKeyAndValue(key, value);
+        Boolean result = dictionary.ContainsKeyAndValue(key, value);
 
         //Assert
         Assert.IsTrue(result);
+    }
+
+    [TestMethod]
+    public void DictionaryContainsValueInList_EmptyList_ReturnsFalse()
+    {
+        //Arrange
+        Dictionary<String, List<String>> dictionary = new Dictionary<String, List<String>>();
+
+        //Act
+        Boolean result = dictionary.ContainsValueInList("test123");
+
+        //Assert
+        Assert.IsFalse(result);
+    }
+
+    [TestMethod]
+    public void DictionaryContainsValueInList_NotInList_ReturnsFalse()
+    {
+        //Arrange
+        Dictionary<String, List<String>> dictionary = new Dictionary<String, List<String>>();
+        dictionary.Add("role", new List<String>
+        {
+            "member"
+        });
+        dictionary.Add("hello", new List<String>
+        {
+            "world",
+            "12345678"
+        });
+        dictionary.Add("example", new List<String>
+        {
+            "test1",
+            "test2",
+            "test3"
+        });
+
+        //Act
+        Boolean result = dictionary.ContainsValueInList("test123");
+
+        //Assert
+        Assert.IsFalse(result);
+    }
+
+    [TestMethod]
+    public void DictionaryIsEmpty_HasValues_ShouldBeFalse()
+    {
+        //Arrange
+        Dictionary<String, List<String>> dictionary = new Dictionary<String, List<String>>();
+        dictionary.Add("role", new List<String>
+        {
+            "member"
+        });
+        dictionary.Add("hello", new List<String>
+        {
+            "world",
+            "12345678"
+        });
+        dictionary.Add("example", new List<String>
+        {
+            "test1",
+            "test2",
+            "test3"
+        });
+
+        //Act
+        Boolean result = dictionary.IsEmpty();
+
+        //Assert
+        Assert.IsFalse(result);
     }
 }

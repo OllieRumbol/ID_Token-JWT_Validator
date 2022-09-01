@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace JWTValidatorService.Extensions;
 
@@ -7,7 +8,7 @@ public static class DictionaryExtensions
 {
     public static String Print<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary)
     {
-        if (dictionary is null || dictionary.Count == 0)
+        if (dictionary.IsEmpty())
         {
             return String.Empty;
         }
@@ -22,9 +23,9 @@ public static class DictionaryExtensions
         return bobTheBuilder.ToString();
     }
 
-    public static Boolean DictionaryContainsKeyAndValue<TKey, TValue, T>(this Dictionary<TKey, List<TValue>> dictionary, T key, T value)
+    public static Boolean ContainsKeyAndValue<TKey, TValue, T>(this Dictionary<TKey, List<TValue>> dictionary, T key, T value)
     {
-        if(dictionary is null || dictionary.Count == 0)
+        if (dictionary.IsEmpty())
         {
             return false;
         }
@@ -36,5 +37,36 @@ public static class DictionaryExtensions
         }
 
         return result.Value.Any(x => x.Equals(value));
+    }
+
+    public static Boolean ContainsValueInList<TKey, TValue, T>(this Dictionary<TKey, List<TValue>> dictionary, T value )
+    {
+        if(dictionary.IsEmpty())
+        {
+            return false;
+        }
+
+
+        foreach (List<TValue> values in dictionary.Values)
+        {
+            Boolean result = values.Any(v => v.Equals(value));
+
+            if(result == true)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static Boolean IsEmpty<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary)
+    {
+        if (dictionary is not null || dictionary.Count > 0)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

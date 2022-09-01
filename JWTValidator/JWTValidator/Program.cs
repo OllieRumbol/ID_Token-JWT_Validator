@@ -20,6 +20,10 @@ if (new JWTValidator().TryValidateJWT(JWT, jWTValidatorOptions, out Dictionary<S
 
 Console.WriteLine(result.Print());
 
-Boolean hasMemberRole = result.DictionaryContainsKeyAndValue("role", "MEMBER");
+Boolean hasMemberRole = result.ContainsKeyAndValue("role", "MEMBER");
+
+Boolean hasMemberRole2 = result.ContainsValueInList("MEMBER");
 
 Console.WriteLine(hasMemberRole);
+
+Console.WriteLine(hasMemberRole2);

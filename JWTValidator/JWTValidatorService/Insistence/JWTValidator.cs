@@ -20,12 +20,12 @@ public class JWTValidator : IJWTValidator
         }
         catch (SecurityTokenValidationException ex)
         {
-            result = new Dictionary<string, List<string>>();
+            result = new Dictionary<String, List<String>>();
             return false;
         }
         catch (Exception ex)
         {
-            result = new Dictionary<string, List<string>>();
+            result = new Dictionary<String, List<String>>();
             return false;
         }
     }
@@ -34,6 +34,11 @@ public class JWTValidator : IJWTValidator
     {
         Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+        if (String.IsNullOrEmpty(jwt))
+        {
+            throw new ArgumentException("JWT is empty");
+        }
 
         TokenValidationParameters validationParameters = GetTokenValidationParameters(options);
 
@@ -65,18 +70,22 @@ public class JWTValidator : IJWTValidator
         }
         else
         {
+            validationParameters.ValidateIssuer = true;
             validationParameters.ValidIssuer = options.Issuer;
         }
 
+        //
         if (String.IsNullOrEmpty(options.Audience))
         {
             validationParameters.ValidateAudience = false;
         }
         else
         {
+            validationParameters.ValidateAudience = true;
             validationParameters.ValidAudience = options.Audience;
         }
 
+        //
         validationParameters.ValidateLifetime = options.ExpiryDate;
 
         return validationParameters;
