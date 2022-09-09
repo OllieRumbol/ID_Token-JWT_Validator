@@ -1,4 +1,4 @@
-# ID_Token-JWT_Validator
+# JWT Validator
 
 ## Introduction 
 Hello and welcome to the "JWT Validator" C# library. The goal of this library is to simplify the validation of a JWT in C# and abstract away the complexities of the following objects 
@@ -31,64 +31,3 @@ if (new JWTValidator().TryValidateJWT(JWT, jWTValidatorOptions, out Dictionary<S
 
 Boolean hasMemberRole = result.DictionaryContainsKeyAndValue("role", "MEMBER");
 ```
-
-## Features
-### JWT Validator Options
-#### Introduction
-
-#### Properties
-Secret - String
-
-OpenIdUrl - String
-
-Issuer - String
-
-Audience - String
-
-ExpiryDate - Boolean
-
-#### Methods
-String - Print() - N/A
-
-### JWT Validator Options Builder
-#### Introduction
-
-#### Properties
-N/A
-
-#### Methods
-JWTValidatorOptionsBuilder - Create()
-
-JWTValidatorOptionsBuilder - WithAudience() - String
-
-JWTValidatorOptionsBuilder - WithIssuer() - String 
-
-JWTValidatorOptionsBuilder - WithSigningKeyFromOpenIdUrl() - String
-
-JWTValidatorOptionsBuilder - WithSigningKeyFromSecret() - String
-
-JWTValidatorOptionsBuilder - WithExpiryDate()
-
-JWTValidatorOptions - Build()
-
-### JWT Validator
-#### Introduction
-
-#### Properties
-N/A
-
-#### Methods
-Boolean - TryValidateJWT() - String, JWTValidatorOptions, out Dictionary<String, List String>
-
-Dictionary<String, List String> - ValidateJWT() - String, JWTValidatorOptions
-
-### DictionaryExtensions
-#### Introduction
-
-#### Properties
-N/A
-
-#### Methods
-String - Print()
-
-Boolean - DictionaryContainsKeyAndValue() - Key, Value
