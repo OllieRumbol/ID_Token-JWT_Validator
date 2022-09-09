@@ -49,9 +49,14 @@ public class JWTValidator : IJWTValidator
 
     private TokenValidationParameters GetTokenValidationParameters(JWTValidatorOptions options)
     {
+        if(String.IsNullOrEmpty(options.Secret) && String.IsNullOrEmpty(options.OpenIdUrl))
+        {
+            throw new ArgumentException("Must provide a secret or open id url");
+        }
+
         TokenValidationParameters validationParameters = new TokenValidationParameters();
 
-        //
+        //Issuer Signing Keys
         if (String.IsNullOrEmpty(options.Secret) == false)
         {
             validationParameters.IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Secret));
@@ -85,7 +90,6 @@ public class JWTValidator : IJWTValidator
             validationParameters.ValidAudience = options.Audience;
         }
 
-        //
         validationParameters.ValidateLifetime = options.ExpiryDate;
 
         return validationParameters;
