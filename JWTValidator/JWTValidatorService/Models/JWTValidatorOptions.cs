@@ -1,4 +1,4 @@
-﻿namespace JWTValidatorModel;
+﻿namespace JWTValidatorService.Models;
 
 public class JWTValidatorOptions
 {

@@ -1,5 +1,5 @@
-﻿using JWTValidatorModel;
-using JWTValidatorService.Interface;
+﻿using JWTValidatorService.Interface;
+using JWTValidatorService.Models;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace JWTValidatorService;
+namespace JWTValidatorService.Insistence;
 
 public class JWTValidator : IJWTValidator
 {

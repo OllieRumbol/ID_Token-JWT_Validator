@@ -1,4 +1,4 @@
-﻿using JWTValidatorModel;
+﻿using JWTValidatorService.Models;
 
 namespace JWTValidatorService.Interface;
 public interface IJWTValidator

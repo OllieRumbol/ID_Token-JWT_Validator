@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWTValidatorService", "JWTV
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWTValidatorTests", "JWTValidatorTests\JWTValidatorTests.csproj", "{F788BCB1-9A1F-4C8D-91CE-372B84A79ACD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWTValidatorModel", "JWTValidatorModel\JWTValidatorModel.csproj", "{F1BBE8FB-F8E7-49B7-A87C-FA6EDF706724}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{F788BCB1-9A1F-4C8D-91CE-372B84A79ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F788BCB1-9A1F-4C8D-91CE-372B84A79ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F788BCB1-9A1F-4C8D-91CE-372B84A79ACD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1BBE8FB-F8E7-49B7-A87C-FA6EDF706724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1BBE8FB-F8E7-49B7-A87C-FA6EDF706724}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1BBE8FB-F8E7-49B7-A87C-FA6EDF706724}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1BBE8FB-F8E7-49B7-A87C-FA6EDF706724}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
