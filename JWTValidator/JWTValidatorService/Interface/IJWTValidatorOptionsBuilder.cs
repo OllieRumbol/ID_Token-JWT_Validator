@@ -1,4 +1,5 @@
-﻿using JWTValidatorModel;
+﻿using JWTValidatorService.Insistence;
+using JWTValidatorService.Models;
 
 namespace JWTValidatorService.Interface;
 

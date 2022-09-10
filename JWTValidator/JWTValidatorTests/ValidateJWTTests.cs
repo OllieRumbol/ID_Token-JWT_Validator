@@ -1,7 +1,6 @@
-﻿using JWTValidatorModel;
-using JWTValidatorService;
-using JWTValidatorService.Extensions;
-using JWTValidatorTests.Helpers;
+﻿using JWTValidatorService.Extensions;
+using JWTValidatorService.Insistence;
+using JWTValidatorService.Models;
 using JWTValidatorTests.Helpers.Instances;
 using JWTValidatorTests.Helpers.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

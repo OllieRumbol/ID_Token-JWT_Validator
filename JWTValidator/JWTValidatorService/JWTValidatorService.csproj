@@ -17,6 +17,7 @@
     <PackageTags>jwt; jwt validator; validation</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,10 +39,6 @@
     <PackageReference Include="Microsoft.IdentityModel.Protocols" Version="6.22.0" />
     <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="6.22.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.22.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\JWTValidatorModel\JWTValidatorModel.csproj" />
   </ItemGroup>
 
 </Project>

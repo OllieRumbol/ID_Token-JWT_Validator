@@ -1,7 +1,7 @@
-﻿using JWTValidatorModel;
-using JWTValidatorService.Interface;
+﻿using JWTValidatorService.Interface;
+using JWTValidatorService.Models;
 
-namespace JWTValidatorService;
+namespace JWTValidatorService.Insistence;
 
 public class JWTValidatorOptionsBuilder : IJWTValidatorOptionsBuilder
 {

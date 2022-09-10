@@ -1072,14 +1072,6 @@
           "System.Xml.ReaderWriter": "4.3.0"
         }
       },
-      "JWTValidatorModel/1.0.0": {
-        "dependencies": {
-          "Newtonsoft.Json": "13.0.1"
-        },
-        "runtime": {
-          "JWTValidatorModel.dll": {}
-        }
-      },
       "JWTValidatorService/1.0.0": {
         "dependencies": {
           "JWTValidatorModel": "1.0.0",
@@ -1761,11 +1753,6 @@
       "sha512": "sha512-5zJ0XDxAIg8iy+t4aMnQAu0MqVbqyvfoUVl1yDV61xdo3Vth45oA2FoY4pPkxYAH5f8ixpmTqXeEIya95x0aCQ==",
       "path": "system.xml.xdocument/4.3.0",
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
-    },
-    "JWTValidatorModel/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     },
     "JWTValidatorService/1.0.0": {
       "type": "project",

@@ -1,14 +1,11 @@
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\bin\Debug\net6.0\JWTValidatorService.deps.json
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\bin\Debug\net6.0\JWTValidatorService.dll
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\bin\Debug\net6.0\JWTValidatorService.pdb
-C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\bin\Debug\net6.0\JWTValidatorModel.dll
-C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\bin\Debug\net6.0\JWTValidatorModel.pdb
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\obj\Debug\net6.0\JWTValidatorService.csproj.AssemblyReference.cache
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\obj\Debug\net6.0\JWTValidatorService.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\obj\Debug\net6.0\JWTValidatorService.AssemblyInfoInputs.cache
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\obj\Debug\net6.0\JWTValidatorService.AssemblyInfo.cs
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\obj\Debug\net6.0\JWTValidatorService.csproj.CoreCompileInputs.cache
-C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\obj\Debug\net6.0\JWTValidatorService.csproj.CopyComplete
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\obj\Debug\net6.0\JWTValidatorService.dll
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\obj\Debug\net6.0\refint\JWTValidatorService.dll
 C:\Users\otgbo\Documents\Repo\ID_Token-JWT_Validator\JWTValidator\JWTValidatorService\obj\Debug\net6.0\JWTValidatorService.pdb

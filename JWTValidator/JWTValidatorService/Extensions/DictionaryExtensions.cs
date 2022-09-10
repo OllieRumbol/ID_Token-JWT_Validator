@@ -1,6 +1,4 @@
 ﻿using System.Text;
-using System.Linq;
-using Newtonsoft.Json.Linq;
 
 namespace JWTValidatorService.Extensions;
 

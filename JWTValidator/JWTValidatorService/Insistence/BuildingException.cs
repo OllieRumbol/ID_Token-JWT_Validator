@@ -1,4 +1,4 @@
-﻿namespace JWTValidatorService;
+﻿namespace JWTValidatorService.Insistence;
 
 public class BuildingException : Exception
 {
