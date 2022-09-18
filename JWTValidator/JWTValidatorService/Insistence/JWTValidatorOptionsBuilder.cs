@@ -3,84 +3,42 @@ using JWTValidatorService.Models;
 
 namespace JWTValidatorService.Insistence;
 
-public class JWTValidatorOptionsBuilder : IJWTValidatorOptionsBuilder
+public class JWTValidatorOptionsBuilder: IJWTValidatorOptionsBuilder
 {
     private JWTValidatorOptions jWTValidatorOptions;
 
-    private JWTValidatorOptionsBuilder()
+    public JWTValidatorOptionsBuilder()
     {
         jWTValidatorOptions = new JWTValidatorOptions();
     }
 
-    public static JWTValidatorOptionsBuilder Create() => new JWTValidatorOptionsBuilder();
-
     public JWTValidatorOptions Build()
     {
-        if (String.IsNullOrEmpty(jWTValidatorOptions.OpenIdUrl) && String.IsNullOrEmpty(jWTValidatorOptions.Secret))
-        {
-            throw new BuildingException("Builder must contain secret or OpenId url");
-        }
-
         return jWTValidatorOptions;
     }
 
-    public JWTValidatorOptionsBuilder WithAudience(String audience)
+    public void WithAudience(String audience)
     {
         jWTValidatorOptions.Audience = audience;
-        return this;
     }
 
-    public JWTValidatorOptionsBuilder WithIssuer(String issuer)
+    public void WithIssuer(String issuer)
     {
         jWTValidatorOptions.Issuer = issuer;
-        return this;
     }
 
-    public JWTValidatorOptionsBuilder WithSigningKeyFromOpenIdUrl(String openIdUrl)
+    public void WithSigningKeyFromOpenIdUrl(String openIdUrl)
     {
         jWTValidatorOptions.OpenIdUrl = openIdUrl;
-        return this;
     }
 
-    public JWTValidatorOptionsBuilder WithSigningKeyFromSecret(String secret)
+    public void WithSigningKeyFromSecret(String secret)
     {
         jWTValidatorOptions.Secret = secret;
-        return this;
     }
 
-    public JWTValidatorOptionsBuilder WithExpiryDate()
+    public void WithExpiryDate()
     {
         jWTValidatorOptions.ExpiryDate = true;
-        return this;
     }
 }
-
-//public class JWTValidatorCreator
-//{
-//    private IJWTValidatorBuilder _jWTValidatorBuilder;
-
-//    public JWTValidatorCreator(IJWTValidatorBuilder jWTValidatorBuilder)
-//    {
-//        _jWTValidatorBuilder = jWTValidatorBuilder;
-//    }
-
-//    public JWTValidatorCreator()
-//    {
-//        _jWTValidatorBuilder = new JWTValidatorBuilder();
-//    }
-
-//    public void WithSigningKeyFromSecret(string secret)
-//    {
-//        _jWTValidatorBuilder.WithSigningKeyFromSecret(secret);
-//    }
-
-//    public JWTValidator Build()
-//    {
-//        return _jWTValidatorBuilder.Build();
-//    }
-
-//    public void WithValidateOnExpiryDate(Boolean validateOnExpiryDate)
-//    {
-//        _jWTValidatorBuilder.WithValidateOnExpiryDate(validateOnExpiryDate);
-//    }
-//}

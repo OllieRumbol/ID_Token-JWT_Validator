@@ -13,7 +13,7 @@ public class BuilderTests
         //Associate
 
         //Act
-        JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilder
+        JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilderCreator
             .Create()
             .WithSigningKeyFromSecret("abc")
             .WithIssuer("a")

@@ -31,7 +31,7 @@ public class ValidateJWTTests
 
         String JWT = new JWTFactory().GenerateToken(jWTOptions);
 
-        JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilder
+        JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilderCreator
             .Create()
             .WithSigningKeyFromSecret(secret)
             .Build();
@@ -47,7 +47,7 @@ public class ValidateJWTTests
     public void ValidateCliamsFromJWT()
     {
         //Associate
-        JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilder
+        JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilderCreator
             .Create()
             .WithSigningKeyFromOpenIdUrl("https://login.personifygo.com/prodarrl/.well-known/openid-configuration")
             .Build();

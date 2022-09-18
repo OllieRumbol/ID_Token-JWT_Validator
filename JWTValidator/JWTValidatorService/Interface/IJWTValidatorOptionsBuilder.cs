@@ -5,15 +5,15 @@ namespace JWTValidatorService.Interface;
 
 public interface IJWTValidatorOptionsBuilder
 {
-    JWTValidatorOptionsBuilder WithSigningKeyFromSecret(String secret);
+    void WithSigningKeyFromSecret(String secret);
 
-    JWTValidatorOptionsBuilder WithSigningKeyFromOpenIdUrl(String openIdUrl);
+    void WithSigningKeyFromOpenIdUrl(String openIdUrl);
 
-    JWTValidatorOptionsBuilder WithIssuer(String issuer);
+    void WithIssuer(String issuer);
 
-    JWTValidatorOptionsBuilder WithAudience(String audience);
+    void WithAudience(String audience);
 
-    JWTValidatorOptionsBuilder WithExpiryDate();
+    void WithExpiryDate();
 
     JWTValidatorOptions Build();
 }
