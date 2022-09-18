@@ -1,38 +1,39 @@
 ﻿using JWTValidatorTests.Helpers.Interfaces;
 using JWTValidatorTests.Helpers.Models;
+
 using System;
 using System.Collections.Generic;
 
 namespace JWTValidatorTests.Helpers.Instances;
 
-public class JWTBuilderFinisher
+public class JWTOptionsBuilderFinisher
 {
     private IJWTOptionsBuilder JWTBuilder;
 
-    public JWTBuilderFinisher(IJWTOptionsBuilder jWTBuilder)
+    internal JWTOptionsBuilderFinisher(IJWTOptionsBuilder jWTBuilder)
     {
         JWTBuilder = jWTBuilder;
     }
 
-    public JWTBuilderFinisher WithIssuer(String issuer)
+    public JWTOptionsBuilderFinisher WithIssuer(String issuer)
     {
         JWTBuilder.WithIssuer(issuer);
         return this;
     }
 
-    public JWTBuilderFinisher WithAudience(String audience)
+    public JWTOptionsBuilderFinisher WithAudience(String audience)
     {
         JWTBuilder.WithAudience(audience);
         return this;
     }
 
-    public JWTBuilderFinisher WithExpiryDate(DateTime expiryDate)
+    public JWTOptionsBuilderFinisher WithExpiryDate(DateTime expiryDate)
     {
         JWTBuilder.WithExpirationDate(expiryDate);
         return this;
     }
 
-    public JWTBuilderFinisher WithCliams(List<KeyValuePair<String, String>> claims)
+    public JWTOptionsBuilderFinisher WithCliams(List<KeyValuePair<String, String>> claims)
     {
         JWTBuilder.WithClaims(claims);
         return this;

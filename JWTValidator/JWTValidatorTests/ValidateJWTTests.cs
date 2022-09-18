@@ -1,11 +1,14 @@
-﻿using JWTValidatorService.Extensions;
-using JWTValidatorService.Insistence;
+﻿using JWTValidatorService.Builder;
+using JWTValidatorService.Extensions;
 using JWTValidatorService.Models;
+using JWTValidatorService.Validator;
+
 using JWTValidatorTests.Helpers.Instances;
 using JWTValidatorTests.Helpers.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
 using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JWTValidatorTests;
 
@@ -17,7 +20,7 @@ public class ValidateJWTTests
     {
         //Associate
         String secret = Guid.NewGuid().ToString();
-        JWTOptions jWTOptions = JWTBuilderCreator
+        JWTOptions jWTOptions = JWTOptionsBuilderCreator
             .Create()
             .WithSecret(secret)
             .WithCliams(new List<KeyValuePair<String, String>>

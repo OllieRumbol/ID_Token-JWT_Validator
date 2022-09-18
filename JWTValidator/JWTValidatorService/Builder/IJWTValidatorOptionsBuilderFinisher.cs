@@ -1,12 +1,12 @@
 ﻿using JWTValidatorService.Models;
 
-namespace JWTValidatorService.Interface;
+namespace JWTValidatorService.Builder;
 
 public interface IJWTValidatorOptionsBuilderFinisher
 {
-    IJWTValidatorOptionsBuilderFinisher WithAudience(String audience);
+    IJWTValidatorOptionsBuilderFinisher WithAudience(string audience);
 
-    IJWTValidatorOptionsBuilderFinisher WithIssuer(String issuer);
+    IJWTValidatorOptionsBuilderFinisher WithIssuer(string issuer);
 
     IJWTValidatorOptionsBuilderFinisher WithExpiryDate();
 

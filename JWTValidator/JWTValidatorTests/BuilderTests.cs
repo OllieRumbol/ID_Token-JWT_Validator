@@ -1,5 +1,6 @@
-﻿using JWTValidatorService.Insistence;
+﻿using JWTValidatorService.Builder;
 using JWTValidatorService.Models;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JWTValidatorTests;

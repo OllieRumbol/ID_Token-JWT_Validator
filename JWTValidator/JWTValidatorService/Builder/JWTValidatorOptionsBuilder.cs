@@ -1,9 +1,8 @@
-﻿using JWTValidatorService.Interface;
-using JWTValidatorService.Models;
+﻿using JWTValidatorService.Models;
 
-namespace JWTValidatorService.Insistence;
+namespace JWTValidatorService.Builder;
 
-public class JWTValidatorOptionsBuilder: IJWTValidatorOptionsBuilder
+internal class JWTValidatorOptionsBuilder : IJWTValidatorOptionsBuilder
 {
     private JWTValidatorOptions jWTValidatorOptions;
 
@@ -17,22 +16,22 @@ public class JWTValidatorOptionsBuilder: IJWTValidatorOptionsBuilder
         return jWTValidatorOptions;
     }
 
-    public void WithAudience(String audience)
+    public void WithAudience(string audience)
     {
         jWTValidatorOptions.Audience = audience;
     }
 
-    public void WithIssuer(String issuer)
+    public void WithIssuer(string issuer)
     {
         jWTValidatorOptions.Issuer = issuer;
     }
 
-    public void WithSigningKeyFromOpenIdUrl(String openIdUrl)
+    public void WithSigningKeyFromOpenIdUrl(string openIdUrl)
     {
         jWTValidatorOptions.OpenIdUrl = openIdUrl;
     }
 
-    public void WithSigningKeyFromSecret(String secret)
+    public void WithSigningKeyFromSecret(string secret)
     {
         jWTValidatorOptions.Secret = secret;
     }
