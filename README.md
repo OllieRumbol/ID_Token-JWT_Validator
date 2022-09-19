@@ -12,7 +12,7 @@ The biggest use case of this library is to validate "ID Tokens" from the OAuth l
 - Dictionary extension methods that helps developers handle the dictionary outputted from the above step
   
 ## Back Story
-The reason I developed this libaray was the reocurring issue of developers strugging on the final step of a OAuth login process of validating the "ID Token" as well as using the properties with the "ID Token".
+The reason I developed this libaray was the reocurring issue of developers strugging on the final step of a OAuth login. I saw first hand developers struggling with the process of validating the "ID Token" as well as using the properties within the "ID Token".
 
 ## Examples
 ```
