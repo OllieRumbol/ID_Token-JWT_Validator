@@ -1,5 +1,4 @@
-﻿using JWTValidatorService.Interface;
-using JWTValidatorService.Models;
+﻿using JWTValidatorService.Builder;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
@@ -7,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace JWTValidatorService.Insistence;
+namespace JWTValidatorService.Validator;
 
 public class JWTValidator : IJWTValidator
 {
@@ -49,7 +48,7 @@ public class JWTValidator : IJWTValidator
 
     private TokenValidationParameters GetTokenValidationParameters(JWTValidatorOptions options)
     {
-        if(String.IsNullOrEmpty(options.Secret) && String.IsNullOrEmpty(options.OpenIdUrl))
+        if (String.IsNullOrEmpty(options.Secret) && String.IsNullOrEmpty(options.OpenIdUrl))
         {
             throw new ArgumentException("Must provide a secret or open id url");
         }
@@ -59,12 +58,12 @@ public class JWTValidator : IJWTValidator
         //Issuer Signing Keys
         if (String.IsNullOrEmpty(options.Secret) == false)
         {
-            validationParameters.IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Secret));
+            validationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Secret));
         }
         else
         {
             IConfigurationManager<OpenIdConnectConfiguration> configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(options.OpenIdUrl, new OpenIdConnectConfigurationRetriever());
-            OpenIdConnectConfiguration openIdConfig = configurationManager.GetConfigurationAsync(System.Threading.CancellationToken.None).Result;
+            OpenIdConnectConfiguration openIdConfig = configurationManager.GetConfigurationAsync(CancellationToken.None).Result;
             validationParameters.IssuerSigningKeys = openIdConfig.SigningKeys;
         }
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace JWTValidatorTests.Helpers.Instances;
 
-public class JWTOptionsBuilder : IJWTOptionsBuilder
+internal class JWTOptionsBuilder : IJWTOptionsBuilder
 {
     private JWTOptions JWTOptions;
 
