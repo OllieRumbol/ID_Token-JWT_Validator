@@ -1,6 +1,5 @@
 ﻿using JWTValidatorService.Builder;
 using JWTValidatorService.Extensions;
-using JWTValidatorService.Models;
 using JWTValidatorService.Validator;
 
 using JWTValidatorTests.Helpers.Instances;

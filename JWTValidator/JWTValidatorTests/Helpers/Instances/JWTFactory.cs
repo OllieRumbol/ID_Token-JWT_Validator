@@ -7,46 +7,45 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
-namespace JWTValidatorTests.Helpers.Instances
+namespace JWTValidatorTests.Helpers.Instances;
+
+public class JWTFactory : IJWTFactory
 {
-    public class JWTFactory : IJWTFactory
+    public String GenerateToken(JWTOptions jWTOptions)
     {
-        public String GenerateToken(JWTOptions jWTOptions)
+        SecurityTokenDescriptor tokenDescriptor = CreateTokenDetails(jWTOptions);
+        String jwt = CreateToken(tokenDescriptor);
+        return jwt;
+    }
+
+    private SecurityTokenDescriptor CreateTokenDetails(JWTOptions jWTOptions)
+    {
+        SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jWTOptions.Secret));
+
+        SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
         {
-            SecurityTokenDescriptor tokenDescriptor = CreateTokenDetails(jWTOptions);
-            String jwt = CreateToken(tokenDescriptor);
-            return jwt;
-        }
+            Subject = GetClaims(jWTOptions),
+            Expires = jWTOptions.ExpiryDate,
+            Issuer = jWTOptions.Issuer,
+            Audience = jWTOptions.Audience,
+            SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
+        };
 
-        private SecurityTokenDescriptor CreateTokenDetails(JWTOptions jWTOptions)
-        {
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jWTOptions.Secret));
+        return tokenDescriptor;
+    }
 
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = GetClaims(jWTOptions),
-                Expires = jWTOptions.ExpiryDate,
-                Issuer = jWTOptions.Issuer,
-                Audience = jWTOptions.Audience,
-                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
-            };
+    private ClaimsIdentity GetClaims(JWTOptions jWTOptions)
+    {
+        return new ClaimsIdentity(
+            jWTOptions.Claims
+            .Select(c => new Claim(c.Key, c.Value))
+            .ToArray());
+    }
 
-            return tokenDescriptor;
-        }
-
-        private ClaimsIdentity GetClaims(JWTOptions jWTOptions)
-        {
-            return new ClaimsIdentity(
-                jWTOptions.Claims
-                .Select(c => new Claim(c.Key, c.Value))
-                .ToArray());
-        }
-
-        private String CreateToken(SecurityTokenDescriptor tokenDescriptor)
-        {
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
+    private String CreateToken(SecurityTokenDescriptor tokenDescriptor)
+    {
+        JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+        SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
 }

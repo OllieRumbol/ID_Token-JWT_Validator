@@ -1,4 +1,4 @@
-﻿using JWTValidatorService.Models;
+﻿using JWTValidatorService.Builder;
 
 namespace JWTValidatorService.Validator;
 

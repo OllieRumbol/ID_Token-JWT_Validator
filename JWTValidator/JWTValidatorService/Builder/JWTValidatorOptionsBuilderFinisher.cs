@@ -1,6 +1,4 @@
-﻿using JWTValidatorService.Models;
-
-namespace JWTValidatorService.Builder;
+﻿namespace JWTValidatorService.Builder;
 
 public class JWTValidatorOptionsBuilderFinisher : IJWTValidatorOptionsBuilderFinisher
 {
@@ -8,13 +6,13 @@ public class JWTValidatorOptionsBuilderFinisher : IJWTValidatorOptionsBuilderFin
 
     internal JWTValidatorOptionsBuilderFinisher(IJWTValidatorOptionsBuilder jWTValidatorOptionsBuilder) => _jWTValidatorOptionsBuilder = jWTValidatorOptionsBuilder;
 
-    public IJWTValidatorOptionsBuilderFinisher WithAudience(string audience)
+    public IJWTValidatorOptionsBuilderFinisher WithAudience(String audience)
     {
         _jWTValidatorOptionsBuilder.WithAudience(audience);
         return this;
     }
 
-    public IJWTValidatorOptionsBuilderFinisher WithIssuer(string issuer)
+    public IJWTValidatorOptionsBuilderFinisher WithIssuer(String issuer)
     {
         _jWTValidatorOptionsBuilder.WithIssuer(issuer);
         return this;

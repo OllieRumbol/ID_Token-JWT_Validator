@@ -1,9 +1,8 @@
-﻿namespace JWTValidatorService.Builder
-{
-    public interface IJWTValidatorOptionsBuilderCreator
-    {
-        IJWTValidatorOptionsBuilderFinisher WithSigningKeyFromSecret(string secret);
+﻿namespace JWTValidatorService.Builder;
 
-        IJWTValidatorOptionsBuilderFinisher WithSigningKeyFromOpenIdUrl(string openIdUrl);
-    }
+public interface IJWTValidatorOptionsBuilderCreator
+{
+    IJWTValidatorOptionsBuilderFinisher WithSigningKeyFromSecret(String secret);
+
+    IJWTValidatorOptionsBuilderFinisher WithSigningKeyFromOpenIdUrl(String openIdUrl);
 }

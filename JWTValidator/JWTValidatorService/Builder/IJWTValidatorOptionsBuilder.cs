@@ -1,16 +1,14 @@
-﻿using JWTValidatorService.Models;
-
-namespace JWTValidatorService.Builder;
+﻿namespace JWTValidatorService.Builder;
 
 public interface IJWTValidatorOptionsBuilder
 {
-    void WithSigningKeyFromSecret(string secret);
+    void WithSigningKeyFromSecret(String secret);
 
-    void WithSigningKeyFromOpenIdUrl(string openIdUrl);
+    void WithSigningKeyFromOpenIdUrl(String openIdUrl);
 
-    void WithIssuer(string issuer);
+    void WithIssuer(String issuer);
 
-    void WithAudience(string audience);
+    void WithAudience(String audience);
 
     void WithExpiryDate();
 

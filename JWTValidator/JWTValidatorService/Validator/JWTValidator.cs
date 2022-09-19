@@ -1,4 +1,4 @@
-﻿using JWTValidatorService.Models;
+﻿using JWTValidatorService.Builder;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;

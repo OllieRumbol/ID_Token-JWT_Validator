@@ -1,5 +1,4 @@
-﻿using JWTValidatorService.Models;
-using JWTValidatorService.Builder;
+﻿using JWTValidatorService.Builder;
 using JWTValidatorService.Validator;
 using JWTValidatorService.Extensions;
 
