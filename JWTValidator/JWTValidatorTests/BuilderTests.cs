@@ -1,5 +1,5 @@
-﻿using JWTValidatorService.Insistence;
-using JWTValidatorService.Models;
+﻿using JWTValidatorService.Builder;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JWTValidatorTests;
@@ -13,7 +13,7 @@ public class BuilderTests
         //Associate
 
         //Act
-        JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilder
+        JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilderCreator
             .Create()
             .WithSigningKeyFromSecret("abc")
             .WithIssuer("a")

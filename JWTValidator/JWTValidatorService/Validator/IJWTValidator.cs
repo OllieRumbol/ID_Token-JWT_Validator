@@ -1,6 +1,7 @@
-﻿using JWTValidatorService.Models;
+﻿using JWTValidatorService.Builder;
 
-namespace JWTValidatorService.Interface;
+namespace JWTValidatorService.Validator;
+
 public interface IJWTValidator
 {
     Boolean TryValidateJWT(String jwt, JWTValidatorOptions options, out Dictionary<String, List<String>> result);
