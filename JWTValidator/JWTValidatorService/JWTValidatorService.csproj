@@ -17,7 +17,8 @@
     <PackageTags>jwt; jwt validator; validation</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
+    <PackageReleaseNotes>With the release of version 1.0.2 comes improvements to the builder design pattern used to configure what parts of the JWT are validated. There are now restrictions in place so that models can only be created from the builder as well as being created in a specific order (must contain an open id URL or signing key). </PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
