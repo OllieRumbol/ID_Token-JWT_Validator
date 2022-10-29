@@ -53,8 +53,8 @@ public class BuilderTests
 
         //Assert
         Assert.AreEqual("https://helloworld.com", jWTValidatorOptions.OpenIdUrl);
-        Assert.AreEqual("", jWTValidatorOptions.Audience);
+        Assert.AreEqual("hello", jWTValidatorOptions.Audience);
         Assert.IsTrue(jWTValidatorOptions.ExpiryDate);
-        Assert.AreEqual("", jWTValidatorOptions.Issuer);
+        Assert.AreEqual("world", jWTValidatorOptions.Issuer);
     }
 }
