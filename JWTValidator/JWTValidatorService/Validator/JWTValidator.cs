@@ -17,11 +17,6 @@ public class JWTValidator : IJWTValidator
             result = ValidateJWT(jwt, options);
             return true;
         }
-        catch (SecurityTokenValidationException ex)
-        {
-            result = new Dictionary<String, List<String>>();
-            return false;
-        }
         catch (Exception ex)
         {
             result = new Dictionary<String, List<String>>();
@@ -31,17 +26,22 @@ public class JWTValidator : IJWTValidator
 
     public Dictionary<String, List<String>> ValidateJWT(String jwt, JWTValidatorOptions options)
     {
+        if (String.IsNullOrEmpty(jwt))
+        {
+            throw new ArgumentException(nameof(jwt));
+        }
+
+        if (options is null)
+        {
+            throw new ArgumentNullException(nameof(options));
+        }
+
         Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-        if (String.IsNullOrEmpty(jwt))
-        {
-            throw new ArgumentException("JWT is empty");
-        }
-
         TokenValidationParameters validationParameters = GetTokenValidationParameters(options);
 
-        ClaimsPrincipal claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwt, validationParameters, out SecurityToken token);
+        ClaimsPrincipal claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(jwt, validationParameters, out _);
 
         return GetDictionaryOfClaims(claimsPrincipal.Claims);
     }
@@ -67,7 +67,7 @@ public class JWTValidator : IJWTValidator
             validationParameters.IssuerSigningKeys = openIdConfig.SigningKeys;
         }
 
-        //Issuer (who made the JWT)
+        // Issuer identifies who made the JWT
         if (String.IsNullOrEmpty(options.Issuer))
         {
             validationParameters.ValidateIssuer = false;
@@ -78,7 +78,7 @@ public class JWTValidator : IJWTValidator
             validationParameters.ValidIssuer = options.Issuer;
         }
 
-        //
+        // Audience identifies the recipients that the JWT
         if (String.IsNullOrEmpty(options.Audience))
         {
             validationParameters.ValidateAudience = false;
@@ -89,6 +89,7 @@ public class JWTValidator : IJWTValidator
             validationParameters.ValidAudience = options.Audience;
         }
 
+        // Validate the expiry date of the JWT
         validationParameters.ValidateLifetime = options.ExpiryDate;
 
         return validationParameters;
@@ -97,7 +98,7 @@ public class JWTValidator : IJWTValidator
     private Dictionary<String, List<String>> GetDictionaryOfClaims(IEnumerable<Claim> claims)
     {
         return claims
-            .GroupBy(a => a.Type, a => a.Value)
-            .ToDictionary(a => a.Key, a => a.ToList());
+            .GroupBy(claim => claim.Type, claim => claim.Value)
+            .ToDictionary(claim => claim.Key, claim => claim.ToList());
     }
 }

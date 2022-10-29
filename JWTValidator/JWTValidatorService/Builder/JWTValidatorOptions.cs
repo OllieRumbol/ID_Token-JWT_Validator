@@ -12,7 +12,7 @@ public class JWTValidatorOptions
 
     public Boolean ExpiryDate { get; private set; }
 
-    public string Print()
+    public String Print()
     {
         return
             $"Secret: {(String.IsNullOrEmpty(Secret) ? "None" : Secret)}\n" +
