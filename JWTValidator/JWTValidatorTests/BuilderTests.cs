@@ -10,40 +10,40 @@ public class BuilderTests
     [TestMethod]
     public void BasicBuilderSecretTests()
     {
-        //Associate
+        // Arrange
 
-        //Act
-        JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilderCreator
+        // Act
+        JWTValidatorOptions jwtValidatorOptions = JWTValidatorOptionsBuilderCreator
             .Create()
             .WithSigningKeyFromSecret("abc")
             .Build();
 
-        //Assert
-        Assert.AreEqual("abc", jWTValidatorOptions.Secret);
+        // Assert
+        Assert.AreEqual("abc", jwtValidatorOptions.Secret);
     }
 
     [TestMethod]
     public void BasicBuilderUrlTests()
     {
-        //Associate
+        // Arrange
 
-        //Act
-        JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilderCreator
+        // Act
+        JWTValidatorOptions jwtValidatorOptions = JWTValidatorOptionsBuilderCreator
             .Create()
             .WithSigningKeyFromOpenIdUrl("https://helloworld.com")
             .Build();
 
-        //Assert
-        Assert.AreEqual("https://helloworld.com", jWTValidatorOptions.OpenIdUrl);
+        // Assert
+        Assert.AreEqual("https://helloworld.com", jwtValidatorOptions.OpenIdUrl);
     }
 
     [TestMethod]
     public void ComplexBuilderTests()
     {
-        //Associate
+        // Arrange
 
-        //Act
-        JWTValidatorOptions jWTValidatorOptions = JWTValidatorOptionsBuilderCreator
+        // Act
+        JWTValidatorOptions jwtValidatorOptions = JWTValidatorOptionsBuilderCreator
             .Create()
             .WithSigningKeyFromOpenIdUrl("https://helloworld.com")
             .WithAudience("hello")
@@ -51,10 +51,10 @@ public class BuilderTests
             .WithIssuer("world")
             .Build();
 
-        //Assert
-        Assert.AreEqual("https://helloworld.com", jWTValidatorOptions.OpenIdUrl);
-        Assert.AreEqual("hello", jWTValidatorOptions.Audience);
-        Assert.IsTrue(jWTValidatorOptions.ExpiryDate);
-        Assert.AreEqual("world", jWTValidatorOptions.Issuer);
+        // Assert
+        Assert.AreEqual("https://helloworld.com", jwtValidatorOptions.OpenIdUrl);
+        Assert.AreEqual("hello", jwtValidatorOptions.Audience);
+        Assert.IsTrue(jwtValidatorOptions.ExpiryDate);
+        Assert.AreEqual("world", jwtValidatorOptions.Issuer);
     }
 }

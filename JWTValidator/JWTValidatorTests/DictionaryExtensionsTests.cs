@@ -12,22 +12,22 @@ public class DictionaryExtensionsTests
     [TestMethod]
     public void DictionaryContainsKeyAndValueEmptyDictionaryTest()
     {
-        //Arrange
+        // Arrange
         Dictionary<String, List<String>> dictionary = new Dictionary<String, List<String>>();
         String key = "role";
         String value = "member";
 
-        //Act
+        // Act
         Boolean result = dictionary.ContainsKeyAndValue(key, value);
 
-        //Assert
+        // Assert
         Assert.IsFalse(result);
     }
 
     [TestMethod]
     public void DictionaryContainsKeyAndValueDictionaryDoesNotContainKeyTest()
     {
-        //Arrange
+        // Arrange
         Dictionary<String, List<String>> dictionary = new Dictionary<String, List<String>>();
         dictionary.Add("hello", new List<String>
         {
@@ -37,17 +37,17 @@ public class DictionaryExtensionsTests
         String key = "role";
         String value = "member";
 
-        //Act
+        // Act
         Boolean result = dictionary.ContainsKeyAndValue(key, value);
 
-        //Assert
+        // Assert
         Assert.IsFalse(result);
     }
 
     [TestMethod]
     public void DictionaryContainsKeyAndValueDictionaryDoesNotContainValueTest()
     {
-        //Arrange
+        // Arrange
         Dictionary<String, List<String>> dictionary = new Dictionary<String, List<String>>();
         dictionary.Add("role", new List<String>
         {
@@ -57,17 +57,17 @@ public class DictionaryExtensionsTests
         String key = "role";
         String value = "member";
 
-        //Act
+        // Act
         Boolean result = dictionary.ContainsKeyAndValue(key, value);
 
-        //Assert
+        // Assert
         Assert.IsFalse(result);
     }
 
     [TestMethod]
     public void DictionaryContainsKeyAndValueDictionaryContainsBothKeyAndValueTest()
     {
-        //Arrange
+        // Arrange
         Dictionary<String, List<String>> dictionary = new Dictionary<String, List<String>>();
         dictionary.Add("role", new List<String>
         {
@@ -77,30 +77,30 @@ public class DictionaryExtensionsTests
         String key = "role";
         String value = "member";
 
-        //Act
+        // Act
         Boolean result = dictionary.ContainsKeyAndValue(key, value);
 
-        //Assert
+        // Assert
         Assert.IsTrue(result);
     }
 
     [TestMethod]
     public void DictionaryContainsValueInList_EmptyList_ReturnsFalse()
     {
-        //Arrange
+        // Arrange
         Dictionary<String, List<String>> dictionary = new Dictionary<String, List<String>>();
 
-        //Act
+        // Act
         Boolean result = dictionary.ContainsValueInList("test123");
 
-        //Assert
+        // Assert
         Assert.IsFalse(result);
     }
 
     [TestMethod]
     public void DictionaryContainsValueInList_NotInList_ReturnsFalse()
     {
-        //Arrange
+        // Arrange
         Dictionary<String, List<String>> dictionary = new Dictionary<String, List<String>>();
         dictionary.Add("role", new List<String>
         {
@@ -118,17 +118,17 @@ public class DictionaryExtensionsTests
             "test3"
         });
 
-        //Act
+        // Act
         Boolean result = dictionary.ContainsValueInList("test123");
 
-        //Assert
+        // Assert
         Assert.IsFalse(result);
     }
 
     [TestMethod]
     public void DictionaryIsEmpty_HasValues_ShouldBeFalse()
     {
-        //Arrange
+        // Arrange
         Dictionary<String, List<String>> dictionary = new Dictionary<String, List<String>>();
         dictionary.Add("role", new List<String>
         {
@@ -146,10 +146,10 @@ public class DictionaryExtensionsTests
             "test3"
         });
 
-        //Act
+        // Act
         Boolean result = dictionary.IsEmpty();
 
-        //Assert
+        // Assert
         Assert.IsFalse(result);
     }
 }

@@ -17,7 +17,7 @@ public class JWTValidator : IJWTValidator
             result = ValidateJWT(jwt, options);
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             result = new Dictionary<String, List<String>>();
             return false;
