@@ -2,27 +2,37 @@
 
 public class JWTValidatorOptionsBuilderFinisher : IJWTValidatorOptionsBuilderFinisher
 {
-    private IJWTValidatorOptionsBuilder _jWTValidatorOptionsBuilder;
+    private IJWTValidatorOptionsBuilder JwtValidatorOptionsBuilder;
 
-    internal JWTValidatorOptionsBuilderFinisher(IJWTValidatorOptionsBuilder jWTValidatorOptionsBuilder) => _jWTValidatorOptionsBuilder = jWTValidatorOptionsBuilder;
+    internal JWTValidatorOptionsBuilderFinisher(IJWTValidatorOptionsBuilder jwtValidatorOptionsBuilder) => JwtValidatorOptionsBuilder = jwtValidatorOptionsBuilder;
 
     public IJWTValidatorOptionsBuilderFinisher WithAudience(String audience)
     {
-        _jWTValidatorOptionsBuilder.WithAudience(audience);
+        if (String.IsNullOrEmpty(audience))
+        {
+            throw new ArgumentNullException(nameof(audience));
+        }
+
+        JwtValidatorOptionsBuilder.WithAudience(audience);
         return this;
     }
 
     public IJWTValidatorOptionsBuilderFinisher WithIssuer(String issuer)
     {
-        _jWTValidatorOptionsBuilder.WithIssuer(issuer);
+        if (String.IsNullOrEmpty(issuer))
+        {
+            throw new ArgumentNullException(nameof(issuer));
+        }
+
+        JwtValidatorOptionsBuilder.WithIssuer(issuer);
         return this;
     }
 
     public IJWTValidatorOptionsBuilderFinisher WithExpiryDate()
     {
-        _jWTValidatorOptionsBuilder.WithExpiryDate();
+        JwtValidatorOptionsBuilder.WithExpiryDate();
         return this;
     }
 
-    public JWTValidatorOptions Build() => _jWTValidatorOptionsBuilder.Build();
+    public JWTValidatorOptions Build() => JwtValidatorOptionsBuilder.Build();
 }

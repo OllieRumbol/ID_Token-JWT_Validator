@@ -2,21 +2,31 @@
 
 public class JWTValidatorOptionsBuilderCreator : IJWTValidatorOptionsBuilderCreator
 {
-    private IJWTValidatorOptionsBuilder _jWTValidatorOptionsBuilder;
+    private IJWTValidatorOptionsBuilder JwtValidatorOptionsBuilder;
 
-    private JWTValidatorOptionsBuilderCreator() => _jWTValidatorOptionsBuilder = new JWTValidatorOptions.JWTValidatorOptionsBuilder();
+    private JWTValidatorOptionsBuilderCreator() => JwtValidatorOptionsBuilder = new JWTValidatorOptions.JWTValidatorOptionsBuilder();
 
     public static JWTValidatorOptionsBuilderCreator Create() => new JWTValidatorOptionsBuilderCreator();
 
     public IJWTValidatorOptionsBuilderFinisher WithSigningKeyFromSecret(String secret)
     {
-        _jWTValidatorOptionsBuilder.WithSigningKeyFromSecret(secret);
-        return new JWTValidatorOptionsBuilderFinisher(_jWTValidatorOptionsBuilder);
+        if (String.IsNullOrEmpty(secret))
+        {
+            throw new ArgumentNullException(nameof(secret));
+        }
+
+        JwtValidatorOptionsBuilder.WithSigningKeyFromSecret(secret);
+        return new JWTValidatorOptionsBuilderFinisher(JwtValidatorOptionsBuilder);
     }
 
     public IJWTValidatorOptionsBuilderFinisher WithSigningKeyFromOpenIdUrl(String openIdUrl)
     {
-        _jWTValidatorOptionsBuilder.WithSigningKeyFromOpenIdUrl(openIdUrl);
-        return new JWTValidatorOptionsBuilderFinisher(_jWTValidatorOptionsBuilder);
+        if (String.IsNullOrEmpty(openIdUrl))
+        {
+            throw new ArgumentNullException(nameof(openIdUrl));
+        }
+
+        JwtValidatorOptionsBuilder.WithSigningKeyFromOpenIdUrl(openIdUrl);
+        return new JWTValidatorOptionsBuilderFinisher(JwtValidatorOptionsBuilder);
     }
 }

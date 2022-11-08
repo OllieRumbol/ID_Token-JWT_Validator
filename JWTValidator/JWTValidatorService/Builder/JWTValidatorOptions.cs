@@ -2,17 +2,17 @@
 
 public class JWTValidatorOptions
 {
-    public String Secret { get; private set; } = "";
+    public String Secret { get; private set; } = default!;
 
-    public String OpenIdUrl { get; private set; } = "";
+    public String OpenIdUrl { get; private set; } = default!;
 
-    public String Issuer { get; private set; } = "";
+    public String Issuer { get; private set; } = default!;
 
-    public String Audience { get; private set; } = "";
+    public String Audience { get; private set; } = default!;
 
     public Boolean ExpiryDate { get; private set; }
 
-    public string Print()
+    public String Print()
     {
         return
             $"Secret: {(String.IsNullOrEmpty(Secret) ? "None" : Secret)}\n" +
@@ -24,41 +24,20 @@ public class JWTValidatorOptions
 
     internal class JWTValidatorOptionsBuilder : IJWTValidatorOptionsBuilder
     {
-        private JWTValidatorOptions jWTValidatorOptions;
+        private JWTValidatorOptions Options;
 
-        public JWTValidatorOptionsBuilder()
-        {
-            jWTValidatorOptions = new JWTValidatorOptions();
-        }
+        public JWTValidatorOptionsBuilder() => Options = new JWTValidatorOptions();
 
-        public JWTValidatorOptions Build()
-        {
-            return jWTValidatorOptions;
-        }
+        public JWTValidatorOptions Build() => Options;
 
-        public void WithAudience(String audience)
-        {
-            jWTValidatorOptions.Audience = audience;
-        }
+        public void WithAudience(String audience) => Options.Audience = audience;
 
-        public void WithIssuer(String issuer)
-        {
-            jWTValidatorOptions.Issuer = issuer;
-        }
+        public void WithIssuer(String issuer) => Options.Issuer = issuer;
 
-        public void WithSigningKeyFromOpenIdUrl(String openIdUrl)
-        {
-            jWTValidatorOptions.OpenIdUrl = openIdUrl;
-        }
+        public void WithSigningKeyFromOpenIdUrl(String openIdUrl) => Options.OpenIdUrl = openIdUrl;
 
-        public void WithSigningKeyFromSecret(String secret)
-        {
-            jWTValidatorOptions.Secret = secret;
-        }
+        public void WithSigningKeyFromSecret(String secret) => Options.Secret = secret;
 
-        public void WithExpiryDate()
-        {
-            jWTValidatorOptions.ExpiryDate = true;
-        }
+        public void WithExpiryDate() => Options.ExpiryDate = true;
     }
 }

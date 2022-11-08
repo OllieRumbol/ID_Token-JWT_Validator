@@ -1871,7 +1871,7 @@
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
       },
-      "JWTValidator/1.0.2": {
+      "JWTValidator/1.0.3": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
@@ -6610,7 +6610,7 @@
         "system.xml.xdocument.nuspec"
       ]
     },
-    "JWTValidator/1.0.2": {
+    "JWTValidator/1.0.3": {
       "type": "project",
       "path": "../JWTValidatorService/JWTValidatorService.csproj",
       "msbuildProject": "../JWTValidatorService/JWTValidatorService.csproj"
@@ -6618,7 +6618,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "JWTValidator >= 1.0.2",
+      "JWTValidator >= 1.0.3",
       "MSTest.TestAdapter >= 2.2.7",
       "MSTest.TestFramework >= 2.2.7",
       "Microsoft.NET.Test.Sdk >= 16.11.0",
