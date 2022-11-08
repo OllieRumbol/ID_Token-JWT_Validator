@@ -8,7 +8,7 @@ Hello and welcome to the "JWT Validator" C# library. The goal of this library is
 
 The biggest use case of this library is to validate "ID Tokens" from the OAuth login flow. At a high level there are 3 key parts to this library
 - Builder design pattern to constrct what parts of the JWT need validating and how they should be validated
-- A "TryValidateJWT" method that returns whether the JWT is valid or not as well as a dictionary of what JWT contains
+- A validator service with methods that outputs whether the JWT is valid or not as well as a dictionary of what JWT contains. Services to validate if the JWT has expired
 - Dictionary extension methods that helps developers handle the dictionary outputted from the above step
   
 ## Examples
