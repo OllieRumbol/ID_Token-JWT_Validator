@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "JWTValidatorTests/1.0.0": {
         "dependencies": {
-          "JWTValidator": "1.0.2",
+          "JWTValidator": "1.0.3",
           "MSTest.TestAdapter": "2.2.7",
           "MSTest.TestFramework": "2.2.7",
           "Microsoft.NET.Test.Sdk": "16.11.0",
@@ -1123,7 +1123,7 @@
           "System.Xml.ReaderWriter": "4.3.0"
         }
       },
-      "JWTValidator/1.0.2": {
+      "JWTValidator/1.0.3": {
         "dependencies": {
           "Microsoft.IdentityModel.Protocols": "6.22.0",
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.22.0",
@@ -1806,7 +1806,7 @@
       "path": "system.xml.xdocument/4.3.0",
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
     },
-    "JWTValidator/1.0.2": {
+    "JWTValidator/1.0.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
