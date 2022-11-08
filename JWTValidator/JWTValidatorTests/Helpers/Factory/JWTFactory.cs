@@ -1,5 +1,4 @@
-﻿using JWTValidatorTests.Helpers.Interfaces;
-using JWTValidatorTests.Helpers.Models;
+﻿using JWTValidatorTests.Helpers.Builder;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,37 +6,41 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
-namespace JWTValidatorTests.Helpers.Instances;
+namespace JWTValidatorTests.Helpers.Factory;
 
 public class JWTFactory : IJWTFactory
 {
-    public String GenerateToken(JWTOptions jWTOptions)
+    public String GenerateToken(JWTOptions jwtOptions)
     {
-        SecurityTokenDescriptor tokenDescriptor = CreateTokenDetails(jWTOptions);
-        String jwt = CreateToken(tokenDescriptor);
-        return jwt;
+        SecurityTokenDescriptor tokenDescriptor = CreateTokenDetails(jwtOptions);
+        return CreateToken(tokenDescriptor);
     }
 
-    private SecurityTokenDescriptor CreateTokenDetails(JWTOptions jWTOptions)
+    private SecurityTokenDescriptor CreateTokenDetails(JWTOptions jwtOptions)
     {
-        SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jWTOptions.Secret));
+        SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Secret));
 
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = GetClaims(jWTOptions),
-            Expires = jWTOptions.ExpiryDate,
-            Issuer = jWTOptions.Issuer,
-            Audience = jWTOptions.Audience,
+            Subject = GetClaims(jwtOptions),
+            Expires = jwtOptions.ExpiryDate,
+            Issuer = jwtOptions.Issuer,
+            Audience = jwtOptions.Audience,
             SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
         };
 
         return tokenDescriptor;
     }
 
-    private ClaimsIdentity GetClaims(JWTOptions jWTOptions)
+    private ClaimsIdentity GetClaims(JWTOptions jwtOptions)
     {
+        if (jwtOptions.Claims is null)
+        {
+            return new ClaimsIdentity();
+        }
+
         return new ClaimsIdentity(
-            jWTOptions.Claims
+            jwtOptions.Claims
             .Select(c => new Claim(c.Key, c.Value))
             .ToArray());
     }

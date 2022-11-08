@@ -1,9 +1,7 @@
-﻿using JWTValidatorTests.Helpers.Models;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace JWTValidatorTests.Helpers.Interfaces;
+namespace JWTValidatorTests.Helpers.Builder;
 
 public interface IJWTOptionsBuilder
 {
