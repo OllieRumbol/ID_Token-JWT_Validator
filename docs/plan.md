@@ -3,7 +3,7 @@
 > **What this document is for:** It answers *how will we build it?* It turns the approved requirements in spec.md into a design, and it is agreed before any code is written.
 
 Status: Approved
-Last updated: 2026-10-12
+Last updated: 2026-10-14
 
 ---
 
@@ -154,6 +154,7 @@ public static Boolean IsEmpty<TKey, TValue>([NotNullWhen(false)] this Dictionary
 | Console app input | Prompts for the token and the OpenID URL at run time | Spec section 6.1.10, item 5. Nothing is stored or kept in shell history. | Command-line arguments. User secrets, which add setup for one manual check. |
 | Console app error output | The console app turns `ShowPII` on for itself, calls `ValidateJWT` instead of `TryValidateJWT`, and prints the error message when validation fails | `ShowPII` was added to the library in 2022 to see why validation failed. This keeps that debugging view for the maintainer. The console app is never published, so no consumer is affected. Spec section 6.1.5 applies to the library only. | Keeping `ShowPII` in the library. Printing only "Invalid JWT", which hides the reason. |
 | Packing | Explicit `dotnet pack`. Remove `GeneratePackageOnBuild`. Console app has `IsPackable` set to `false`. | A build should not create packages. The console app must never be packed (spec section 6.1.9, item 8). | — |
+| Console app package ID | `JWTValidator.ConsoleApp` | The library's package ID is `JWTValidator`, the same as the console project's name. NuGet restore then fails with "Ambiguous project name 'JWTValidator'", so the solution does not build (spec section 6.1.10, items 1 and 3). | Renaming the console project, which changes more files. Changing the library's package ID, which would break the nuget.org package. |
 | Icon location | `JWTValidator/JWTValidatorService/icon.jpg` | Belongs to the package project. Shortest pack path. | The repository root. |
 | Shared build settings | `Directory.Build.props` and `Directory.Packages.props` in `JWTValidator/` | Every project file changes for the upgrade anyway. One place for the target framework and versions. | Repeat the settings in each project. |
 | Solution file | Migrate to `.slnx` with `dotnet sln migrate`, then delete the `.sln` | It is the .NET 10 default, it is short enough to read and edit, and it rarely causes merge conflicts. The maintainer's Visual Studio opens it. | Keep `.sln`. No solution file, which would mean building each project on its own. |
@@ -198,7 +199,7 @@ Re-running the publish job is safe until a push succeeds. After that, a re-run f
 | Item | Decision |
 | --- | --- |
 | Publish credential | Trusted Publishing (spec section 2), through the `NuGet/login` action. No long-lived key exists (spec section 6.1.9, item 7). The temporary key is passed to `dotnet nuget push` as a step output and must appear masked (`***`) in the run log; the beta release checks this. |
-| Branch and tag protection | Not enforced by GitHub rules. The maintainer is the only person with write access, so merging only green pull requests and tagging only `main` are working practices (spec section 8, assumptions 2 and 5). Rules can be added later if others get write access. |
+| Branch and tag protection | The GitHub ruleset "Protect main" (id 24939760) is active on the default branch and has no bypass actors. It blocks deletion and force pushes, and requires a pull request with 0 approvals. Merge, squash and rebase are allowed. It has a required-status-checks rule with no checks selected yet. The `build` check becomes required after the CI `build` job (section 8.1) first runs, because GitHub can only select a check that has run. `v*` tags are not protected, because no ruleset covers tags. Tagging only `main` stays a working practice (spec section 8, assumptions 2 and 5). |
 | Workflow permissions | The default for the workflow is `contents: read`. Only the publish job gets `id-token: write`. |
 | Pull requests from forks | They run the build job only. The publish job runs only for tag pushes, and only maintainers can push tags. GitHub does not issue identity tokens to fork pull requests. |
 | Personal data | The real token is removed from the console app and the tests (spec section 6.1.10, item 2). Test tokens are generated at run time with random secrets. |
