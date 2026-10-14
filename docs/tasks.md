@@ -2,7 +2,7 @@
 
 > **What this document is for:** It answers *what do we do next?* It splits the approved design into small, verifiable steps and tracks progress against them.
 
-Last updated: 2026-10-12
+Last updated: 2026-10-14
 
 Tasks T1 to T13 are each one branch from `main` and one pull request into `main`. Name branches `feature/<short-task-name>`, as earlier work in this repository did. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude pushes each branch and opens its pull request after the maintainer approves the push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
@@ -10,16 +10,17 @@ Tasks T1 to T13 are each one branch from `main` and one pull request into `main`
 
 Goal: The repository holds only source files and no personal data, and a clean checkout can build and pack.
 
-- [ ] **T1 — Untrack build output and IDE state**
-  - Refs: spec 4.1 items 5 and 7, spec 6.1.10 item 1
+- [x] **T1 — Untrack build output and IDE state**
+  - Refs: spec 4.1 items 5 and 7, spec 6.1.10 item 1, plan 3.4 (console app package ID)
   - Depends on: —
   - Done when:
     - No tracked file is under a `bin/`, `obj/` or `.vs/` folder.
     - `JWTValidator/TextFile1.txt` is deleted.
+    - The console app's project file sets `PackageId` to `JWTValidator.ConsoleApp`, so the solution restores.
     - A build followed by `git status` shows no changed tracked files.
     - `docs/spec.md`, `docs/plan.md` and `docs/tasks.md` are committed.
   - Verify: `git ls-files | grep -E '/(bin|obj|\.vs)/' ; dotnet build JWTValidator/JWTValidator.sln && git status --porcelain`. Expected: no output from either `grep` or `git status`.
-  - Notes: Use `git rm -r --cached`. Do not delete the folders from disk. `.gitignore` already lists `[Bb]in/`, `[Oo]bj/` and `.vs/`. The build still targets .NET 6 at this point. A warning that .NET 6 is out of support is expected.
+  - Notes: Use `git rm -r --cached`. Do not delete the folders from disk. `.gitignore` already lists `[Bb]in/`, `[Oo]bj/` and `.vs/`. The build still targets .NET 6 at this point. A warning that .NET 6 is out of support is expected. The planning documents were already committed in PR #7. This task also updated plan 6 (branch and tag protection) and T7 for the "Protect main" ruleset, as the maintainer approved. During T1, the build failed on `main` with "Ambiguous project name 'JWTValidator'", with SDK 10.0.401 and 9.0.306. The maintainer approved the package ID fix in plan 3.4 as part of T1. `git status --porcelain` also lists staged changes. So before the commit, Verify checked that the build left no unstaged change, and the exact Verify command runs again after the commit.
 
 - [ ] **T2 — Make the package build from a clean checkout**
   - Refs: spec 4.1 item 6, spec 6.1.9 item 8, spec 6.1.10 items 3 and 4, plan 2, plan 3.4 (packing, icon location)
@@ -101,7 +102,8 @@ Goal: The expiry defect is fixed, and every push and pull request is built and t
     - The workflow has `contents: read` permission only, and the job has `timeout-minutes: 15`.
     - The `build` job follows plan 8.1 steps 1 to 8, including the version step.
     - The pull request for this task shows a passing run, and the run log shows the tests running twice: once in UTC and once in Asia/Kolkata.
-  - Verify: `gh run list --workflow ci.yml --branch <branch> --limit 1` shows `completed success`. `gh run view <id> --log` shows both test runs.
+    - The maintainer has added the build check to the required status checks of the Protect main ruleset.
+  - Verify: `gh run list --workflow ci.yml --branch <branch> --limit 1` shows `completed success`. `gh run view <id> --log` shows both test runs. `gh api repos/OllieRumbol/ID_Token-JWT_Validator/rulesets/24939760` lists `build` in `required_status_checks`.
   - Notes: No publish job yet. Use the current major versions of `actions/checkout`, `actions/setup-dotnet` and `actions/upload-artifact`. From this task on, every pull request must pass CI before merging. Run `/code-review` before ticking.
 
 ## Phase 4 — Remaining library changes
@@ -217,3 +219,5 @@ Goal: Version 2.0.0 is on nuget.org, published by the pipeline.
 None.
 
 ## Completed log
+
+- 2026-10-14 — T1

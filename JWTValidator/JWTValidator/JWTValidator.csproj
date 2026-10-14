@@ -5,6 +5,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <!-- The library's package ID is JWTValidator. Without a different ID here, restore fails with "Ambiguous project name". -->
+    <PackageId>JWTValidator.ConsoleApp</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
