@@ -7,6 +7,8 @@
     <Nullable>enable</Nullable>
     <!-- The library's package ID is JWTValidator. Without a different ID here, restore fails with "Ambiguous project name". -->
     <PackageId>JWTValidator.ConsoleApp</PackageId>
+    <!-- The console app runs locally only. It must never be packed into a NuGet package. -->
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
