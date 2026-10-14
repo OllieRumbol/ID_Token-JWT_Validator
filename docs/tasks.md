@@ -22,7 +22,7 @@ Goal: The repository holds only source files and no personal data, and a clean c
   - Verify: `git ls-files | grep -E '/(bin|obj|\.vs)/' ; dotnet build JWTValidator/JWTValidator.sln && git status --porcelain`. Expected: no output from either `grep` or `git status`.
   - Notes: Use `git rm -r --cached`. Do not delete the folders from disk. `.gitignore` already lists `[Bb]in/`, `[Oo]bj/` and `.vs/`. The build still targets .NET 6 at this point. A warning that .NET 6 is out of support is expected. The planning documents were already committed in PR #7. This task also updated plan 6 (branch and tag protection) and T7 for the "Protect main" ruleset, as the maintainer approved. During T1, the build failed on `main` with "Ambiguous project name 'JWTValidator'", with SDK 10.0.401 and 9.0.306. The maintainer approved the package ID fix in plan 3.4 as part of T1. `git status --porcelain` also lists staged changes. So before the commit, Verify checked that the build left no unstaged change, and the exact Verify command runs again after the commit.
 
-- [ ] **T2 — Make the package build from a clean checkout**
+- [x] **T2 — Make the package build from a clean checkout**
   - Refs: spec 4.1 item 6, spec 6.1.9 item 8, spec 6.1.10 items 3 and 4, plan 2, plan 3.4 (packing, icon location)
   - Depends on: T1
   - Done when:
@@ -32,7 +32,7 @@ Goal: The repository holds only source files and no personal data, and a clean c
     - The console app has `IsPackable` set to `false`.
     - A pack of the solution creates exactly one package, `JWTValidator.0.0.0-local.nupkg`. It contains the library, `README.md`, `LICENSE.txt` and `icon.jpg`, and no test or console assemblies.
   - Verify: `dotnet pack JWTValidator/JWTValidator.sln -o artifacts && unzip -l artifacts/JWTValidator.0.0.0-local.nupkg`
-  - Notes: Copy the icon from the maintainer's local copy (`icon.jpg` in the Documents folder, 8 KB). Delete `artifacts/` after checking. `.gitignore` already ignores `artifacts/`. Run `/code-review` before ticking.
+  - Notes: Copy the icon from the maintainer's local copy (`icon.jpg` in the Documents folder, 8 KB). Delete `artifacts/` after checking. `.gitignore` already ignores `artifacts/`. Run `/code-review` before ticking. Verify also passed on a clean export of the staged files (`git checkout-index`), with no `bin/` or `obj/` folders, so it proves spec 6.1.10 item 3. The review raised two points for later tasks: `PackageReleaseNotes` still describes 1.0.3 (T12 replaces it), and `Version` also sets the assembly version, so CI must pass the version to the build as well as to the pack (plan 8.1, T7).
 
 - [ ] **T3 — Remove the real token**
   - Refs: spec 4.1 items 3 and 4, spec 6.1.10 items 2 and 5, plan 3.4 (console app input, console app error output), plan 7.2 test 13
@@ -221,3 +221,4 @@ None.
 ## Completed log
 
 - 2026-10-14 — T1
+- 2026-10-14 — T2

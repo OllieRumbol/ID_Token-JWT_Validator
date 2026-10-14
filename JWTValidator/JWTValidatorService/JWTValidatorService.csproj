@@ -15,15 +15,15 @@
     <RepositoryUrl>https://github.com/OllieRumbol/ID_Token-JWT_Validator</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>jwt; jwt validator; validation</PackageTags>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <Version>1.0.3</Version>
+    <!-- A placeholder for local builds. CI sets the release version from the tag. -->
+    <Version>0.0.0-local</Version>
     <PackageReleaseNotes>With the release of version 1.0.3 comes huge new functionality for developers to understand if and when a JWT expires</PackageReleaseNotes>
     <PackageProjectUrl>https://ollierumbol.github.io/JWTValidator</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\icon.jpg">
+    <None Include="icon.jpg">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
