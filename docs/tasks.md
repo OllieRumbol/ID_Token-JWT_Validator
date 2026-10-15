@@ -47,6 +47,7 @@ Goal: The repository holds only source files and no personal data, and a clean c
     - Gap for T9: no automated test covers the OpenID URL path until plan 7.2 tests 15 and 16.
     - Gap for T11: after the library's `ShowPII` line is removed, check that the console app still prints the reasons.
     - Not changed, because the behaviour existed before T3: the expiry lookup runs outside the `try` and downloads the configuration again, and failures exit with code 0.
+    - Evidence: pull request #10
 
 ## Phase 2 — Upgrade
 
