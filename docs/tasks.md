@@ -2,7 +2,7 @@
 
 > **What this document is for:** It answers *what do we do next?* It splits the approved design into small, verifiable steps and tracks progress against them.
 
-Last updated: 2026-10-14
+Last updated: 2026-10-15
 
 Tasks T1 to T13 are each one branch from `main` and one pull request into `main`. Name branches `feature/<short-task-name>`, as earlier work in this repository did. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude pushes each branch and opens its pull request after the maintainer approves the push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
@@ -34,7 +34,7 @@ Goal: The repository holds only source files and no personal data, and a clean c
   - Verify: `dotnet pack JWTValidator/JWTValidator.sln -o artifacts && unzip -l artifacts/JWTValidator.0.0.0-local.nupkg`
   - Notes: Copy the icon from the maintainer's local copy (`icon.jpg` in the Documents folder, 8 KB). Delete `artifacts/` after checking. `.gitignore` already ignores `artifacts/`. Run `/code-review` before ticking. Verify also passed on a clean export of the staged files (`git checkout-index`), with no `bin/` or `obj/` folders, so it proves spec 6.1.10 item 3. The review raised two points for later tasks: `PackageReleaseNotes` still describes 1.0.3 (T12 replaces it), and `Version` also sets the assembly version, so CI must pass the version to the build as well as to the pack (plan 8.1, T7).
 
-- [ ] **T3 — Remove the real token**
+- [x] **T3 — Remove the real token**
   - Refs: spec 4.1 items 3 and 4, spec 6.1.10 items 2 and 5, plan 3.4 (console app input, console app error output), plan 7.2 test 13
   - Depends on: T1
   - Done when:
@@ -43,7 +43,11 @@ Goal: The repository holds only source files and no personal data, and a clean c
     - The console app turns `ShowPII` on for itself, calls `ValidateJWT`, and prints the error message when validation fails (plan 3.4, console app error output).
     - No tracked file outside `docs/` contains `personifygo` or the token text. The planning documents name the provider and the token prefix on purpose, to describe the defect.
   - Verify: `git grep -n -i -E "personifygo|eyJhbGciOiJSUzI1NiIsImtpZCI6IkMx" -- ':!docs'` (expected: no output), then `printf 'not-a-token\nhttps://example.invalid/.well-known/openid-configuration\n' | dotnet run --project JWTValidator/JWTValidator/JWTValidator.csproj` (expected: both prompts appear, then an error message that says why validation failed, in place of only "Invalid JWT").
-  - Notes: The token stays in git history. That is accepted in spec 3, non-goals. Run `/code-review` before ticking.
+  - Notes: The token stays in git history, as spec 3 (non-goals) accepts. The console app also stops with a message when the token or the URL is empty, in place of a crash.
+    - Gap for T9: no automated test covers the OpenID URL path until plan 7.2 tests 15 and 16.
+    - Gap for T11: after the library's `ShowPII` line is removed, check that the console app still prints the reasons.
+    - Not changed, because the behaviour existed before T3: the expiry lookup runs outside the `try` and downloads the configuration again, and failures exit with code 0.
+    - Evidence: pull request #10
 
 ## Phase 2 — Upgrade
 
@@ -222,3 +226,4 @@ None.
 
 - 2026-10-14 — T1
 - 2026-10-14 — T2
+- 2026-10-15 — T3
