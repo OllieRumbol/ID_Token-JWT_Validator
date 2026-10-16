@@ -13,6 +13,10 @@ public interface IJWTOptionsBuilder
 
     void WithExpirationDate(DateTime expirationDate);
 
+    void WithNotBefore(DateTime notBefore);
+
+    void WithIssuedAt(DateTime issuedAt);
+
     void WithClaims(List<KeyValuePair<String, String>> claims);
 
     JWTOptions Build();
