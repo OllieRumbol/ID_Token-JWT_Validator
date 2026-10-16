@@ -67,6 +67,7 @@ Goal: Every project targets .NET 10, and every package is at its latest stable v
   - Notes: Test 17's expected values come from a run on net6.0 with IdentityModel 6.22.0, before the move. Restore warns NU1902 (IdentityModel 6.22.0) and NU1903 (Newtonsoft.Json 9.0.1 from the old test packages); T5 fixes them. Turning on implicit usings in the test project caused no name clash.
     - Gap for T5: test 17 builds its token with a new `JWTFactory.GenerateToken` overload (typed claims, fixed times), because the builder holds only string claims. When T5 adds "not before" and "issued at" to the builder, decide whether the overload stays.
     - Not changed: the test factory signs with an ASCII key and the library validates with UTF-8. All tests use GUID secrets, so this has no effect.
+    - Evidence: pull request #11
 
 - [ ] **T5 — Update every package**
   - Refs: spec 6.1.1 items 2 and 3, spec 6.1.2, plan 3.2, plan 3.4 (test framework, coverlet, Newtonsoft.Json, console reference, vulnerable packages), plan 7.2 tests 6, 14 and 17, plan 9
