@@ -53,7 +53,7 @@ Goal: The repository holds only source files and no personal data, and a clean c
 
 Goal: Every project targets .NET 10, and every package is at its latest stable version.
 
-- [ ] **T4 — Move to .NET 10 and .slnx**
+- [x] **T4 — Move to .NET 10 and .slnx**
   - Refs: spec 6.1.1 item 1, spec 6.1.2 item 1, plan 2, plan 3.1, plan 3.4 (solution file, shared build settings), plan 7.2 test 17
   - Depends on: T2, T3
   - Done when:
@@ -64,7 +64,10 @@ Goal: Every project targets .NET 10, and every package is at its latest stable v
     - The solution builds.
     - Plan 7.2 test 17 exists. Its expected values are what the library returns now, with IdentityModel 6.22.0, and it passes.
   - Verify: `dotnet sln JWTValidator/JWTValidator.slnx list && dotnet build JWTValidator/JWTValidator.slnx && dotnet test JWTValidator/JWTValidator.slnx --filter "FullyQualifiedName!~WhenDoesJWTExpireTestWithJWTAndSecret&FullyQualifiedName!~ValidateJWTFromSecretTest"`. Expected: exit code 0. The filter leaves out the three tests that fail because of known defects.
-  - Notes: Use `dotnet sln JWTValidator/JWTValidator.sln migrate`. Package versions do not change in this task, so restore warns about the vulnerable package. That warning is fixed in T5. Restore may also warn about other vulnerable packages that the old test packages bring in. Expected test result: `ValidateJWTFromSecretTest` still fails (spec 4.1 item 2). The two `WhenDoesJWTExpire…` tests fail when the machine is not in UTC (spec 4.1 item 1); Europe/London is UTC+1 until 25 October 2026. Nothing else fails. Test 17 records today's behaviour, so add it before any package changes. Run `/code-review` before ticking.
+  - Notes: Test 17's expected values come from a run on net6.0 with IdentityModel 6.22.0, before the move. Restore warns NU1902 (IdentityModel 6.22.0) and NU1903 (Newtonsoft.Json 9.0.1 from the old test packages); T5 fixes them. Turning on implicit usings in the test project caused no name clash.
+    - Gap for T5: test 17 builds its token with a new `JWTFactory.GenerateToken` overload (typed claims, fixed times), because the builder holds only string claims. When T5 adds "not before" and "issued at" to the builder, decide whether the overload stays.
+    - Not changed: the test factory signs with an ASCII key and the library validates with UTF-8. All tests use GUID secrets, so this has no effect.
+    - Evidence: pull request #11
 
 - [ ] **T5 — Update every package**
   - Refs: spec 6.1.1 items 2 and 3, spec 6.1.2, plan 3.2, plan 3.4 (test framework, coverlet, Newtonsoft.Json, console reference, vulnerable packages), plan 7.2 tests 6, 14 and 17, plan 9
@@ -227,3 +230,4 @@ None.
 - 2026-10-14 — T1
 - 2026-10-14 — T2
 - 2026-10-15 — T3
+- 2026-10-16 — T4

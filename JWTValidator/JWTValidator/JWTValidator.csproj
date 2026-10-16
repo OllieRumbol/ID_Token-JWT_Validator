@@ -2,9 +2,6 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <!-- The library's package ID is JWTValidator. Without a different ID here, restore fails with "Ambiguous project name". -->
     <PackageId>JWTValidator.ConsoleApp</PackageId>
     <!-- The console app runs locally only. It must never be packed into a NuGet package. -->
@@ -12,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 
   <ItemGroup>
