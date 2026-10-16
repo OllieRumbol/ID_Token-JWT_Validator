@@ -1,6 +1,7 @@
 ﻿using JWTValidatorTests.Helpers.Builder;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -16,20 +17,40 @@ public class JWTFactory : IJWTFactory
         return CreateToken(tokenDescriptor);
     }
 
+    // The claims can hold any JSON type, such as a boolean, a number, an array or a nested object.
+    // The fixed times keep the claims that tests expect the same on every run.
+    public String GenerateToken(String secret, Dictionary<String, Object> claims, DateTime issuedAt, DateTime notBefore, DateTime expiryDate)
+    {
+        SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Claims = claims,
+            IssuedAt = issuedAt,
+            NotBefore = notBefore,
+            Expires = expiryDate,
+            SigningCredentials = CreateSigningCredentials(secret)
+        };
+
+        return CreateToken(tokenDescriptor);
+    }
+
     private SecurityTokenDescriptor CreateTokenDetails(JWTOptions jwtOptions)
     {
-        SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Secret));
-
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = GetClaims(jwtOptions),
             Expires = jwtOptions.ExpiryDate,
             Issuer = jwtOptions.Issuer,
             Audience = jwtOptions.Audience,
-            SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
+            SigningCredentials = CreateSigningCredentials(jwtOptions.Secret)
         };
 
         return tokenDescriptor;
+    }
+
+    private SigningCredentials CreateSigningCredentials(String secret)
+    {
+        SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
+        return new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
     }
 
     private ClaimsIdentity GetClaims(JWTOptions jwtOptions)
