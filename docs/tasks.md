@@ -87,7 +87,7 @@ Goal: Every project targets .NET 10, and every package is at its latest stable v
     - Release notes (T12): with lifetime validation on, 1.0.3 rejected a token whose `exp` is after 19 January 2038 (IDX10225). 2.0.0 accepts it.
     - Decision: the typed-claims `JWTFactory.GenerateToken` overload stays. Test 17 needs boolean, number, array and object claims, and the builder holds only strings.
     - Open, no task takes it yet: test 14 has no row for a future `nbf`, and it uses the real clock because `ValidateJWT` has no clock seam (plan 7.1 says `FakeTimeProvider`).
-    - Evidence: pull request description drafted in the T5 session. The branch is not pushed yet.
+    - Evidence: pull request #12
 
 ## Phase 3 — Fix the expiry defect and add CI
 
