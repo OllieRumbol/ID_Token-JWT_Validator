@@ -39,6 +39,8 @@ public class JWTFactory : IJWTFactory
         {
             Subject = GetClaims(jwtOptions),
             Expires = jwtOptions.ExpiryDate,
+            NotBefore = jwtOptions.NotBefore,
+            IssuedAt = jwtOptions.IssuedAt,
             Issuer = jwtOptions.Issuer,
             Audience = jwtOptions.Audience,
             SigningCredentials = CreateSigningCredentials(jwtOptions.Secret)

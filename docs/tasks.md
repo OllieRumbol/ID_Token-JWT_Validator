@@ -2,7 +2,7 @@
 
 > **What this document is for:** It answers *what do we do next?* It splits the approved design into small, verifiable steps and tracks progress against them.
 
-Last updated: 2026-10-15
+Last updated: 2026-10-16
 
 Tasks T1 to T13 are each one branch from `main` and one pull request into `main`. Name branches `feature/<short-task-name>`, as earlier work in this repository did. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude pushes each branch and opens its pull request after the maintainer approves the push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
@@ -69,7 +69,7 @@ Goal: Every project targets .NET 10, and every package is at its latest stable v
     - Not changed: the test factory signs with an ASCII key and the library validates with UTF-8. All tests use GUID secrets, so this has no effect.
     - Evidence: pull request #11
 
-- [ ] **T5 — Update every package**
+- [x] **T5 — Update every package**
   - Refs: spec 6.1.1 items 2 and 3, spec 6.1.2, plan 3.2, plan 3.4 (test framework, coverlet, Newtonsoft.Json, console reference, vulnerable packages), plan 7.2 tests 6, 14 and 17, plan 9
   - Depends on: T4
   - Done when:
@@ -83,7 +83,11 @@ Goal: Every project targets .NET 10, and every package is at its latest stable v
     - Plan 7.2 test 14 exists and passes.
     - No package is outdated, and restore reports no vulnerabilities.
   - Verify: `dotnet list JWTValidator/JWTValidator.slnx package --outdated && dotnet list JWTValidator/JWTValidator.slnx package --vulnerable --include-transitive && dotnet test JWTValidator/JWTValidator.slnx --filter "FullyQualifiedName!~WhenDoesJWTExpireTestWithJWTAndSecret"`. Expected: no outdated or vulnerable packages listed, and exit code 0.
-  - Notes: Expected test result: only the two `WhenDoesJWTExpire…` tests can fail, and only when the machine is not in UTC (spec 4.1 item 1). T6 fixes them. If the claims test fails after the upgrade, record the difference here. It is a behaviour change for the release notes (plan 9). Fix any MSTest 4 build errors. Do not fix unrelated analyzer warnings. If this task does not fit one session, split it into an IdentityModel task and an MSTest task. Run `/code-review` before ticking.
+  - Notes: Before the upgrade, restore failed with NU1902 (`System.IdentityModel.Tokens.Jwt` 6.22.0). Tests 6, 14 and 17 passed on 6.22.0 and on 8.23.0 with unchanged expected values. `dotnet test` still uses VSTest.
+    - Release notes (T12): with lifetime validation on, 1.0.3 rejected a token whose `exp` is after 19 January 2038 (IDX10225). 2.0.0 accepts it.
+    - Decision: the typed-claims `JWTFactory.GenerateToken` overload stays. Test 17 needs boolean, number, array and object claims, and the builder holds only strings.
+    - Open, no task takes it yet: test 14 has no row for a future `nbf`, and it uses the real clock because `ValidateJWT` has no clock seam (plan 7.1 says `FakeTimeProvider`).
+    - Evidence: pull request description drafted in the T5 session. The branch is not pushed yet.
 
 ## Phase 3 — Fix the expiry defect and add CI
 
@@ -231,3 +235,4 @@ None.
 - 2026-10-14 — T2
 - 2026-10-15 — T3
 - 2026-10-16 — T4
+- 2026-10-16 — T5

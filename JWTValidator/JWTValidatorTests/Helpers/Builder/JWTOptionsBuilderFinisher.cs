@@ -27,6 +27,18 @@ public class JWTOptionsBuilderFinisher : IJWTOptionsBuilderFinisher
         return this;
     }
 
+    public IJWTOptionsBuilderFinisher WithNotBefore(DateTime notBefore)
+    {
+        JwtOptionBuilder.WithNotBefore(notBefore);
+        return this;
+    }
+
+    public IJWTOptionsBuilderFinisher WithIssuedAt(DateTime issuedAt)
+    {
+        JwtOptionBuilder.WithIssuedAt(issuedAt);
+        return this;
+    }
+
     public IJWTOptionsBuilderFinisher WithCliams(List<KeyValuePair<String, String>> claims)
     {
         JwtOptionBuilder.WithClaims(claims);
