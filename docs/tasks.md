@@ -108,7 +108,7 @@ Goal: The expiry defect is fixed, and every push and pull request is built and t
     - For T8: `JWTFactory.SignToken(header, payload, secret)` signs HS256 or HS512 by hand. The header's `alg` selects the algorithm, and the key is the secret's UTF-8 bytes, as the library reads it.
     - For T7: test 2 sets the fake clock's local time zone, but the library reads no time zone. The `Kind` asserts and the CI run in Asia/Kolkata catch a local-time defect.
     - Not changed, because plan 3.3 keeps the parsing line: `Double.Parse` of `exp` uses the current culture, so a fractional `exp` is misread on, for example, de-DE. No task takes it yet.
-    - Evidence: pull request description drafted in the T6 session. The branch is not pushed yet.
+    - Evidence: pull request #13
 
 - [ ] **T7 — Add the CI build job**
   - Refs: spec 6.1.8, spec 6.6 items 1 and 4, plan 1.1 (workflow shape), plan 7.1 (time zones), plan 8.1 (job `build`)
