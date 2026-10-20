@@ -2,7 +2,7 @@
 
 > **What this document is for:** It answers *what do we do next?* It splits the approved design into small, verifiable steps and tracks progress against them.
 
-Last updated: 2026-10-16
+Last updated: 2026-10-20
 
 Tasks T1 to T13 are each one branch from `main` and one pull request into `main`. Name branches `feature/<short-task-name>`, as earlier work in this repository did. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude pushes each branch and opens its pull request after the maintainer approves the push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
@@ -86,24 +86,29 @@ Goal: Every project targets .NET 10, and every package is at its latest stable v
   - Notes: Before the upgrade, restore failed with NU1902 (`System.IdentityModel.Tokens.Jwt` 6.22.0). Tests 6, 14 and 17 passed on 6.22.0 and on 8.23.0 with unchanged expected values. `dotnet test` still uses VSTest.
     - Release notes (T12): with lifetime validation on, 1.0.3 rejected a token whose `exp` is after 19 January 2038 (IDX10225). 2.0.0 accepts it.
     - Decision: the typed-claims `JWTFactory.GenerateToken` overload stays. Test 17 needs boolean, number, array and object claims, and the builder holds only strings.
-    - Open, no task takes it yet: test 14 has no row for a future `nbf`, and it uses the real clock because `ValidateJWT` has no clock seam (plan 7.1 says `FakeTimeProvider`).
+    - Test 14 and the real clock: plan 7.1 now records the decision, and T6 added the rows for a future `nbf`.
     - Evidence: pull request #12
 
 ## Phase 3 — Fix the expiry defect and add CI
 
 Goal: The expiry defect is fixed, and every push and pull request is built and tested.
 
-- [ ] **T6 — Return expiry in UTC and compare in UTC**
-  - Refs: spec 4.1 item 1, spec 6.1.3, spec 6.2 (expiry), spec 6.6 item 1, plan 3.3, plan 3.4 (expiry type, current time, fake clock), plan 7.2 tests 1 to 5
+- [x] **T6 — Return expiry in UTC and compare in UTC**
+  - Refs: spec 4.1 item 1, spec 6.1.3, spec 6.2 (expiry), spec 6.6 item 1, plan 3.3, plan 3.4 (expiry type, current time, fake clock), plan 7.1, plan 7.2 tests 1 to 5, plan 7.2 test 14
   - Depends on: T5
   - Done when:
     - `WhenDoesJWTExpire` returns a `DateTime` with `Kind` `Utc`.
     - `HasJWTExpired` uses an injected `TimeProvider`. The public constructors use `TimeProvider.System`. The new constructor is internal, and internals are visible to the test project only.
     - The test token factory can sign a token by hand from a supplied header and payload (plan 3.2).
     - Plan 7.2 tests 1 to 5 exist and pass. Test 2 covers every row of the expiry table in spec 6.2. Tests 3 and 4 cover the far past and far future cases in spec 6.1.3, items 5 and 6.
+    - Test 14 has rows for a token whose 'not before' is one day in the future: rejected with `SecurityTokenNotYetValidException` when the lifetime option is set, and valid when it is not.
     - All tests pass.
   - Verify: `dotnet test JWTValidator/JWTValidator.slnx`
-  - Notes: Add `Microsoft.Extensions.TimeProvider.Testing` at its latest stable version. Before the fix, test 1 must fail; check this once to prove the test catches the defect. Run `/code-review` before ticking.
+  - Notes: `Microsoft.Extensions.TimeProvider.Testing` 10.11.0 is referenced by the test project only. Test 1 failed before the fix (`Kind` was `Local`). Verify passed on a UTC+1 machine.
+    - For T8: `JWTFactory.SignToken(header, payload, secret)` signs HS256 or HS512 by hand. The header's `alg` selects the algorithm, and the key is the secret's UTF-8 bytes, as the library reads it.
+    - For T7: test 2 sets the fake clock's local time zone, but the library reads no time zone. The `Kind` asserts and the CI run in Asia/Kolkata catch a local-time defect.
+    - Not changed, because plan 3.3 keeps the parsing line: `Double.Parse` of `exp` uses the current culture, so a fractional `exp` is misread on, for example, de-DE. No task takes it yet.
+    - Evidence: pull request #13
 
 - [ ] **T7 — Add the CI build job**
   - Refs: spec 6.1.8, spec 6.6 items 1 and 4, plan 1.1 (workflow shape), plan 7.1 (time zones), plan 8.1 (job `build`)
@@ -236,3 +241,4 @@ None.
 - 2026-10-15 — T3
 - 2026-10-16 — T4
 - 2026-10-16 — T5
+- 2026-10-20 — T6

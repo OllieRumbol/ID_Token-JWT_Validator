@@ -3,7 +3,7 @@
 > **What this document is for:** It answers *how will we build it?* It turns the approved requirements in spec.md into a design, and it is agreed before any code is written.
 
 Status: Approved
-Last updated: 2026-10-14
+Last updated: 2026-10-20
 
 ---
 
@@ -216,7 +216,7 @@ Re-running the publish job is safe until a push succeeds. After that, a re-run f
 
 * MSTest 4. Tests follow Arrange, Act, Assert. New tests use the name format `Method_Condition_ExpectedResult`. Existing passing tests are not renamed.
 * No test calls the network (spec section 6.6, item 2). Every token is generated in the test.
-* Tests use a `FakeTimeProvider` for the current time.
+* Tests of `JWTExpiryChecker` use a `FakeTimeProvider` for the current time. `ValidateJWT` has no clock seam, because IdentityModel checks the lifetime against the real clock. So test 14 uses the real clock with time margins of at least one hour, which keeps it reliable.
 * **Time zones.** The machine time zone cannot be changed inside a test, so the defect is caught in two ways (spec section 6.6, item 1):
   1. Tests assert `Kind == DateTimeKind.Utc` on the expiry result. The old code returns `Local`, so these tests fail on any machine, including a UTC one.
   2. CI runs the whole test suite twice: once in UTC, and once with `TZ=Asia/Kolkata`. Kolkata is UTC+5:30 all year, so the second run is the same every day. Locally, the maintainer's machine runs in Europe/London.
@@ -239,7 +239,7 @@ Re-running the publish job is safe until a push succeeds. After that, a re-run f
 | 11 | `ContainsKeyAndValue` on a `null` dictionary returns `false` | 6.1.4 item 2 | Null reference exception |
 | 12 | After `ValidateJWT`, `IdentityModelEventSource.ShowPII` is still `false` | 6.1.5 | Personal-data logging turned on |
 | 13 | Delete `ValidateCliamsFromJWT` | 6.6 item 2, 6.1.10 item 2 | (Removes the network call and the real token.) |
-| 14 | Data-driven: issuer, audience and lifetime each set to match, set to not match, and not set. A token is rejected only when an option is set and does not match. | 6.1.2 item 2 | A changed issuer, audience or lifetime check after the IdentityModel upgrade |
+| 14 | Data-driven: issuer, audience and lifetime each set to match, set to not match, and not set. A token is rejected only when an option is set and does not match. A token whose "not before" time is in the future is rejected only when the lifetime option is set. | 6.1.2 item 2 | A changed issuer, audience or lifetime check after the IdentityModel upgrade |
 | 15 | Data-driven over the OpenID rows in spec section 6.2: RS256 tokens signed with K1, K2 and K3, validated against a configuration that holds K1 and K2. Checks the result, the `role` claim, and that the factory received the URL from the options. | 6.1.2 items 3 and 4, 6.2 | The OpenID path broken by the IdentityModel upgrade; key rotation not supported; a token signed with an unknown key accepted; the wrong URL used |
 | 16 | `JWTExpiryChecker`, built with a `JWTValidator` that uses the test configuration and with the fake clock, returns the `exp` of an RS256 token from `WhenDoesJWTExpire(jwt, Uri)` as UTC. `HasJWTExpired(jwt, Uri)` returns `false` one second before `exp` and `true` one second after. | 6.1.2 item 3, 6.1.3 items 1 and 2 | The `Uri` overloads of the expiry checker broken; the comparison defect on the `Uri` path (spec section 4.1, item 1) |
 | 17 | Claims baseline: a token with a string, a boolean, an integer, a decimal number, an array and a nested object claim. The expected dictionary is recorded from what the library returns **before** the IdentityModel upgrade. | 6.1.2 item 1 | A change in how claim values are written after IdentityModel moved from Newtonsoft.Json to System.Text.Json |

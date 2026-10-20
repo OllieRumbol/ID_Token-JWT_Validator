@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 
 namespace JWTValidatorTests.Helpers.Factory;
 
@@ -31,6 +33,35 @@ public class JWTFactory : IJWTFactory
         };
 
         return CreateToken(tokenDescriptor);
+    }
+
+    // Signs a token by hand, for a token that the token handler cannot create,
+    // such as a token with no exp, one with an exp later than a DateTime can hold,
+    // or one signed with a key shorter than the algorithm's minimum.
+    // The "alg" in the header selects the algorithm: HS256 or HS512.
+    public String SignToken(String header, String payload, String secret)
+    {
+        String encodedHeader = Base64UrlEncoder.Encode(header);
+        String encodedPayload = Base64UrlEncoder.Encode(payload);
+        Byte[] dataToSign = Encoding.ASCII.GetBytes($"{encodedHeader}.{encodedPayload}");
+
+        // The library reads the secret as UTF-8, so the key here must be the same bytes.
+        Byte[] key = Encoding.UTF8.GetBytes(secret);
+        String? algorithm = GetAlgorithm(header);
+        Byte[] signature = algorithm switch
+        {
+            "HS256" => HMACSHA256.HashData(key, dataToSign),
+            "HS512" => HMACSHA512.HashData(key, dataToSign),
+            _ => throw new ArgumentException($"Unsupported algorithm '{algorithm}'. Use HS256 or HS512.", nameof(header))
+        };
+
+        return $"{encodedHeader}.{encodedPayload}.{Base64UrlEncoder.Encode(signature)}";
+    }
+
+    private static String? GetAlgorithm(String header)
+    {
+        using JsonDocument headerDocument = JsonDocument.Parse(header);
+        return headerDocument.RootElement.GetProperty("alg").GetString();
     }
 
     private SecurityTokenDescriptor CreateTokenDetails(JWTOptions jwtOptions)

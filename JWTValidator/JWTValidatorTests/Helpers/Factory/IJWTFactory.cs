@@ -9,4 +9,6 @@ public interface IJWTFactory
     String GenerateToken(JWTOptions jwtOptions);
 
     String GenerateToken(String secret, Dictionary<String, Object> claims, DateTime issuedAt, DateTime notBefore, DateTime expiryDate);
+
+    String SignToken(String header, String payload, String secret);
 }
