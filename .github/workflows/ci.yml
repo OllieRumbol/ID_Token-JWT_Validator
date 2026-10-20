@@ -1,0 +1,74 @@
+name: CI
+
+# A commit on a pull request branch runs twice, once for the push and once for the pull request (plan 8.1).
+on:
+  push:
+    branches: ['**']
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      # A tag is the only place a release version comes from. Any other run gets a CI version.
+      - name: Work out the version
+        id: version
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          if [ "$REF_TYPE" = "tag" ]; then
+            if [[ ! "$REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+              echo "::error::Tag '$REF_NAME' is not a version tag such as v2.0.0 or v2.0.0-beta.1."
+              exit 1
+            fi
+            version="${REF_NAME#v}"
+          else
+            version="0.0.0-ci.$RUN_NUMBER"
+          fi
+          echo "Version: $version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Restore
+        run: dotnet restore JWTValidator/JWTValidator.slnx
+
+      # Version also sets the assembly version, so the build gets it as well as the pack.
+      - name: Build
+        run: dotnet build JWTValidator/JWTValidator.slnx --configuration Release --no-restore -p:Version=${{ steps.version.outputs.version }}
+
+      - name: Test (UTC)
+        env:
+          TZ: UTC
+        run: dotnet test JWTValidator/JWTValidator.slnx --configuration Release --no-build
+
+      # The library never reads the time zone. A run east of UTC catches a local-time defect (plan 7.1).
+      - name: Test (Asia/Kolkata)
+        env:
+          TZ: Asia/Kolkata
+        run: dotnet test JWTValidator/JWTValidator.slnx --configuration Release --no-build
+
+      - name: Pack
+        run: dotnet pack JWTValidator/JWTValidatorService/JWTValidatorService.csproj --configuration Release --no-build -p:Version=${{ steps.version.outputs.version }} --output artifacts
+
+      - name: Upload the package
+        uses: actions/upload-artifact@v7
+        with:
+          name: package
+          path: artifacts/*.nupkg
+          if-no-files-found: error
+          retention-days: 7

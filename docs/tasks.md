@@ -4,7 +4,7 @@
 
 Last updated: 2026-10-20
 
-Tasks T1 to T13 are each one branch from `main` and one pull request into `main`. Name branches `feature/<short-task-name>`, as earlier work in this repository did. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude pushes each branch and opens its pull request after the maintainer approves the push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
+Tasks T1 to T13 are each one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
 ## Phase 1 — Clean the repository
 
@@ -121,6 +121,7 @@ Goal: The expiry defect is fixed, and every push and pull request is built and t
     - The maintainer has added the build check to the required status checks of the Protect main ruleset.
   - Verify: `gh run list --workflow ci.yml --branch <branch> --limit 1` shows `completed success`. `gh run view <id> --log` shows both test runs. `gh api repos/OllieRumbol/ID_Token-JWT_Validator/rulesets/24939760` lists `build` in `required_status_checks`.
   - Notes: No publish job yet. Use the current major versions of `actions/checkout`, `actions/setup-dotnet` and `actions/upload-artifact`. From this task on, every pull request must pass CI before merging. Run `/code-review` before ticking.
+    - Decision: the maintainer chose the `do-task` skill workflow from T7 on. This task updated the branch naming and push lines in the header to match.
 
 ## Phase 4 — Remaining library changes
 
