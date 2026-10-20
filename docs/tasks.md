@@ -122,6 +122,7 @@ Goal: The expiry defect is fixed, and every push and pull request is built and t
   - Verify: `gh run list --workflow ci.yml --branch <branch> --limit 1` shows `completed success`. `gh run view <id> --log` shows both test runs. `gh api repos/OllieRumbol/ID_Token-JWT_Validator/rulesets/24939760` lists `build` in `required_status_checks`.
   - Notes: No publish job yet. Use the current major versions of `actions/checkout`, `actions/setup-dotnet` and `actions/upload-artifact`. From this task on, every pull request must pass CI before merging. Run `/code-review` before ticking.
     - Decision: the maintainer chose the `do-task` skill workflow from T7 on. This task updated the branch naming and push lines in the header to match.
+    - Checkpoint (2026-10-20): `ci.yml` is in pull request #14. Its push and pull request runs passed. The log shows 44 tests passed in UTC and 44 in Asia/Kolkata, and the package `0.0.0-ci.2` was uploaded. The task reviewer found no blockers. Next: the maintainer adds `build` to the required checks of "Protect main", then Claude runs the ruleset part of Verify and ticks T7.
 
 ## Phase 4 — Remaining library changes
 
