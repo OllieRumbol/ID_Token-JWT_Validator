@@ -14,6 +14,14 @@ namespace JWTValidatorTests;
 [TestClass]
 public class JWTValidatorTests
 {
+    // The lifetime of a test token, relative to the real clock.
+    public enum TokenLifetime
+    {
+        Current,
+        Expired,
+        NotYetValid
+    }
+
     // Plan 7.2 test 6, the claims example in spec 6.2. The fixed times give the same claims on every run.
     [TestMethod]
     public void ValidateJWTFromSecretTest()
@@ -69,7 +77,7 @@ public class JWTValidatorTests
     {
         // Arrange
         String secret = Guid.NewGuid().ToString();
-        String jwt = CreateToken(secret, tokenIssuer, null, isExpired: false);
+        String jwt = CreateToken(secret, tokenIssuer, null, TokenLifetime.Current);
 
         IJWTValidatorOptionsBuilderFinisher jwtValidatorOptionsBuilder = JWTValidatorOptionsBuilderCreator
             .Create()
@@ -98,7 +106,7 @@ public class JWTValidatorTests
     {
         // Arrange
         String secret = Guid.NewGuid().ToString();
-        String jwt = CreateToken(secret, null, tokenAudience, isExpired: false);
+        String jwt = CreateToken(secret, null, tokenAudience, TokenLifetime.Current);
 
         IJWTValidatorOptionsBuilderFinisher jwtValidatorOptionsBuilder = JWTValidatorOptionsBuilderCreator
             .Create()
@@ -116,18 +124,20 @@ public class JWTValidatorTests
         Assert.AreEqual(expectedExceptionType, exceptionType);
     }
 
-    // Plan 7.2 test 14, lifetime. A token is rejected only when the option is set and the token has expired.
-    // A null expected exception means the token is valid.
+    // Plan 7.2 test 14, lifetime. A token is rejected only when the option is set and the token has expired
+    // or is not yet valid. A null expected exception means the token is valid.
     [TestMethod]
-    [DataRow(true, false, null, DisplayName = "Lifetime set and token not expired")]
-    [DataRow(true, true, typeof(SecurityTokenExpiredException), DisplayName = "Lifetime set and token expired")]
-    [DataRow(false, false, null, DisplayName = "Lifetime not set and token not expired")]
-    [DataRow(false, true, null, DisplayName = "Lifetime not set and token expired")]
-    public void ValidateJWT_LifetimeOption_RejectsOnlyWhenSetAndExpired(Boolean validateLifetime, Boolean isTokenExpired, Type? expectedExceptionType)
+    [DataRow(true, TokenLifetime.Current, null, DisplayName = "Lifetime set and token not expired")]
+    [DataRow(true, TokenLifetime.Expired, typeof(SecurityTokenExpiredException), DisplayName = "Lifetime set and token expired")]
+    [DataRow(true, TokenLifetime.NotYetValid, typeof(SecurityTokenNotYetValidException), DisplayName = "Lifetime set and token not yet valid")]
+    [DataRow(false, TokenLifetime.Current, null, DisplayName = "Lifetime not set and token not expired")]
+    [DataRow(false, TokenLifetime.Expired, null, DisplayName = "Lifetime not set and token expired")]
+    [DataRow(false, TokenLifetime.NotYetValid, null, DisplayName = "Lifetime not set and token not yet valid")]
+    public void ValidateJWT_LifetimeOption_RejectsOnlyWhenSetAndOutsideLifetime(Boolean validateLifetime, TokenLifetime tokenLifetime, Type? expectedExceptionType)
     {
         // Arrange
         String secret = Guid.NewGuid().ToString();
-        String jwt = CreateToken(secret, null, null, isTokenExpired);
+        String jwt = CreateToken(secret, null, null, tokenLifetime);
 
         IJWTValidatorOptionsBuilderFinisher jwtValidatorOptionsBuilder = JWTValidatorOptionsBuilderCreator
             .Create()
@@ -205,21 +215,32 @@ public class JWTValidatorTests
     }
 
     // A null issuer or audience leaves that claim out of the token.
-    private static String CreateToken(String secret, String? issuer, String? audience, Boolean isExpired)
+    private static String CreateToken(String secret, String? issuer, String? audience, TokenLifetime tokenLifetime)
     {
-        // The library checks the lifetime against the real clock, so a token that is not expired must use it too.
-        DateTime issuedAt = isExpired
-            ? new DateTime(2020, 1, 1, 12, 0, 0, DateTimeKind.Utc)
-            : DateTime.UtcNow.AddHours(-1);
-        DateTime expiryDate = isExpired
-            ? new DateTime(2020, 1, 2, 12, 0, 0, DateTimeKind.Utc)
-            : DateTime.UtcNow.AddDays(1);
+        // IdentityModel checks the lifetime against the real clock, so these times use it too.
+        // Each margin is at least one hour, so a slow test run cannot change the result (plan 7.1).
+        DateTime issuedAt = DateTime.UtcNow.AddHours(-1);
+        DateTime notBefore = issuedAt;
+        DateTime expiryDate = DateTime.UtcNow.AddDays(1);
+
+        if (tokenLifetime == TokenLifetime.Expired)
+        {
+            issuedAt = new DateTime(2020, 1, 1, 12, 0, 0, DateTimeKind.Utc);
+            notBefore = issuedAt;
+            expiryDate = new DateTime(2020, 1, 2, 12, 0, 0, DateTimeKind.Utc);
+        }
+
+        if (tokenLifetime == TokenLifetime.NotYetValid)
+        {
+            notBefore = DateTime.UtcNow.AddDays(1);
+            expiryDate = DateTime.UtcNow.AddDays(2);
+        }
 
         IJWTOptionsBuilderFinisher jwtOptionsBuilder = JWTOptionsBuilderCreator
             .Create()
             .WithSecret(secret)
             .WithIssuedAt(issuedAt)
-            .WithNotBefore(issuedAt)
+            .WithNotBefore(notBefore)
             .WithExpiryDate(expiryDate);
 
         if (issuer is not null)

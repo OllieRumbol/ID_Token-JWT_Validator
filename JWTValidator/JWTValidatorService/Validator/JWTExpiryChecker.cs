@@ -4,11 +4,19 @@ namespace JWTValidatorService.Validator;
 
 public class JWTExpiryChecker : IJWTExpiryChecker
 {
-    private IJWTValidator JwtValidator;
+    private readonly IJWTValidator JwtValidator;
+    private readonly TimeProvider TimeProvider;
 
-    public JWTExpiryChecker() => JwtValidator = new JWTValidator();
+    public JWTExpiryChecker() : this(new JWTValidator(), TimeProvider.System) { }
 
-    public JWTExpiryChecker(IJWTValidator jwtValidator) => JwtValidator = jwtValidator;
+    public JWTExpiryChecker(IJWTValidator jwtValidator) : this(jwtValidator, TimeProvider.System) { }
+
+    // Internal so that tests can control the current time without a change to the public API.
+    internal JWTExpiryChecker(IJWTValidator jwtValidator, TimeProvider timeProvider)
+    {
+        JwtValidator = jwtValidator;
+        TimeProvider = timeProvider;
+    }
 
     public Boolean HasJWTExpired(String jwt, String signingKey)
     {
@@ -22,9 +30,9 @@ public class JWTExpiryChecker : IJWTExpiryChecker
             throw new ArgumentException(nameof(signingKey));
         }
 
-        DateTime expiryDate = WhenDoesJWTExpire(jwt, signingKey); 
-        
-        return expiryDate < DateTime.UtcNow;
+        DateTime expiryDate = WhenDoesJWTExpire(jwt, signingKey);
+
+        return expiryDate < TimeProvider.GetUtcNow().UtcDateTime;
     }
 
     public Boolean HasJWTExpired(String jwt, Uri openIdUrl)
@@ -36,7 +44,7 @@ public class JWTExpiryChecker : IJWTExpiryChecker
 
         DateTime expiryDate = WhenDoesJWTExpire(jwt, openIdUrl);
 
-        return expiryDate < DateTime.UtcNow;
+        return expiryDate < TimeProvider.GetUtcNow().UtcDateTime;
     }
 
     public Boolean TryHasJWTExpired(String jwt, String signingKey, out Boolean isExpired)
@@ -152,8 +160,8 @@ public class JWTExpiryChecker : IJWTExpiryChecker
         }
 
         Double seconds = Double.Parse(expiryDate.First());
-        DateTime expirationDateTime = new DateTime(1970, 1, 1, 0, 0, 0);
-        expirationDateTime = expirationDateTime.AddSeconds(seconds).ToLocalTime();
+        // UnixEpoch is UTC, so the result is UTC. An exp later than year 9999 makes AddSeconds throw.
+        DateTime expirationDateTime = DateTime.UnixEpoch.AddSeconds(seconds);
 
         return expirationDateTime;
     }

@@ -34,6 +34,11 @@
     </None>
   </ItemGroup>
 
+  <!-- Lets the tests use the internal constructors. No other assembly sees the internals. -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="JWTValidatorTests" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.IdentityModel.Protocols" />
     <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" />
