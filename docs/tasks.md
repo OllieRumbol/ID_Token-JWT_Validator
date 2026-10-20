@@ -110,7 +110,7 @@ Goal: The expiry defect is fixed, and every push and pull request is built and t
     - Not changed, because plan 3.3 keeps the parsing line: `Double.Parse` of `exp` uses the current culture, so a fractional `exp` is misread on, for example, de-DE. No task takes it yet.
     - Evidence: pull request #13
 
-- [ ] **T7 — Add the CI build job**
+- [x] **T7 — Add the CI build job**
   - Refs: spec 6.1.8, spec 6.6 items 1 and 4, plan 1.1 (workflow shape), plan 7.1 (time zones), plan 8.1 (job `build`)
   - Depends on: T6
   - Done when:
@@ -120,9 +120,10 @@ Goal: The expiry defect is fixed, and every push and pull request is built and t
     - The pull request for this task shows a passing run, and the run log shows the tests running twice: once in UTC and once in Asia/Kolkata.
     - The maintainer has added the build check to the required status checks of the Protect main ruleset.
   - Verify: `gh run list --workflow ci.yml --branch <branch> --limit 1` shows `completed success`. `gh run view <id> --log` shows both test runs. `gh api repos/OllieRumbol/ID_Token-JWT_Validator/rulesets/24939760` lists `build` in `required_status_checks`.
-  - Notes: No publish job yet. Use the current major versions of `actions/checkout`, `actions/setup-dotnet` and `actions/upload-artifact`. From this task on, every pull request must pass CI before merging. Run `/code-review` before ticking.
-    - Decision: the maintainer chose the `do-task` skill workflow from T7 on. This task updated the branch naming and push lines in the header to match.
-    - Checkpoint (2026-10-20): `ci.yml` is in pull request #14. Its push and pull request runs passed. The log shows 44 tests passed in UTC and 44 in Asia/Kolkata, and the package `0.0.0-ci.2` was uploaded. The task reviewer found no blockers. Next: the maintainer adds `build` to the required checks of "Protect main", then Claude runs the ruleset part of Verify and ticks T7.
+  - Notes: No publish job yet (T13). Actions: `checkout@v7`, `setup-dotnet@v6`, `upload-artifact@v7`. The ruleset now requires `build` from GitHub Actions, so every pull request must pass CI before merging.
+    - Decision: the maintainer chose the `do-task` skill workflow from T7 on. This task updated the header to match.
+    - Review points not applied: the plan 8.1 tag pattern accepts labels such as `v2.0.0-.`, which then fail at pack, not at the version step (relevant to T15). A failed UTC test run skips the Kolkata run.
+    - Evidence: pull request #14
 
 ## Phase 4 — Remaining library changes
 
@@ -244,3 +245,4 @@ None.
 - 2026-10-16 — T4
 - 2026-10-16 — T5
 - 2026-10-20 — T6
+- 2026-10-20 — T7
