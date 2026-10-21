@@ -149,7 +149,7 @@ public class JWTExpiryChecker : IJWTExpiryChecker
             throw new Exception("Unable to validate JWT");
         }
 
-        if (result.TryGetValue("exp", out List<String> expiryDate) == false)
+        if (result.TryGetValue("exp", out List<String>? expiryDate) == false)
         {
             throw new Exception("Jwt does not contain an expiry");
         }
