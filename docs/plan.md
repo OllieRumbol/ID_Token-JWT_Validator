@@ -129,6 +129,7 @@ DateTime expirationDateTime = DateTime.UnixEpoch.AddSeconds(seconds);
 
 ```csharp
 public static Boolean IsEmpty<TKey, TValue>([NotNullWhen(false)] this Dictionary<TKey, List<TValue>>? dictionary)
+    where TKey : notnull
 {
     return dictionary is null || dictionary.Count == 0;
 }
@@ -162,7 +163,7 @@ public static Boolean IsEmpty<TKey, TValue>([NotNullWhen(false)] this Dictionary
 | Vulnerable packages | Set `NuGetAuditMode` to `all` and treat `NU1901` to `NU1904` as errors in `Directory.Build.props`. `NU1900` (vulnerability data could not be downloaded) stays a warning, so a nuget.org outage does not fail the build. | Spec section 6.1.8, item 2. The same rule applies locally and in CI. | Only in CI. |
 | `SECURITY.md` and `CONTRIBUTING.md` | Not added in this release | The owner's standard asks for them in public repositories, but they are not part of the spec. They are a candidate for a later change. | Adding them now, which widens the scope. |
 | Code style in changed files | Follow the existing style: `String` and `Boolean` type names, and private fields in `PascalCase` | Consistency within each file. Changing the style everywhere is unrelated work. | The style in the global C# rules (`string`, `_camelCase`) for new lines only. It would mix two styles in one file. |
-| Other warnings | Fix the nullable warnings in `DictionaryExtensions.cs` and `JWTExpiryChecker.cs`: a `notnull` constraint on `TKey`, `Equals(a, b)` in place of `a.Equals(b)` for list values, and a nullable `out` variable. Warnings are still not treated as errors. | They appear on every pull request that changes these files. Each fix is one line. For non-null values, the results do not change. A `null` value inside a list no longer throws (spec 6.1.4, item 2). | Leaving them, which keeps the noise. `TreatWarningsAsErrors`, which is more than this release needs. |
+| Other warnings | Fix the nullable warnings in `DictionaryExtensions.cs` and `JWTExpiryChecker.cs`: a `notnull` constraint on `TKey`, `Equals(a, b)` in place of `a.Equals(b)` for list values, and a nullable `out` variable. Warnings are still not treated as errors. | They appear on every pull request that changes these files. Each fix is one line. For non-null values, the results do not change. As a side effect, a `null` value inside a list no longer throws. No spec item requires this; plan 7.2 test 18 keeps it. | Leaving them, which keeps the noise. `TreatWarningsAsErrors`, which is more than this release needs. |
 
 The release decision gets an ADR: `docs/adr/0001-release-by-tag-with-trusted-publishing.md`.
 
@@ -243,7 +244,7 @@ Re-running the publish job is safe until a push succeeds. After that, a re-run f
 | 15 | Data-driven over the OpenID rows in spec section 6.2: RS256 tokens signed with K1, K2 and K3, validated against a configuration that holds K1 and K2. Checks the result, the `role` claim, and that the factory received the URL from the options. | 6.1.2 items 3 and 4, 6.2 | The OpenID path broken by the IdentityModel upgrade; key rotation not supported; a token signed with an unknown key accepted; the wrong URL used |
 | 16 | `JWTExpiryChecker`, built with a `JWTValidator` that uses the test configuration and with the fake clock, returns the `exp` of an RS256 token from `WhenDoesJWTExpire(jwt, Uri)` as UTC. `HasJWTExpired(jwt, Uri)` returns `false` one second before `exp` and `true` one second after. | 6.1.2 item 3, 6.1.3 items 1 and 2 | The `Uri` overloads of the expiry checker broken; the comparison defect on the `Uri` path (spec section 4.1, item 1) |
 | 17 | Claims baseline: a token with a string, a boolean, an integer, a decimal number, an array and a nested object claim. The expected dictionary is recorded from what the library returns **before** the IdentityModel upgrade. | 6.1.2 item 1 | A change in how claim values are written after IdentityModel moved from Newtonsoft.Json to System.Text.Json |
-| 18 | `ContainsKeyAndValue` and `ContainsValueInList` on a dictionary whose list holds a `null` value return `false` for `"member"`, and do not throw | 6.1.4 item 2 | A null reference exception from a `null` value inside a list |
+| 18 | `ContainsKeyAndValue` and `ContainsValueInList` on a dictionary whose list holds a `null` value return `false` for `"member"`, and do not throw | — (side effect of the warning fix in section 3.4) | A null reference exception from a `null` value inside a list |
 
 **Test token notes.**
 * Tests 4 and 8 use the hand-signing method in the test helper (section 3.2). IdentityModel 8 cannot sign with a key shorter than the algorithm's minimum (test 8). The helper supports HS256 and HS512. IdentityModel's own token handler always adds an `exp` claim, and a .NET date cannot hold year 10000, so test 4 needs the hand-signing method.

@@ -163,8 +163,8 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
     - A build of the solution shows no warnings in `DictionaryExtensions.cs` or `JWTExpiryChecker.cs`.
   - Verify: `dotnet build JWTValidator/JWTValidator.slnx --no-incremental 2>&1 | grep -E "(DictionaryExtensions|JWTExpiryChecker)\.cs.*warning"` (expected: no output), then `dotnet test JWTValidator/JWTValidator.slnx`.
   - Notes: Before the fix, the `IsEmpty` test on an empty dictionary must fail. Run `/code-review` before ticking.
-    - Before the fix, 5 new cases failed: `IsEmpty` on an empty dictionary failed its assert, and the 4 null cases threw.
-    - The maintainer added the warning fixes and test 18 to this task after the pull request showed the older warnings. Plan 3.3, 3.4 and 7.2 were updated to match.
+    - Before the fix, 5 new cases failed (`IsEmpty` on an empty dictionary, and 4 null cases threw). Both test 18 cases threw too.
+    - The maintainer added the warning fixes and test 18 after the pull request showed the older warnings. Plan 3.3, 3.4 and 7.2 were updated; no spec item requires test 18.
     - Not changed: an entry whose list itself is `null` still makes the methods throw. Spec 6.1.4 covers only a null or empty dictionary.
     - Evidence: pull request #18
 
