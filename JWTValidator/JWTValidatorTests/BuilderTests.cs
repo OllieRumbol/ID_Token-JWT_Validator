@@ -57,4 +57,32 @@ public class BuilderTests
         Assert.IsTrue(jwtValidatorOptions.ExpiryDate);
         Assert.AreEqual("world", jwtValidatorOptions.Issuer);
     }
+
+    // Plan 7.2 test 9. The builder does not check the secret length. Validation rejects a short secret (spec 6.1.6).
+    [TestMethod]
+    public void WithSigningKeyFromSecret_SecretOf31Bytes_IsAccepted()
+    {
+        // Arrange
+        String secret = new String('k', 31);
+
+        // Act
+        JWTValidatorOptions jwtValidatorOptions = JWTValidatorOptionsBuilderCreator
+            .Create()
+            .WithSigningKeyFromSecret(secret)
+            .Build();
+
+        // Assert
+        Assert.AreEqual(secret, jwtValidatorOptions.Secret);
+    }
+
+    // Plan 7.2 test 9. The builder still rejects an empty secret, as in version 1.0.3.
+    [TestMethod]
+    public void WithSigningKeyFromSecret_EmptySecret_ThrowsArgumentNullException()
+    {
+        // Arrange
+        JWTValidatorOptionsBuilderCreator jwtValidatorOptionsBuilderCreator = JWTValidatorOptionsBuilderCreator.Create();
+
+        // Act and Assert
+        Assert.ThrowsExactly<ArgumentNullException>(() => jwtValidatorOptionsBuilderCreator.WithSigningKeyFromSecret(String.Empty));
+    }
 }

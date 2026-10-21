@@ -203,6 +203,55 @@ public class JWTValidatorTests
         AssertClaimsAreExactly(expected, result);
     }
 
+    // Plan 7.2 test 7, the secret length example in spec 6.2. HS256 needs a secret of at least 32 bytes.
+    [TestMethod]
+    public void TryValidateJWT_SecretOf32Bytes_ReturnsTrue()
+    {
+        // Arrange
+        String secret = new String('k', 32);
+        String jwt = SignTokenWithAlgorithm("HS256", secret);
+
+        JWTValidatorOptions jwtValidatorOptions = JWTValidatorOptionsBuilderCreator
+            .Create()
+            .WithSigningKeyFromSecret(secret)
+            .Build();
+
+        // Act
+        Boolean isJWTValid = new JWTValidator().TryValidateJWT(jwt, jwtValidatorOptions, out Dictionary<String, List<String>> result);
+
+        // Assert
+        Assert.IsTrue(isJWTValid);
+        CollectionAssert.AreEqual(new List<String> { "member" }, result["role"]);
+    }
+
+    // Plan 7.2 test 8, the secret length rows in spec 6.2. Each token is correctly signed with its own secret,
+    // so a secret shorter than the algorithm's minimum is the only reason it can fail.
+    // IdentityModel cannot use a key that is too short, so it reports that no signing key matched.
+    // A null expected exception means the token is valid.
+    [TestMethod]
+    [DataRow("HS256", 31, typeof(SecurityTokenSignatureKeyNotFoundException), DisplayName = "HS256 with a 31-byte secret")]
+    [DataRow("HS512", 63, typeof(SecurityTokenSignatureKeyNotFoundException), DisplayName = "HS512 with a 63-byte secret")]
+    [DataRow("HS512", 64, null, DisplayName = "HS512 with a 64-byte secret")]
+    public void ValidateJWT_SecretLength_RejectsOnlySecretsShorterThanAlgorithmMinimum(String algorithm, Int32 secretLength, Type? expectedExceptionType)
+    {
+        // Arrange
+        String secret = new String('k', secretLength);
+        String jwt = SignTokenWithAlgorithm(algorithm, secret);
+
+        JWTValidatorOptions jwtValidatorOptions = JWTValidatorOptionsBuilderCreator
+            .Create()
+            .WithSigningKeyFromSecret(secret)
+            .Build();
+
+        // Act
+        Boolean isJWTValid = new JWTValidator().TryValidateJWT(jwt, jwtValidatorOptions, out _);
+        Type? exceptionType = GetValidationExceptionType(jwt, jwtValidatorOptions);
+
+        // Assert
+        Assert.AreEqual(expectedExceptionType is null, isJWTValid);
+        Assert.AreEqual(expectedExceptionType, exceptionType);
+    }
+
     // Checks the exact set of claim keys, then the values of each claim in order.
     private static void AssertClaimsAreExactly(Dictionary<String, List<String>> expected, Dictionary<String, List<String>> actual)
     {
@@ -254,6 +303,16 @@ public class JWTValidatorTests
         }
 
         return new JWTFactory().GenerateToken(jwtOptionsBuilder.Build());
+    }
+
+    // Signs by hand, because the token handler cannot sign with a key shorter than the algorithm's minimum.
+    // The token has no exp, so it never expires.
+    private static String SignTokenWithAlgorithm(String algorithm, String secret)
+    {
+        String header = $$"""{"alg":"{{algorithm}}","typ":"JWT"}""";
+        String payload = """{"role":"member"}""";
+
+        return new JWTFactory().SignToken(header, payload, secret);
     }
 
     // Returns the exact type of the exception that ValidateJWT throws, or null when the token is valid.

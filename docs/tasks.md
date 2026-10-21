@@ -2,7 +2,7 @@
 
 > **What this document is for:** It answers *what do we do next?* It splits the approved design into small, verifiable steps and tracks progress against them.
 
-Last updated: 2026-10-20
+Last updated: 2026-10-21
 
 Tasks T1 to T13 are each one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
@@ -129,14 +129,16 @@ Goal: The expiry defect is fixed, and every push and pull request is built and t
 
 Goal: The other defects in spec 3, goal 3 are fixed, and the package page is correct.
 
-- [ ] **T8 — Test the minimum secret length**
+- [x] **T8 — Test the minimum secret length**
   - Refs: spec 6.1.6, spec 6.2 (secret length), plan 3.4 (short secret), plan 7.2 tests 7 to 9
   - Depends on: T7
   - Done when:
     - Plan 7.2 tests 7 to 9 exist and pass.
     - The library code is unchanged.
   - Verify: `dotnet test JWTValidator/JWTValidator.slnx`
-  - Notes: Test 8 uses the hand-signing method added in T6, so each token is correctly signed with its own key and fails only because of the key length.
+  - Notes: Tests 7 and 8 use the hand-signing method added in T6, so each token is correctly signed with its own key and fails only because of the key length.
+    - IdentityModel 8.23.0 throws `SecurityTokenSignatureKeyNotFoundException` for a too-short key. Test 8 asserts that exact type, as test 14 does, so an IdentityModel update that changes it shows up.
+    - Evidence: pull request #16
 
 - [ ] **T9 — Test the OpenID URL path offline**
   - Refs: spec 6.1.2 items 3 and 4, spec 6.2 (OpenID URL path), plan 3.2, plan 3.3, plan 3.4 (OpenID keys in tests), plan 7.2 tests 15 and 16
@@ -246,3 +248,4 @@ None.
 - 2026-10-16 — T5
 - 2026-10-20 — T6
 - 2026-10-20 — T7
+- 2026-10-21 — T8
