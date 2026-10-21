@@ -1,10 +1,11 @@
-﻿using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace JWTValidatorService.Extensions;
 
 public static class DictionaryExtensions
 {
-    public static String Print<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary)
+    public static String Print<TKey, TValue>(this Dictionary<TKey, List<TValue>>? dictionary)
     {
         if (dictionary.IsEmpty())
         {
@@ -21,7 +22,7 @@ public static class DictionaryExtensions
         return bobTheBuilder.ToString();
     }
 
-    public static Boolean ContainsKeyAndValue<TKey, TValue, T>(this Dictionary<TKey, List<TValue>> dictionary, T key, T value)
+    public static Boolean ContainsKeyAndValue<TKey, TValue, T>(this Dictionary<TKey, List<TValue>>? dictionary, T key, T value)
     {
         if (dictionary.IsEmpty())
         {
@@ -37,7 +38,7 @@ public static class DictionaryExtensions
         return result.Value.Any(x => x.Equals(value));
     }
 
-    public static Boolean ContainsValueInList<TKey, TValue, T>(this Dictionary<TKey, List<TValue>> dictionary, T value )
+    public static Boolean ContainsValueInList<TKey, TValue, T>(this Dictionary<TKey, List<TValue>>? dictionary, T value )
     {
         if(dictionary.IsEmpty())
         {
@@ -58,13 +59,9 @@ public static class DictionaryExtensions
         return false;
     }
 
-    public static Boolean IsEmpty<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary)
+    // NotNullWhen(false) tells the compiler that the dictionary is not null after a false result.
+    public static Boolean IsEmpty<TKey, TValue>([NotNullWhen(false)] this Dictionary<TKey, List<TValue>>? dictionary)
     {
-        if (dictionary is not null || dictionary.Count > 0)
-        {
-            return false;
-        }
-
-        return true;
+        return dictionary is null || dictionary.Count == 0;
     }
 }
