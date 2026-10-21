@@ -140,7 +140,7 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
     - IdentityModel 8.23.0 throws `SecurityTokenSignatureKeyNotFoundException` for a too-short key. Test 8 asserts that exact type, as test 14 does, so an IdentityModel update that changes it shows up.
     - Evidence: pull request #16
 
-- [ ] **T9 — Test the OpenID URL path offline**
+- [x] **T9 — Test the OpenID URL path offline**
   - Refs: spec 6.1.2 items 3 and 4, spec 6.2 (OpenID URL path), plan 3.2, plan 3.3, plan 3.4 (OpenID keys in tests), plan 7.2 tests 15 and 16
   - Depends on: T7
   - Done when:
@@ -150,6 +150,9 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
     - All tests pass.
   - Verify: `dotnet test JWTValidator/JWTValidator.slnx`
   - Notes: Generate the RSA keys in the test with `RSA.Create(2048)`. Before wiring the factory into `GetTokenValidationParameters`, test 15 must fail; check this once. Run `/code-review` before ticking.
+    - Before the wiring, all 6 new cases failed. The tests are in `OpenIdUrlTests.cs`, and the URL is on `.invalid`, so a download can never pass them.
+    - Not tested: the URL that the expiry checker's `Uri` overloads pass on (`Uri.ToString()`), and that `kid` is in the header. Both reviews rated these non-blocking.
+    - Evidence: pull request #17
 - [ ] **T10 — Fix `IsEmpty` and null dictionaries**
   - Refs: spec 4.1 item 8, spec 6.1.4, spec 6.2 (dictionary extensions), plan 3.3, plan 7.2 tests 10 and 11
   - Depends on: T7
@@ -249,3 +252,4 @@ None.
 - 2026-10-20 — T6
 - 2026-10-20 — T7
 - 2026-10-21 — T8
+- 2026-10-21 — T9
