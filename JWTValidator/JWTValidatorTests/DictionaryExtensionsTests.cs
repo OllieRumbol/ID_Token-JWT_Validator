@@ -82,6 +82,34 @@ public class DictionaryExtensionsTests
         Assert.IsFalse(result);
     }
 
+    // Plan 7.2 test 18. A null value inside a list is compared, not dereferenced.
+    [TestMethod]
+    public void ContainsKeyAndValue_ListHoldsNullValue_ReturnsFalse()
+    {
+        // Arrange
+        Dictionary<String, List<String?>> dictionary = new Dictionary<String, List<String?>> { { "role", new List<String?> { null } } };
+
+        // Act
+        Boolean result = dictionary.ContainsKeyAndValue("role", "member");
+
+        // Assert
+        Assert.IsFalse(result);
+    }
+
+    // Plan 7.2 test 18. A null value inside a list is compared, not dereferenced.
+    [TestMethod]
+    public void ContainsValueInList_ListHoldsNullValue_ReturnsFalse()
+    {
+        // Arrange
+        Dictionary<String, List<String?>> dictionary = new Dictionary<String, List<String?>> { { "role", new List<String?> { null } } };
+
+        // Act
+        Boolean result = dictionary.ContainsValueInList("member");
+
+        // Assert
+        Assert.IsFalse(result);
+    }
+
     private static Dictionary<String, List<String>>? CreateDictionary(ExampleDictionary exampleDictionary)
     {
         return exampleDictionary switch

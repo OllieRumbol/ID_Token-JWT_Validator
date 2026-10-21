@@ -154,16 +154,18 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
     - Not tested: the URL that the expiry checker's `Uri` overloads pass on (`Uri.ToString()`), and that `kid` is in the header. Both reviews rated these non-blocking.
     - Evidence: pull request #17
 - [x] **T10 — Fix `IsEmpty` and null dictionaries**
-  - Refs: spec 4.1 item 8, spec 6.1.4, spec 6.2 (dictionary extensions), plan 3.3, plan 7.2 tests 10 and 11
+  - Refs: spec 4.1 item 8, spec 6.1.4, spec 6.2 (dictionary extensions), plan 3.3, plan 3.4 (other warnings), plan 7.2 tests 10, 11 and 18
   - Depends on: T7
   - Done when:
     - `IsEmpty` returns `true` for a `null` or empty dictionary.
     - All four extension methods accept a nullable dictionary and do not throw on `null`.
-    - Plan 7.2 tests 10 and 11 exist and pass.
-  - Verify: `dotnet test JWTValidator/JWTValidator.slnx`
+    - Plan 7.2 tests 10, 11 and 18 exist and pass.
+    - A build of the solution shows no warnings in `DictionaryExtensions.cs` or `JWTExpiryChecker.cs`.
+  - Verify: `dotnet build JWTValidator/JWTValidator.slnx --no-incremental 2>&1 | grep -E "(DictionaryExtensions|JWTExpiryChecker)\.cs.*warning"` (expected: no output), then `dotnet test JWTValidator/JWTValidator.slnx`.
   - Notes: Before the fix, the `IsEmpty` test on an empty dictionary must fail. Run `/code-review` before ticking.
-    - Before the fix, 5 new cases failed: `IsEmpty` on an empty dictionary failed its assert, and the 4 null cases threw. Warnings in `DictionaryExtensions.cs` went from 8 to 7, none new.
-    - Not changed: an entry with a `null` list or `null` element still makes the methods throw. Spec 6.1.4 covers only a null or empty dictionary.
+    - Before the fix, 5 new cases failed: `IsEmpty` on an empty dictionary failed its assert, and the 4 null cases threw.
+    - The maintainer added the warning fixes and test 18 to this task after the pull request showed the older warnings. Plan 3.3, 3.4 and 7.2 were updated to match.
+    - Not changed: an entry whose list itself is `null` still makes the methods throw. Spec 6.1.4 covers only a null or empty dictionary.
     - Evidence: pull request #18
 
 - [ ] **T11 — Stop turning on personal-data logging**
