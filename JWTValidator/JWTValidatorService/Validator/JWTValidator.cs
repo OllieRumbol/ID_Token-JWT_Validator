@@ -10,6 +10,16 @@ namespace JWTValidatorService.Validator;
 
 public class JWTValidator : IJWTValidator
 {
+    private readonly Func<String, IConfigurationManager<OpenIdConnectConfiguration>> ConfigurationManagerFactory;
+
+    public JWTValidator() : this(CreateConfigurationManager) { }
+
+    // Internal so that tests can supply the OpenID configuration without a download and without a change to the public API.
+    internal JWTValidator(Func<String, IConfigurationManager<OpenIdConnectConfiguration>> configurationManagerFactory)
+    {
+        ConfigurationManagerFactory = configurationManagerFactory;
+    }
+
     public Boolean TryValidateJWT(String jwt, JWTValidatorOptions options, out Dictionary<String, List<String>> result)
     {
         try
@@ -62,7 +72,7 @@ public class JWTValidator : IJWTValidator
         }
         else
         {
-            IConfigurationManager<OpenIdConnectConfiguration> configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(options.OpenIdUrl, new OpenIdConnectConfigurationRetriever());
+            IConfigurationManager<OpenIdConnectConfiguration> configurationManager = ConfigurationManagerFactory(options.OpenIdUrl);
             OpenIdConnectConfiguration openIdConfig = configurationManager.GetConfigurationAsync(CancellationToken.None).Result;
             validationParameters.IssuerSigningKeys = openIdConfig.SigningKeys;
         }
@@ -93,6 +103,12 @@ public class JWTValidator : IJWTValidator
         validationParameters.ValidateLifetime = options.ExpiryDate;
 
         return validationParameters;
+    }
+
+    // Downloads the OpenID configuration, with its signing keys, from the URL.
+    private static IConfigurationManager<OpenIdConnectConfiguration> CreateConfigurationManager(String openIdUrl)
+    {
+        return new ConfigurationManager<OpenIdConnectConfiguration>(openIdUrl, new OpenIdConnectConfigurationRetriever());
     }
 
     private Dictionary<String, List<String>> GetDictionaryOfClaims(IEnumerable<Claim> claims)

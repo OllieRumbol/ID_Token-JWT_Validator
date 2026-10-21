@@ -23,16 +23,16 @@ public class JWTFactory : IJWTFactory
     // The fixed times keep the claims that tests expect the same on every run.
     public String GenerateToken(String secret, Dictionary<String, Object> claims, DateTime issuedAt, DateTime notBefore, DateTime expiryDate)
     {
-        SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Claims = claims,
-            IssuedAt = issuedAt,
-            NotBefore = notBefore,
-            Expires = expiryDate,
-            SigningCredentials = CreateSigningCredentials(secret)
-        };
+        return GenerateToken(CreateSigningCredentials(secret), claims, issuedAt, notBefore, expiryDate);
+    }
 
-        return CreateToken(tokenDescriptor);
+    // Signs with RS256 and puts the key ID in the header, as an OpenID provider does.
+    public String GenerateToken(RSA rsa, String keyId, Dictionary<String, Object> claims, DateTime issuedAt, DateTime notBefore, DateTime expiryDate)
+    {
+        RsaSecurityKey securityKey = new RsaSecurityKey(rsa) { KeyId = keyId };
+        SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.RsaSha256);
+
+        return GenerateToken(signingCredentials, claims, issuedAt, notBefore, expiryDate);
     }
 
     // Signs a token by hand, for a token that the token handler cannot create,
@@ -78,6 +78,20 @@ public class JWTFactory : IJWTFactory
         };
 
         return tokenDescriptor;
+    }
+
+    private String GenerateToken(SigningCredentials signingCredentials, Dictionary<String, Object> claims, DateTime issuedAt, DateTime notBefore, DateTime expiryDate)
+    {
+        SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Claims = claims,
+            IssuedAt = issuedAt,
+            NotBefore = notBefore,
+            Expires = expiryDate,
+            SigningCredentials = signingCredentials
+        };
+
+        return CreateToken(tokenDescriptor);
     }
 
     private SigningCredentials CreateSigningCredentials(String secret)
