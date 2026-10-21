@@ -232,7 +232,7 @@ public class JWTValidatorTests
     [DataRow("HS256", 31, typeof(SecurityTokenSignatureKeyNotFoundException), DisplayName = "HS256 with a 31-byte secret")]
     [DataRow("HS512", 63, typeof(SecurityTokenSignatureKeyNotFoundException), DisplayName = "HS512 with a 63-byte secret")]
     [DataRow("HS512", 64, null, DisplayName = "HS512 with a 64-byte secret")]
-    public void ValidateJWT_SecretShorterThanAlgorithmMinimum_IsRejected(String algorithm, Int32 secretLength, Type? expectedExceptionType)
+    public void ValidateJWT_SecretLength_RejectsOnlySecretsShorterThanAlgorithmMinimum(String algorithm, Int32 secretLength, Type? expectedExceptionType)
     {
         // Arrange
         String secret = new String('k', secretLength);
