@@ -16,7 +16,7 @@ The biggest use case of this library is to validate "ID Tokens" from the OAuth l
 - The package depends on version 8 of the Microsoft IdentityModel packages.
 
 ## Secret length
-When a token is signed with a secret (HMAC), the secret must be at least as long as the algorithm needs. The length is counted in UTF-8 bytes. A shorter secret fails validation: `ValidateJWT` throws and `TryValidateJWT` returns `false`.
+When a token is signed with a secret (HMAC), the secret must be at least as long as the algorithm needs. The length is counted in UTF-8 bytes. A shorter secret fails validation: `ValidateJWT` throws and `TryValidateJWT` returns `false`. IdentityModel reports it as `SecurityTokenSignatureKeyNotFoundException` (IDX10517), not as an error about the length, so check the secret length first when you see this exception.
 
 | Algorithm | Minimum secret length |
 | --- | --- |
@@ -32,7 +32,7 @@ Start with `JWTValidatorOptionsBuilderCreator.Create()`, then choose where the s
 Then add the checks you need, and call `Build()`:
 - `WithIssuer(issuer)` checks who issued the token.
 - `WithAudience(audience)` checks who the token is for.
-- `WithExpiryDate()` checks that the token has not expired and is already valid.
+- `WithExpiryDate()` checks that the token has not expired and is already valid. IdentityModel allows a clock skew of 5 minutes, so a token stays valid for up to 5 minutes after its expiry time.
 
 ## Example
 ```csharp
@@ -63,6 +63,8 @@ Boolean hasMemberRole = claims.ContainsKeyAndValue("role", "member");
 Boolean hasMemberValue = claims.ContainsValueInList("member");
 
 // The expiry is returned in UTC.
-DateTime expiryDate = new JWTExpiryChecker().WhenDoesJWTExpire(jwt, secret);
-Boolean hasExpired = new JWTExpiryChecker().HasJWTExpired(jwt, secret);
+if (new JWTExpiryChecker().TryGetWhenDoesJWTExpire(jwt, secret, out DateTime expiryDate))
+{
+    Console.WriteLine($"The JWT expires at {expiryDate:u}");
+}
 ```

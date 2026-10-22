@@ -16,7 +16,7 @@
     <!-- A placeholder for local builds. CI sets the release version from the tag. -->
     <Version>0.0.0-local</Version>
     <PackageReleaseNotes>
-Version 2.0.0
+Changes in 2.0.0, compared with 1.0.3
 
 Breaking changes:
 1. .NET 10 only. .NET 6, 7, 8 and 9 are no longer supported.
