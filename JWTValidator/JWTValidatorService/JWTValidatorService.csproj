@@ -15,7 +15,21 @@
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <!-- A placeholder for local builds. CI sets the release version from the tag. -->
     <Version>0.0.0-local</Version>
-    <PackageReleaseNotes>With the release of version 1.0.3 comes huge new functionality for developers to understand if and when a JWT expires</PackageReleaseNotes>
+    <PackageReleaseNotes>
+Changes in 2.0.0, compared with 1.0.3
+
+Breaking changes:
+1. .NET 10 only. .NET 6, 7, 8 and 9 are no longer supported.
+2. A secret shorter than the minimum for the token's algorithm no longer validates: 32 bytes for HS256, 48 for HS384 and 64 for HS512.
+3. WhenDoesJWTExpire returns UTC, not local time. HasJWTExpired gives the correct result in every time zone.
+4. IsEmpty returns true for an empty or null dictionary.
+5. The library no longer turns on personal-data logging (IdentityModelEventSource.ShowPII). An application that wants it turns it on itself.
+6. The package now depends on version 8 of the Microsoft IdentityModel packages, not version 6. This can affect applications that also use those packages directly.
+
+Other changes:
+- With lifetime validation on, a token whose exp is after 19 January 2038 now validates. Version 1.0.3 rejected it.
+- The dictionary extension methods no longer throw for a null dictionary, or for a null value inside a list.
+    </PackageReleaseNotes>
     <PackageProjectUrl>https://ollierumbol.github.io/JWTValidator</PackageProjectUrl>
   </PropertyGroup>
 

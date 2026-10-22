@@ -107,7 +107,7 @@ Goal: The expiry defect is fixed, and every push and pull request is built and t
   - Notes: `Microsoft.Extensions.TimeProvider.Testing` 10.11.0 is referenced by the test project only. Test 1 failed before the fix (`Kind` was `Local`). Verify passed on a UTC+1 machine.
     - For T8: `JWTFactory.SignToken(header, payload, secret)` signs HS256 or HS512 by hand. The header's `alg` selects the algorithm, and the key is the secret's UTF-8 bytes, as the library reads it.
     - For T7: test 2 sets the fake clock's local time zone, but the library reads no time zone. The `Kind` asserts and the CI run in Asia/Kolkata catch a local-time defect.
-    - Not changed, because plan 3.3 keeps the parsing line: `Double.Parse` of `exp` uses the current culture, so a fractional `exp` is misread on, for example, de-DE. No task takes it yet.
+    - `Double.Parse` of `exp` uses the current culture. T12 found that IdentityModel 8 already rounds a numeric `exp` to whole seconds, so a standard token is read correctly on, for example, de-DE. Only a non-standard string `exp` with a fraction is misread, and IdentityModel misreads it first.
     - Evidence: pull request #13
 
 - [x] **T7 — Add the CI build job**
@@ -181,15 +181,19 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
     - Not changed: the claim type map clear (spec 3, non-goals). `/code-review` rated it a real risk for consumers; a fix needs a spec change.
     - Evidence: pull request #19
 
-- [ ] **T12 — Update the README and release notes**
+- [x] **T12 — Update the README and release notes**
   - Refs: spec 4.1 item 9, spec 6.1.7, spec 6.6 item 5, plan 3.4 (release notes)
   - Depends on: T8, T9, T10, T11
   - Done when:
-    - The README example uses the real class and method names and compiles against the current code.
+    - Each README example uses the real class and method names and compiles against the current code.
     - The README states that the library targets .NET 10, and the minimum secret length for HS256, HS384 and HS512.
     - `PackageReleaseNotes` in the library project file describes 2.0.0 and lists the six changes in spec 6.1.7.
-  - Verify: Replace the whole contents of the console app's `Program.cs` with the README example. `dotnet build JWTValidator/JWTValidator.slnx` succeeds. Then restore `Program.cs` with `git checkout`.
+  - Verify: For each `csharp` code block in the README, replace the whole contents of the console app's `Program.cs` with that block, and check that `dotnet build JWTValidator/JWTValidator.slnx` succeeds. Then restore `Program.cs` with `git checkout`.
   - Notes: Any behaviour changes found in T5 also go into the release notes.
+    - The release notes start "Changes in 2.0.0, compared with 1.0.3", so they also fit the beta. A later version needs new notes.
+    - The maintainer asked for more README sections in the pull request, including a second example, so Verify now builds each code block.
+    - No repo test covers the HS384 48-byte minimum or the `exp`-after-2038 statement. A scratch run confirmed both.
+    - Evidence: pull request #20
 
 ## Phase 5 — Release
 
@@ -264,3 +268,4 @@ None.
 - 2026-10-21 — T9
 - 2026-10-21 — T10
 - 2026-10-22 — T11
+- 2026-10-22 — T12
