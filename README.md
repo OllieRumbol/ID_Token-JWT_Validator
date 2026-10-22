@@ -7,15 +7,17 @@ JWT Validator is a C# library that makes it simple to validate a JWT. Its main u
 - `JwtSecurityTokenHandler`
 - `ClaimsPrincipal`
 
-The library has three parts:
+The library has these parts:
 - An options builder, which sets what to validate and where the signing keys come from.
-- A validator, which says whether the JWT is valid and returns its claims as a dictionary. An expiry checker, which says when the JWT expires.
+- A validator, which says whether the JWT is valid and returns its claims as a dictionary.
+- An expiry checker, which says when the JWT expires and whether it has expired.
 - Extension methods for the claims dictionary.
 
 ## Installation
 ```
 dotnet add package JWTValidator
 ```
+To install a pre-release version, such as a 2.0.0 beta, add `--prerelease`.
 
 ## Requirements
 - .NET 10. Version 2.0.0 targets `net10.0` only.
@@ -47,9 +49,11 @@ When a token is signed with a secret (HMAC), the secret must be at least as long
 - `TryValidateJWT` returns `false` when the token is not valid. Use it when you only need a yes or no.
 - `ValidateJWT` throws when the token is not valid. The exception message says why, which helps when you debug.
 
-IdentityModel hides personal data in its messages, such as the token and the URL. To see it while you debug, set `IdentityModelEventSource.ShowPII = true` in your own application. The library does not turn it on.
+IdentityModel hides personal data in its messages, such as the token. To see it while you debug, set `IdentityModelEventSource.ShowPII = true` in your own application. The library does not turn it on.
 
-The expiry checker has the same pair of methods: `WhenDoesJWTExpire` throws, and `TryGetWhenDoesJWTExpire` returns `false`.
+The expiry checker has two pairs of methods, one that throws and one that returns `false`:
+- `WhenDoesJWTExpire` and `TryGetWhenDoesJWTExpire` give the expiry time in UTC.
+- `HasJWTExpired` and `TryHasJWTExpired` compare the expiry time with the current UTC time.
 
 ## Claims
 The validator returns the claims as `Dictionary<String, List<String>>`:
@@ -57,6 +61,7 @@ The validator returns the claims as `Dictionary<String, List<String>>`:
 - Every value is a string. A claim with an array holds one string for each item.
 - Numbers and booleans become text, for example `"42"` and `"true"`.
 - A nested object becomes one JSON string, for example `{"city":"London","floor":3}`.
+- A JSON `null` becomes an empty string.
 - The times `exp`, `nbf` and `iat` are Unix seconds, for example `"1793451600"`.
 
 ## Example: a token signed with a secret
@@ -104,6 +109,7 @@ Console.WriteLine("Enter the ID token");
 String idToken = Console.ReadLine() ?? "";
 
 // Use your own client ID as the audience.
+// WithIssuer takes one value. Google can also issue tokens with the issuer "accounts.google.com", without "https://".
 JWTValidatorOptions jwtValidatorOptions = JWTValidatorOptionsBuilderCreator
     .Create()
     .WithSigningKeyFromOpenIdUrl("https://accounts.google.com/.well-known/openid-configuration")
@@ -119,15 +125,14 @@ try
 }
 catch (Exception exception)
 {
-    // ValidateJWT throws when the token is not valid. The message says why.
-    Console.WriteLine(exception.Message);
+    // ValidateJWT throws when the token is not valid. A failed download is wrapped
+    // in another exception, so print the innermost message, which says why.
+    Console.WriteLine(exception.GetBaseException().Message);
 }
 ```
 
 ## Known limitations
-- Each validation clears `JwtSecurityTokenHandler.DefaultInboundClaimTypeMap`. This keeps claim names as they are in the token. The map is shared by the whole process, so it also changes the claim names for other code in your application that uses `JwtSecurityTokenHandler`.
+- Each validation clears `JwtSecurityTokenHandler.DefaultInboundClaimTypeMap`. This keeps claim names as they are in the token. The map is shared by the whole process, so it also changes the claim names for other code in your application that uses `JwtSecurityTokenHandler`. The clear is not thread-safe, so that other code can fail if it reads the map at the same moment.
 - With an OpenID URL, each call downloads the OpenID configuration again and waits for it synchronously. The expiry checker validates the token again, so it downloads the configuration again too.
-- The expiry checker reads `exp` with the current culture. A fractional `exp`, such as `1793451600.5`, is misread on a machine whose decimal separator is a comma, for example with the German culture. Tokens almost always use whole numbers.
-
 ## Licence
 MIT. See [LICENSE.txt](https://github.com/OllieRumbol/ID_Token-JWT_Validator/blob/main/LICENSE.txt).
