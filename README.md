@@ -16,7 +16,7 @@ The biggest use case of this library is to validate "ID Tokens" from the OAuth l
 - The package depends on version 8 of the Microsoft IdentityModel packages.
 
 ## Secret length
-When a token is signed with a secret (HMAC), the secret must be at least as long as the algorithm needs. The length is counted in UTF-8 bytes. A shorter secret fails validation: `ValidateJWT` throws and `TryValidateJWT` returns `false`. IdentityModel reports it as `SecurityTokenSignatureKeyNotFoundException` (IDX10517), not as an error about the length, so check the secret length first when you see this exception.
+When a token is signed with a secret (HMAC), the secret must be at least as long as the algorithm needs. The length is counted in UTF-8 bytes. A shorter secret fails validation: `ValidateJWT` throws and `TryValidateJWT` returns `false`. IdentityModel reports it as `SecurityTokenSignatureKeyNotFoundException`, not as an error about the length, so check the secret length first when you see this exception.
 
 | Algorithm | Minimum secret length |
 | --- | --- |
