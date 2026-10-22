@@ -2,7 +2,7 @@
 
 > **What this document is for:** It answers *what do we do next?* It splits the approved design into small, verifiable steps and tracks progress against them.
 
-Last updated: 2026-10-21
+Last updated: 2026-10-22
 
 Tasks T1 to T13 are each one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
@@ -168,7 +168,7 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
     - Not changed: an entry whose list itself is `null` still makes the methods throw. Spec 6.1.4 covers only a null or empty dictionary.
     - Evidence: pull request #18
 
-- [ ] **T11 — Stop turning on personal-data logging**
+- [x] **T11 — Stop turning on personal-data logging**
   - Refs: spec 4.1 item 10, spec 6.1.5, plan 3.4 (personal-data logging, claim type map), plan 7.2 test 12
   - Depends on: T7
   - Done when:
@@ -176,6 +176,10 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
     - Plan 7.2 test 12 exists and passes.
   - Verify: `dotnet test JWTValidator/JWTValidator.slnx`
   - Notes: Before the fix, test 12 must fail. Run `/code-review` before ticking.
+    - Test 12 failed before the fix. It now checks both `ShowPII` values and restores the flag; plan 7.2 was updated with the maintainer's approval.
+    - T3 gap closed: with a bad token, the console app still prints "Invalid JWT" and the IDX20803 and IDX20804 reasons, with the URL visible.
+    - Not changed: the claim type map clear (spec 3, non-goals). `/code-review` rated it a real risk for consumers; a fix needs a spec change.
+    - Evidence: pull request #19
 
 - [ ] **T12 — Update the README and release notes**
   - Refs: spec 4.1 item 9, spec 6.1.7, spec 6.6 item 5, plan 3.4 (release notes)
@@ -259,3 +263,4 @@ None.
 - 2026-10-21 — T8
 - 2026-10-21 — T9
 - 2026-10-21 — T10
+- 2026-10-22 — T11

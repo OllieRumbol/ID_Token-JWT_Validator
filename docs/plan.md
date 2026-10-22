@@ -238,7 +238,7 @@ Re-running the publish job is safe until a push succeeds. After that, a re-run f
 | 9 | The builder accepts a 31-byte secret and still rejects an empty one | 6.1.6 item 2 | A length check added to the builder |
 | 10 | `IsEmpty`, `ContainsValueInList` and `Print` on a `null`, an empty and a one-entry dictionary | 6.1.4, 6.2 | The `\|\|` bug; null reference exceptions |
 | 11 | `ContainsKeyAndValue` on a `null` dictionary returns `false` | 6.1.4 item 2 | Null reference exception |
-| 12 | After `ValidateJWT`, `IdentityModelEventSource.ShowPII` is still `false` | 6.1.5 | Personal-data logging turned on |
+| 12 | After `ValidateJWT`, `IdentityModelEventSource.ShowPII` keeps the value the caller set: `false` stays `false`, and `true` stays `true` | 6.1.5 | Personal-data logging turned on |
 | 13 | Delete `ValidateCliamsFromJWT` | 6.6 item 2, 6.1.10 item 2 | (Removes the network call and the real token.) |
 | 14 | Data-driven: issuer, audience and lifetime each set to match, set to not match, and not set. A token is rejected only when an option is set and does not match. A token whose "not before" time is in the future is rejected only when the lifetime option is set. | 6.1.2 item 2 | A changed issuer, audience or lifetime check after the IdentityModel upgrade |
 | 15 | Data-driven over the OpenID rows in spec section 6.2: RS256 tokens signed with K1, K2 and K3, validated against a configuration that holds K1 and K2. Checks the result, the `role` claim, and that the factory received the URL from the options. | 6.1.2 items 3 and 4, 6.2 | The OpenID path broken by the IdentityModel upgrade; key rotation not supported; a token signed with an unknown key accepted; the wrong URL used |
@@ -250,7 +250,7 @@ Re-running the publish job is safe until a push succeeds. After that, a re-run f
 * Tests 4 and 8 use the hand-signing method in the test helper (section 3.2). IdentityModel 8 cannot sign with a key shorter than the algorithm's minimum (test 8). The helper supports HS256 and HS512. IdentityModel's own token handler always adds an `exp` claim, and a .NET date cannot hold year 10000, so test 4 needs the hand-signing method.
 * IdentityModel 8 rejects a token whose expiry is before its "not before" time. Tests 1 to 3, 6 and 14 set "not before" and "issued at" with the builder, earlier than the expiry.
 * Tests 15 and 16 generate the RSA keys K1, K2 and K3 at run time. Each token header carries the signing key's ID.
-* Test 12 resets `ShowPII` to `false` at the start, because the flag is process-wide.
+* Test 12 sets `ShowPII` for each row and restores the earlier value at the end, because the flag is process-wide.
 
 ---
 
