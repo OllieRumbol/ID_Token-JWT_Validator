@@ -181,7 +181,7 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
     - Not changed: the claim type map clear (spec 3, non-goals). `/code-review` rated it a real risk for consumers; a fix needs a spec change.
     - Evidence: pull request #19
 
-- [ ] **T12 — Update the README and release notes**
+- [x] **T12 — Update the README and release notes**
   - Refs: spec 4.1 item 9, spec 6.1.7, spec 6.6 item 5, plan 3.4 (release notes)
   - Depends on: T8, T9, T10, T11
   - Done when:
@@ -190,6 +190,10 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
     - `PackageReleaseNotes` in the library project file describes 2.0.0 and lists the six changes in spec 6.1.7.
   - Verify: Replace the whole contents of the console app's `Program.cs` with the README example. `dotnet build JWTValidator/JWTValidator.slnx` succeeds. Then restore `Program.cs` with `git checkout`.
   - Notes: Any behaviour changes found in T5 also go into the release notes.
+    - The release notes start "Changes in 2.0.0, compared with 1.0.3", so they also fit the beta. A later version needs new notes.
+    - The README states the 5-minute clock skew of `WithExpiryDate()`, and that a short secret shows as `SecurityTokenSignatureKeyNotFoundException`.
+    - No repo test covers the HS384 48-byte minimum or the `exp`-after-2038 statement. A scratch run confirmed both.
+    - Evidence: pull request #20
 
 ## Phase 5 — Release
 
@@ -264,3 +268,4 @@ None.
 - 2026-10-21 — T9
 - 2026-10-21 — T10
 - 2026-10-22 — T11
+- 2026-10-22 — T12
