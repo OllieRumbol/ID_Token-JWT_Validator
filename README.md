@@ -49,7 +49,7 @@ When a token is signed with a secret (HMAC), the secret must be at least as long
 - `TryValidateJWT` returns `false` when the token is not valid. Use it when you only need a yes or no.
 - `ValidateJWT` throws when the token is not valid. The exception message says why, which helps when you debug.
 
-IdentityModel hides personal data in its messages, such as the token. To see it while you debug, set `IdentityModelEventSource.ShowPII = true` in your own application. The library does not turn it on.
+IdentityModel hides personal data in its messages. To see it while you debug, set `IdentityModelEventSource.ShowPII = true` in your own application. The library does not turn it on. The token itself stays hidden unless you also set `IdentityModelEventSource.LogCompleteSecurityArtifact = true`.
 
 The expiry checker has two pairs of methods, one that throws and one that returns `false`:
 - `WhenDoesJWTExpire` and `TryGetWhenDoesJWTExpire` give the expiry time in UTC.
@@ -126,13 +126,14 @@ try
 catch (Exception exception)
 {
     // ValidateJWT throws when the token is not valid. A failed download is wrapped
-    // in another exception, so print the innermost message, which says why.
+    // in an AggregateException, so print the message of the exception inside it, which says why.
     Console.WriteLine(exception.GetBaseException().Message);
 }
 ```
 
 ## Known limitations
-- Each validation clears `JwtSecurityTokenHandler.DefaultInboundClaimTypeMap`. This keeps claim names as they are in the token. The map is shared by the whole process, so it also changes the claim names for other code in your application that uses `JwtSecurityTokenHandler`. The clear is not thread-safe, so that other code can fail if it reads the map at the same moment.
+- Each validation clears `JwtSecurityTokenHandler.DefaultInboundClaimTypeMap`. This keeps claim names as they are in the token. The map is shared by the whole process, so it also changes the claim names for other code in your application that uses `JwtSecurityTokenHandler`. The clear is not thread-safe, so other code can fail if it reads the map at the same moment.
 - With an OpenID URL, each call downloads the OpenID configuration again and waits for it synchronously. The expiry checker validates the token again, so it downloads the configuration again too.
+
 ## Licence
 MIT. See [LICENSE.txt](https://github.com/OllieRumbol/ID_Token-JWT_Validator/blob/main/LICENSE.txt).
