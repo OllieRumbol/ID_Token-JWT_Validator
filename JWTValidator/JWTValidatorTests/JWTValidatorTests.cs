@@ -253,26 +253,38 @@ public class JWTValidatorTests
         Assert.AreEqual(expectedExceptionType, exceptionType);
     }
 
-    // Plan 7.2 test 12, spec 6.1.5. ShowPII is process-wide, so the test sets it to false first.
+    // Plan 7.2 test 12, spec 6.1.5. The library leaves ShowPII as the calling application set it.
+    // ShowPII is process-wide, so the test puts back the earlier value at the end.
     [TestMethod]
-    public void ValidateJWT_ValidToken_LeavesPersonalDataLoggingOff()
+    [DataRow(false, DisplayName = "Calling application left ShowPII off")]
+    [DataRow(true, DisplayName = "Calling application turned ShowPII on")]
+    public void ValidateJWT_ShowPIISetByCaller_LeavesItUnchanged(Boolean showPII)
     {
-        // Arrange
-        IdentityModelEventSource.ShowPII = false;
+        Boolean earlierShowPII = IdentityModelEventSource.ShowPII;
 
-        String secret = Guid.NewGuid().ToString();
-        String jwt = CreateToken(secret, null, null, TokenLifetime.Current);
+        try
+        {
+            // Arrange
+            IdentityModelEventSource.ShowPII = showPII;
 
-        JWTValidatorOptions jwtValidatorOptions = JWTValidatorOptionsBuilderCreator
-            .Create()
-            .WithSigningKeyFromSecret(secret)
-            .Build();
+            String secret = Guid.NewGuid().ToString();
+            String jwt = CreateToken(secret, null, null, TokenLifetime.Current);
 
-        // Act
-        new JWTValidator().ValidateJWT(jwt, jwtValidatorOptions);
+            JWTValidatorOptions jwtValidatorOptions = JWTValidatorOptionsBuilderCreator
+                .Create()
+                .WithSigningKeyFromSecret(secret)
+                .Build();
 
-        // Assert
-        Assert.IsFalse(IdentityModelEventSource.ShowPII);
+            // Act
+            new JWTValidator().ValidateJWT(jwt, jwtValidatorOptions);
+
+            // Assert
+            Assert.AreEqual(showPII, IdentityModelEventSource.ShowPII);
+        }
+        finally
+        {
+            IdentityModelEventSource.ShowPII = earlierShowPII;
+        }
     }
 
     // Checks the exact set of claim keys, then the values of each claim in order.
