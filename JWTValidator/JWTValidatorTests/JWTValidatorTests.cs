@@ -6,6 +6,7 @@ using JWTValidatorTests.Helpers.Factory;
 
 using System;
 using System.Collections.Generic;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -250,6 +251,28 @@ public class JWTValidatorTests
         // Assert
         Assert.AreEqual(expectedExceptionType is null, isJWTValid);
         Assert.AreEqual(expectedExceptionType, exceptionType);
+    }
+
+    // Plan 7.2 test 12, spec 6.1.5. ShowPII is process-wide, so the test sets it to false first.
+    [TestMethod]
+    public void ValidateJWT_ValidToken_LeavesPersonalDataLoggingOff()
+    {
+        // Arrange
+        IdentityModelEventSource.ShowPII = false;
+
+        String secret = Guid.NewGuid().ToString();
+        String jwt = CreateToken(secret, null, null, TokenLifetime.Current);
+
+        JWTValidatorOptions jwtValidatorOptions = JWTValidatorOptionsBuilderCreator
+            .Create()
+            .WithSigningKeyFromSecret(secret)
+            .Build();
+
+        // Act
+        new JWTValidator().ValidateJWT(jwt, jwtValidatorOptions);
+
+        // Assert
+        Assert.IsFalse(IdentityModelEventSource.ShowPII);
     }
 
     // Checks the exact set of claim keys, then the values of each claim in order.

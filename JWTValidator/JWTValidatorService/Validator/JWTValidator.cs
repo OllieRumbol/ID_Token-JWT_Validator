@@ -46,7 +46,6 @@ public class JWTValidator : IJWTValidator
             throw new ArgumentNullException(nameof(options));
         }
 
-        Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
         TokenValidationParameters validationParameters = GetTokenValidationParameters(options);
