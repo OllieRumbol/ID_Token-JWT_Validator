@@ -6,6 +6,7 @@ using JWTValidatorTests.Helpers.Factory;
 
 using System;
 using System.Collections.Generic;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -250,6 +251,40 @@ public class JWTValidatorTests
         // Assert
         Assert.AreEqual(expectedExceptionType is null, isJWTValid);
         Assert.AreEqual(expectedExceptionType, exceptionType);
+    }
+
+    // Plan 7.2 test 12, spec 6.1.5. The library leaves ShowPII as the calling application set it.
+    // ShowPII is process-wide, so the test puts back the earlier value at the end.
+    [TestMethod]
+    [DataRow(false, DisplayName = "Calling application left ShowPII off")]
+    [DataRow(true, DisplayName = "Calling application turned ShowPII on")]
+    public void ValidateJWT_ShowPIISetByCaller_LeavesItUnchanged(Boolean showPII)
+    {
+        Boolean earlierShowPII = IdentityModelEventSource.ShowPII;
+
+        try
+        {
+            // Arrange
+            IdentityModelEventSource.ShowPII = showPII;
+
+            String secret = Guid.NewGuid().ToString();
+            String jwt = CreateToken(secret, null, null, TokenLifetime.Current);
+
+            JWTValidatorOptions jwtValidatorOptions = JWTValidatorOptionsBuilderCreator
+                .Create()
+                .WithSigningKeyFromSecret(secret)
+                .Build();
+
+            // Act
+            new JWTValidator().ValidateJWT(jwt, jwtValidatorOptions);
+
+            // Assert
+            Assert.AreEqual(showPII, IdentityModelEventSource.ShowPII);
+        }
+        finally
+        {
+            IdentityModelEventSource.ShowPII = earlierShowPII;
+        }
     }
 
     // Checks the exact set of claim keys, then the values of each claim in order.
