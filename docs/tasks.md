@@ -195,7 +195,7 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
     - No repo test covers the HS384 48-byte minimum or the `exp`-after-2038 statement. A scratch run confirmed both.
     - Evidence: pull request #20
 
-- [ ] **T18 — Use the new logo as the package icon**
+- [x] **T18 — Use the new logo as the package icon**
   - Refs: spec 6.1.9 item 8, spec 8 assumption 4, plan 3.4 (icon location)
   - Depends on: T12
   - Done when:
@@ -206,6 +206,7 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
   - Verify: `file JWTValidator/JWTValidatorService/icon.png` (expected: `PNG image data, 128 x 128, 8-bit/color RGBA`), then `git grep -n "icon.jpg" -- ':!docs'` (expected: no output), then `dotnet pack JWTValidator/JWTValidator.slnx -o artifacts && unzip -l artifacts/JWTValidator.0.0.0-local.nupkg` (expected: `icon.png` listed, `icon.jpg` not). Delete `artifacts/` afterwards.
   - Notes: The icon matches the documentation site's logo. The PNG is copied into the repository; no tracked file names the scratchpad path. Run `/code-review` before ticking.
     - Added on 2026-10-23 with the maintainer's approval, together with the changes to spec 8 assumption 4, plan 3.1 (folder tree), plan 3.4 (icon location) and T15's dependencies.
+    - Evidence: pull request #22
 
 ## Phase 5 — Release
 
@@ -286,3 +287,4 @@ None.
 - 2026-10-22 — T11
 - 2026-10-22 — T12
 - 2026-10-23 — T13
+- 2026-10-23 — T18
