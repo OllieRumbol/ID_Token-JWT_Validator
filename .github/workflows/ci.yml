@@ -72,3 +72,36 @@ jobs:
           path: artifacts/*.nupkg
           if-no-files-found: error
           retention-days: 7
+
+  # Only this job can get a publish credential, and it runs only for a tag (plan 1.1, plan 6).
+  # It pushes the package that the build job tested. A failed build or a bad tag stops it.
+  publish:
+    needs: build
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      NUGET_USER: ollie
+
+    steps:
+      - name: Download the package
+        uses: actions/download-artifact@v8
+        with:
+          name: package
+          path: artifacts
+
+      # Trusted Publishing: exchanges the GitHub identity token for a nuget.org API key that is valid for one hour.
+      - name: Log in to nuget.org
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ env.NUGET_USER }}
+
+      # No --skip-duplicate, so a version that already exists fails the run (spec 6.1.9 item 6).
+      - name: Push to nuget.org
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: dotnet nuget push artifacts/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
