@@ -179,7 +179,7 @@ The release decision gets an ADR: `docs/adr/0001-release-by-tag-with-trusted-pub
 | A tag that does not match `vMAJOR.MINOR.PATCH[-suffix]` | The version step fails with a message naming the tag. Nothing is packed or published (spec section 6.1.9, item 5). |
 | The version already exists on nuget.org | The push returns a conflict and the publish job fails. `--skip-duplicate` is **not** used (spec section 6.1.9, item 6). |
 | A published version turns out to be wrong | A version cannot be replaced (spec section 5.1). Unlist the bad version on nuget.org and release a patch version with a new tag. |
-| The publish job is re-run more than 7 days after the build | The package artifact has expired, so the re-run fails. Delete the tag on GitHub, then push the same tag again to run the whole workflow. This is safe only while the version has not been published. |
+| The publish job is re-run more than 7 days after the build | The package artifact has expired, so the re-run fails. Use "Re-run all jobs" on the original run, which GitHub allows for 30 days. It builds, tests and packs the same tagged commit again, then publishes. After 30 days, delete the tag on GitHub and push the same tag again. Both are safe only while the version has not been published. |
 | The NuGet login fails (policy missing or wrong) | The publish job fails before the push. Fix the policy, then re-run the failed job. This is safe because nothing was pushed. |
 
 Re-running the publish job is safe until a push succeeds. After that, a re-run fails on the duplicate, which changes nothing.
@@ -267,7 +267,7 @@ Each job has `timeout-minutes: 15`.
 1. Check out the repository.
 2. Set up .NET from `global.json`.
 3. Work out the version:
-   * On a tag, take the tag name and check it against `^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$`. If it matches, remove the `v`. If not, fail.
+   * On a tag, take the tag name and check it against `^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?$`. If it matches, remove the `v`. If not, fail. The numbers have no leading zeros, because NuGet would turn `v2.0.01` into version 2.0.1, a different and permanent version.
    * Otherwise, use `0.0.0-ci.<run number>`.
 4. Restore, then build in Release with that version.
 5. Run the tests in UTC.
