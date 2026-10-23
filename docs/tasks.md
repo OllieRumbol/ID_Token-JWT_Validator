@@ -4,7 +4,7 @@
 
 Last updated: 2026-10-23
 
-Tasks T1 to T13 are each one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
+Tasks T1 to T13 and T18 are each one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
 ## Phase 1 — Clean the repository
 
@@ -203,8 +203,9 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
     - The library project file sets `PackageIcon` to `icon.png` and packs `icon.png` from the same folder.
     - No tracked file outside `docs/` names `icon.jpg`.
     - A pack of the solution creates one package that contains `icon.png` and no `icon.jpg`.
-  - Verify: `git grep -n "icon.jpg" -- ':!docs'` (expected: no output), then `dotnet pack JWTValidator/JWTValidator.slnx -o artifacts && unzip -l artifacts/JWTValidator.0.0.0-local.nupkg` (expected: `icon.png` listed, `icon.jpg` not). Delete `artifacts/` afterwards.
+  - Verify: `file JWTValidator/JWTValidatorService/icon.png` (expected: `PNG image data, 128 x 128, 8-bit/color RGBA`), then `git grep -n "icon.jpg" -- ':!docs'` (expected: no output), then `dotnet pack JWTValidator/JWTValidator.slnx -o artifacts && unzip -l artifacts/JWTValidator.0.0.0-local.nupkg` (expected: `icon.png` listed, `icon.jpg` not). Delete `artifacts/` afterwards.
   - Notes: The icon matches the documentation site's logo. The PNG is copied into the repository; no tracked file names the scratchpad path. Run `/code-review` before ticking.
+    - Added on 2026-10-23 with the maintainer's approval, together with the changes to spec 8 assumption 4, plan 3.1 (folder tree), plan 3.4 (icon location) and T15's dependencies.
 
 ## Phase 5 — Release
 
