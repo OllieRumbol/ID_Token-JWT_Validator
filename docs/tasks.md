@@ -2,7 +2,7 @@
 
 > **What this document is for:** It answers *what do we do next?* It splits the approved design into small, verifiable steps and tracks progress against them.
 
-Last updated: 2026-10-22
+Last updated: 2026-10-23
 
 Tasks T1 to T13 are each one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
@@ -122,7 +122,7 @@ Goal: The expiry defect is fixed, and every push and pull request is built and t
   - Verify: `gh run list --workflow ci.yml --branch <branch> --limit 1` shows `completed success`. `gh run view <id> --log` shows both test runs. `gh api repos/OllieRumbol/ID_Token-JWT_Validator/rulesets/24939760` lists `build` in `required_status_checks`.
   - Notes: No publish job yet (T13). Actions: `checkout@v7`, `setup-dotnet@v6`, `upload-artifact@v7`. The ruleset now requires `build` from GitHub Actions, so every pull request must pass CI before merging.
     - Decision: the maintainer chose the `do-task` skill workflow from T7 on. This task updated the header to match.
-    - Review points not applied: the plan 8.1 tag pattern accepts labels such as `v2.0.0-.`, which then fail at pack, not at the version step (relevant to T15). A failed UTC test run skips the Kolkata run.
+    - Review points not applied: the plan 8.1 tag pattern accepts labels such as `v2.0.0-.`, which then fail at the Build step, not at the version step (relevant to T15; corrected in T13). A failed UTC test run skips the Kolkata run.
     - Evidence: pull request #14
 
 ## Phase 4 — Remaining library changes
@@ -199,7 +199,7 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
 
 Goal: Version 2.0.0 is on nuget.org, published by the pipeline.
 
-- [ ] **T13 — Add the publish job and the ADR**
+- [x] **T13 — Add the publish job and the ADR**
   - Refs: spec 6.1.9, plan 1.1, plan 2 (nuget.org user name), plan 4, plan 6, plan 8.1 (job `publish`)
   - Depends on: T12
   - Done when:
@@ -209,6 +209,10 @@ Goal: Version 2.0.0 is on nuget.org, published by the pipeline.
     - The pull request run passes, and its publish job is skipped.
   - Verify: `gh run view <id>` for this pull request shows `build` passed and `publish` skipped.
   - Notes: Use the current major version of `actions/download-artifact` and `NuGet/login`. Run `/code-review` before ticking.
+    - The maintainer approved: tag numbers reject leading zeros (plan 8.1), and after the 7-day artifact expiry use "Re-run all jobs" first (plan 4).
+    - The policy keeps no GitHub environment. The ADR records the accepted risk: an edited `ci.yml` on a pushed branch could get a publish key.
+    - For T15: `publish` has never run. It uses the runner's preinstalled SDK; if `dotnet` is missing, add `actions/setup-dotnet`.
+    - Evidence: pull request #21
 
 - [ ] **T14 — Create the Trusted Publishing policy (maintainer)**
   - Refs: spec 5.2, plan 2 (Trusted Publishing policy), plan 5
@@ -269,3 +273,4 @@ None.
 - 2026-10-21 — T10
 - 2026-10-22 — T11
 - 2026-10-22 — T12
+- 2026-10-23 — T13
