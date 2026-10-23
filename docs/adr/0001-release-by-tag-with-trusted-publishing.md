@@ -31,7 +31,7 @@ Options that were rejected:
 
 * **No secret to protect or rotate.** The key that `NuGet/login` returns is valid for one hour and appears masked in the run log.
 * **The tested package is the published package.** The publish job does not rebuild.
-* **A bad tag publishes nothing.** A tag that does not start with `v` starts no run. A tag such as `v2.0` or `v2.0.01` fails the version step, because the version numbers may not have leading zeros. A tag with an invalid pre-release label, such as `v2.0.0-.`, passes the version step but fails at restore or pack. In every case `build` fails or never runs, so `publish` does not run.
+* **A bad tag publishes nothing.** A tag that does not start with `v` starts no run. `v2.0` fails the version step because it has no patch number, and `v2.0.01` fails because the version numbers may not have leading zeros. A tag with an invalid pre-release label, such as `v2.0.0-.`, passes the version step but fails later in `build`, when the version is used. In every case `build` fails or never runs, so `publish` does not run.
 * **A duplicate version fails the run.** Re-running the `publish` job is safe until a push succeeds; after that, a re-run fails without changing anything.
 * **A wrong release cannot be replaced.** The fix is to unlist the bad version and release a patch version with a new tag (plan section 4).
 * **The package artifact is kept for 7 days.** A `publish` re-run after that fails. The maintainer uses "Re-run all jobs" on the original run, which GitHub allows for 30 days and which builds the same tagged commit again. After 30 days, the maintainer deletes the tag and pushes it again. Both are safe only while the version is not published (plan section 4).
