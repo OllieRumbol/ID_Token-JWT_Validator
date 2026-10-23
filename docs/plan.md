@@ -3,7 +3,7 @@
 > **What this document is for:** It answers *how will we build it?* It turns the approved requirements in spec.md into a design, and it is agreed before any code is written.
 
 Status: Approved
-Last updated: 2026-10-20
+Last updated: 2026-10-23
 
 ---
 
@@ -71,7 +71,7 @@ JWTValidator/
   Directory.Build.props                   Target framework, nullable, implicit usings, audit warnings as errors
   Directory.Packages.props                Package versions
   JWTValidatorService/                    The library (package ID JWTValidator)
-    icon.jpg                              Package icon, moved into the repository
+    icon.png                              Package icon, the documentation site's logo
   JWTValidatorTests/                      MSTest tests
   JWTValidator/                           Console app for local checks. Not packable.
 ```
@@ -156,7 +156,7 @@ public static Boolean IsEmpty<TKey, TValue>([NotNullWhen(false)] this Dictionary
 | Console app error output | The console app turns `ShowPII` on for itself, calls `ValidateJWT` instead of `TryValidateJWT`, and prints the error message when validation fails | `ShowPII` was added to the library in 2022 to see why validation failed. This keeps that debugging view for the maintainer. The console app is never published, so no consumer is affected. Spec section 6.1.5 applies to the library only. | Keeping `ShowPII` in the library. Printing only "Invalid JWT", which hides the reason. |
 | Packing | Explicit `dotnet pack`. Remove `GeneratePackageOnBuild`. Console app has `IsPackable` set to `false`. | A build should not create packages. The console app must never be packed (spec section 6.1.9, item 8). | — |
 | Console app package ID | `JWTValidator.ConsoleApp` | The library's package ID is `JWTValidator`, the same as the console project's name. NuGet restore then fails with "Ambiguous project name 'JWTValidator'", so the solution does not build (spec section 6.1.10, items 1 and 3). | Renaming the console project, which changes more files. Changing the library's package ID, which would break the nuget.org package. |
-| Icon location | `JWTValidator/JWTValidatorService/icon.jpg` | Belongs to the package project. Shortest pack path. | The repository root. |
+| Icon location | `JWTValidator/JWTValidatorService/icon.png` | Belongs to the package project. Shortest pack path. A 128 × 128 PNG with a transparent background, as nuget.org recommends. It matches the documentation site's logo. | The repository root. |
 | Shared build settings | `Directory.Build.props` and `Directory.Packages.props` in `JWTValidator/` | Every project file changes for the upgrade anyway. One place for the target framework and versions. | Repeat the settings in each project. |
 | Solution file | Migrate to `.slnx` with `dotnet sln migrate`, then delete the `.sln` | It is the .NET 10 default, it is short enough to read and edit, and it rarely causes merge conflicts. The maintainer's Visual Studio opens it. | Keep `.sln`. No solution file, which would mean building each project on its own. |
 | Release notes | `PackageReleaseNotes` in the library project file | Existing convention. nuget.org shows it. One place. | A `CHANGELOG.md` as well. It would be a second copy. |

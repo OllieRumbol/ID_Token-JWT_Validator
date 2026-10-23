@@ -3,7 +3,7 @@
 > **What this document is for:** It answers *what are we building, and why?* It is agreed before any design or code, and it is the source of truth for requirements.
 
 Status: Approved
-Last updated: 2026-10-12
+Last updated: 2026-10-23
 
 ---
 
@@ -293,7 +293,7 @@ None. Seven questions were raised and answered on 2026-10-11. The answers are in
 1. The maintainer can sign in to nuget.org as an owner of the `JWTValidator` package and create a Trusted Publishing policy.
 2. The maintainer pushes release tags. No one else releases the package.
 3. The GitHub repository stays public, so Actions minutes are free.
-4. The maintainer's local copy of the icon (8 KB) is the current package icon, and it may be committed.
+4. The package icon is the documentation site's logo: three rounded bars for the header, payload and signature, as a 128 × 128 PNG with a transparent background. It may be committed.
 5. Releases are made from `main` after the change is merged.
 6. Moving to .NET 10 only is acceptable to existing users, because 2.0.0 is a major version and 1.0.3 stays available.
 

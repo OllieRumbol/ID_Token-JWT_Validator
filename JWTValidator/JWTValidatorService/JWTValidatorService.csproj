@@ -8,7 +8,7 @@
     <Product>JWTValidator</Product>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>A library that simplifies the process of validating JWTs</Description>
-    <PackageIcon>icon.jpg</PackageIcon>
+    <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/OllieRumbol/ID_Token-JWT_Validator</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>jwt; jwt validator; validation</PackageTags>
@@ -34,7 +34,7 @@ Other changes:
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="icon.jpg">
+    <None Include="icon.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

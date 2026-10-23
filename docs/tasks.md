@@ -4,7 +4,7 @@
 
 Last updated: 2026-10-23
 
-Tasks T1 to T13 are each one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
+Tasks T1 to T13 and T18 are each one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
 ## Phase 1 — Clean the repository
 
@@ -195,6 +195,19 @@ Goal: The other defects in spec 3, goal 3 are fixed, and the package page is cor
     - No repo test covers the HS384 48-byte minimum or the `exp`-after-2038 statement. A scratch run confirmed both.
     - Evidence: pull request #20
 
+- [x] **T18 — Use the new logo as the package icon**
+  - Refs: spec 6.1.9 item 8, spec 8 assumption 4, plan 3.4 (icon location)
+  - Depends on: T12
+  - Done when:
+    - `JWTValidator/JWTValidatorService/icon.png` is the new 128 x 128 icon, and `icon.jpg` is deleted.
+    - The library project file sets `PackageIcon` to `icon.png` and packs `icon.png` from the same folder.
+    - No tracked file outside `docs/` names `icon.jpg`.
+    - A pack of the solution creates one package that contains `icon.png` and no `icon.jpg`.
+  - Verify: `file JWTValidator/JWTValidatorService/icon.png` (expected: `PNG image data, 128 x 128, 8-bit/color RGBA`), then `git grep -n "icon.jpg" -- ':!docs'` (expected: no output), then `dotnet pack JWTValidator/JWTValidator.slnx -o artifacts && unzip -l artifacts/JWTValidator.0.0.0-local.nupkg` (expected: `icon.png` listed, `icon.jpg` not). Delete `artifacts/` afterwards.
+  - Notes: The icon matches the documentation site's logo. The PNG is copied into the repository; no tracked file names the scratchpad path. Run `/code-review` before ticking.
+    - Added on 2026-10-23 with the maintainer's approval, together with the changes to spec 8 assumption 4, plan 3.1 (folder tree), plan 3.4 (icon location) and T15's dependencies.
+    - Evidence: pull request #22
+
 ## Phase 5 — Release
 
 Goal: Version 2.0.0 is on nuget.org, published by the pipeline.
@@ -225,7 +238,7 @@ Goal: Version 2.0.0 is on nuget.org, published by the pipeline.
 
 - [ ] **T15 — Release 2.0.0-beta.1 and check the failure cases**
   - Refs: spec 6.1.9 items 2, 5 and 6, spec 6.2 (release tags), plan 1.1 (first release), plan 8.2 steps 3 to 5
-  - Depends on: T14
+  - Depends on: T14, T18
   - Done when:
     - Tag `v2.0.0-beta.1` on `main` produces a passing run, and nuget.org lists `2.0.0-beta.1` as a pre-release with the icon, licence, README and release notes.
     - Tag `vtest` produces a run that fails at the version step and publishes nothing. The tag is then deleted locally and on GitHub.
@@ -274,3 +287,4 @@ None.
 - 2026-10-22 — T11
 - 2026-10-22 — T12
 - 2026-10-23 — T13
+- 2026-10-23 — T18
