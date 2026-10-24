@@ -2,7 +2,7 @@
 
 > **What this document is for:** It answers *what do we do next?* It splits the approved design into small, verifiable steps and tracks progress against them.
 
-Last updated: 2026-10-23
+Last updated: 2026-10-24
 
 Tasks T1 to T13 and T18 are each one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
@@ -227,7 +227,7 @@ Goal: Version 2.0.0 is on nuget.org, published by the pipeline.
     - For T15: `publish` has never run. It uses the runner's preinstalled SDK; if `dotnet` is missing, add `actions/setup-dotnet`.
     - Evidence: pull request #21
 
-- [ ] **T14 — Create the Trusted Publishing policy (maintainer)**
+- [x] **T14 — Create the Trusted Publishing policy (maintainer)**
   - Refs: spec 5.2, plan 2 (Trusted Publishing policy), plan 5
   - Depends on: T13
   - Done when:
@@ -235,6 +235,10 @@ Goal: Version 2.0.0 is on nuget.org, published by the pipeline.
     - The nuget.org notification for published packages is turned on.
   - Verify: The maintainer checks the Trusted Publishing page on nuget.org.
   - Notes: Claude does not do this step. It changes account settings.
+    - Policy "JWTValidator release" is active (2026-10-24): owner `ollie`, GitHub Actions, `OllieRumbol` / `ID_Token-JWT_Validator`, `ci.yml`, no environment. Its GitHub IDs match the repository.
+    - It is narrower than plan 2: scope "Push only new package versions" and glob pattern `JWTValidator`, so a key can only add versions of this package.
+    - The published-package email notification was already on.
+    - Evidence: maintainer's screenshots, and pull request #23
 
 - [ ] **T15 — Release 2.0.0-beta.1 and check the failure cases**
   - Refs: spec 6.1.9 items 2, 5 and 6, spec 6.2 (release tags), plan 1.1 (first release), plan 8.2 steps 3 to 5
@@ -288,3 +292,4 @@ None.
 - 2026-10-22 — T12
 - 2026-10-23 — T13
 - 2026-10-23 — T18
+- 2026-10-24 — T14
