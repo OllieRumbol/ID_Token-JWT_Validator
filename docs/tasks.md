@@ -240,7 +240,7 @@ Goal: Version 2.0.0 is on nuget.org, published by the pipeline.
     - The published-package email notification was already on.
     - Evidence: maintainer's screenshots, and pull request #23
 
-- [ ] **T15 — Release 2.0.0-beta.1 and check the failure cases**
+- [x] **T15 — Release 2.0.0-beta.1 and check the failure cases**
   - Refs: spec 6.1.9 items 2, 5 and 6, spec 6.2 (release tags), plan 1.1 (first release), plan 8.2 steps 3 to 5
   - Depends on: T14, T18
   - Done when:
@@ -250,6 +250,10 @@ Goal: Version 2.0.0 is on nuget.org, published by the pipeline.
     - The run log shows the temporary API key masked as `***`.
   - Verify: `gh run list --workflow ci.yml --limit 3`, and the package page at https://www.nuget.org/packages/JWTValidator/2.0.0-beta.1
   - Notes: Pushing tags publishes to nuget.org. Confirm each tag push, and the deletion of the `vtest` tag on GitHub, with the maintainer first. If the login fails, fix the policy and re-run the `publish` job (plan 4).
+    - Beta: tag on `af67ecb`, run 40078992997 passed, key masked. nuget.org lists the pre-release; its icon matches `icon.png` byte for byte.
+    - `vtest`: run 40079978650 failed at the version step, publish skipped. The tag is deleted locally and on GitHub.
+    - Duplicate: the `publish` re-run (attempt 2) failed with 409 "already exists". The job runs on the runner's own SDK, so no `setup-dotnet` is needed.
+    - Evidence: pull request #24
 
 - [ ] **T16 — Check the OpenID path and release 2.0.0**
   - Refs: spec 9, plan 7.1 (OpenID path), plan 8.2 steps 6 to 8
@@ -293,3 +297,4 @@ None.
 - 2026-10-23 — T13
 - 2026-10-23 — T18
 - 2026-10-24 — T14
+- 2026-10-24 — T15
