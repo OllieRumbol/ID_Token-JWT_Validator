@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/OllieRumbol/ID_Token-JWT_Validator/actions/workflows/ci.yml/badge.svg)](https://github.com/OllieRumbol/ID_Token-JWT_Validator/actions/workflows/ci.yml)
 
+> **Note:** The [documentation site](https://ollierumbol.github.io/JWTValidator) still describes version 1.0.3. Updated documentation for 2.0.0 is coming soon. Until then, this README and the [release notes](https://www.nuget.org/packages/JWTValidator#releasenotes-body-tab) describe 2.0.0.
+
 JWT Validator is a C# library that makes it simple to validate a JWT. Its main use is to validate ID tokens from an OpenID Connect sign-in. It hides the complexity of these IdentityModel types:
 - `TokenValidationParameters`
 - `JwtSecurityTokenHandler`

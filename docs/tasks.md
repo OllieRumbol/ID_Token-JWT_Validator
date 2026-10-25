@@ -4,7 +4,7 @@
 
 Last updated: 2026-10-25
 
-Tasks T1 to T13 and T18 are each one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
+Each task is one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code. `main` is protected, so each of them also has a pull request, which ticks the task and holds the evidence. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
 ## Phase 1 — Clean the repository
 
@@ -270,13 +270,16 @@ Goal: Version 2.0.0 is on nuget.org, published by the pipeline.
     - Every spec 9 item was checked and is true. `2.0.0-beta.1` stays listed until the maintainer decides.
     - Evidence: pull request #25
 
-- [ ] **T17 — Propose the documentation site project**
+- [x] **T17 — Propose the documentation site project**
   - Refs: spec 3, non-goals
   - Depends on: T16
   - Done when:
     - A separate session is proposed to update the documentation site for 2.0.0, with its own spec, plan and tasks in the `JWTValidator` repository.
   - Verify: The proposal is shown to the maintainer.
   - Notes: Include these observations about the site's own maintenance, which no document records yet: the Node 12 deploy workflow, `actions/checkout@v1`, the stored token, the React 16 peer dependency and the uncommitted favicon changes.
+    - The maintainer started the site project in its own session. `OllieRumbol/JWTValidator` has an approved spec (PR #7) and plan (PR #8, review fixes in PR #11); its tasks.md was being written on 2026-10-25.
+    - The site spec records the Node 12 workflow, `checkout@v1` and the React 16 range. The stored token (site PR #6) and the favicon (site PR #5) are already fixed.
+    - Evidence: pull request #26
 
 ---
 
@@ -303,3 +306,4 @@ None.
 - 2026-10-24 — T14
 - 2026-10-24 — T15
 - 2026-10-25 — T16
+- 2026-10-25 — T17
