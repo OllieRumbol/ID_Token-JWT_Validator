@@ -270,13 +270,16 @@ Goal: Version 2.0.0 is on nuget.org, published by the pipeline.
     - Every spec 9 item was checked and is true. `2.0.0-beta.1` stays listed until the maintainer decides.
     - Evidence: pull request #25
 
-- [ ] **T17 — Propose the documentation site project**
+- [x] **T17 — Propose the documentation site project**
   - Refs: spec 3, non-goals
   - Depends on: T16
   - Done when:
     - A separate session is proposed to update the documentation site for 2.0.0, with its own spec, plan and tasks in the `JWTValidator` repository.
   - Verify: The proposal is shown to the maintainer.
   - Notes: Include these observations about the site's own maintenance, which no document records yet: the Node 12 deploy workflow, `actions/checkout@v1`, the stored token, the React 16 peer dependency and the uncommitted favicon changes.
+    - The maintainer started the site project in its own session. `OllieRumbol/JWTValidator` has an approved spec (PR #7) and plan (PR #8, review fixes in PR #11); its tasks.md was being written on 2026-10-25.
+    - The site spec records the Node 12 workflow, `checkout@v1` and the React 16 range. The stored token (site PR #6) and the favicon (site PR #5) are already fixed.
+    - Evidence: pull request #26
 
 ---
 
@@ -303,3 +306,4 @@ None.
 - 2026-10-24 — T14
 - 2026-10-24 — T15
 - 2026-10-25 — T16
+- 2026-10-25 — T17
