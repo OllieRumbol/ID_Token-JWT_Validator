@@ -2,7 +2,7 @@
 
 > **What this document is for:** It answers *what do we do next?* It splits the approved design into small, verifiable steps and tracks progress against them.
 
-Last updated: 2026-10-24
+Last updated: 2026-10-25
 
 Tasks T1 to T13 and T18 are each one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
@@ -255,7 +255,7 @@ Goal: Version 2.0.0 is on nuget.org, published by the pipeline.
     - Duplicate: the `publish` re-run (attempt 2) failed with 409 "already exists". The job runs on the runner's own SDK, so no `setup-dotnet` is needed.
     - Evidence: pull request #24
 
-- [ ] **T16 — Check the OpenID path and release 2.0.0**
+- [x] **T16 — Check the OpenID path and release 2.0.0**
   - Refs: spec 9, plan 7.1 (OpenID path), plan 8.2 steps 6 to 8
   - Depends on: T15
   - Done when:
@@ -265,6 +265,10 @@ Goal: Version 2.0.0 is on nuget.org, published by the pipeline.
     - Every item in spec 9 is true.
   - Verify: The package page at https://www.nuget.org/packages/JWTValidator/2.0.0, and the spec 9 checklist.
   - Notes: Confirm the tag push with the maintainer first. Unlisting `2.0.0-beta.1` is optional.
+    - The maintainer validated a real Google ID token through Google's OpenID URL with the console app (2026-10-25).
+    - Tag `v2.0.0` on `e5f2104`, run 40180247053 passed, key masked. nuget.org lists 2.0.0 as the latest stable version; its icon matches `icon.png`.
+    - Every spec 9 item was checked and is true. `2.0.0-beta.1` stays listed until the maintainer decides.
+    - Evidence: pull request #25
 
 - [ ] **T17 — Propose the documentation site project**
   - Refs: spec 3, non-goals
@@ -298,3 +302,4 @@ None.
 - 2026-10-23 — T18
 - 2026-10-24 — T14
 - 2026-10-24 — T15
+- 2026-10-25 — T16
