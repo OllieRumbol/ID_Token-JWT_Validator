@@ -4,7 +4,7 @@
 
 Last updated: 2026-10-25
 
-Tasks T1 to T13 and T18 are each one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code, so they have no branch or pull request. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
+Each task is one branch from `main` and one pull request into `main`. From T7 on, name branches `task/<id>-<short-name>`, as the `do-task` skill does. T1 to T6 used `feature/<short-task-name>`. Tasks T14 to T17 change no code. `main` is protected, so each of them also has a pull request, which ticks the task and holds the evidence. Claude commits, pushes each branch and opens its pull request with the `do-task` skill. Calling the skill is the approval to push. The maintainer merges it. A task is done only when its pull request is merged into `main`. Run commands from the repository root, in Git Bash.
 
 ## Phase 1 — Clean the repository
 
